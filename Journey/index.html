@@ -9,7 +9,7 @@
     <style>
         :root {
             --primary-color: #2d3748;
-            --accent-gradient: linear-gradient(135deg, #b83280, #dd6b20, #2b6cb0); /* 鹿児島〜別府を繋ぐグラデーション */
+            --accent-gradient: linear-gradient(135deg, #2b6cb0, #dd6b20, #b83280); /* 予定順（別府の青〜鹿児島の紫）を繋ぐグラデーション */
             --bg-gradient: radial-gradient(circle at 50% 120%, #fed7e2 0%, #ebf8ff 45%, #f7fafc 80%);
             --text-color: #2d3748;
             --text-muted: #718096;
@@ -77,6 +77,60 @@
             color: var(--text-color);
         }
 
+        /* カテゴリトグルセクション */
+        .category-section {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+            transition: all var(--transition-speed) ease;
+        }
+        .category-section:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--premium-shadow);
+        }
+        .category-summary {
+            padding: 18px 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            color: var(--primary-color);
+            transition: background 0.2s;
+        }
+        .category-summary::-webkit-details-marker { display: none; }
+        .category-summary::after {
+            content: '▼';
+            font-size: 0.75rem;
+            color: #a0aec0;
+            transition: transform var(--transition-speed);
+        }
+        details[open] .category-summary::after { transform: rotate(180deg); }
+        details[open] .category-summary { border-bottom: 1px solid #edf2f7; }
+        
+        /* カテゴリごとの専用アクセント線 */
+        .upcoming-theme .category-summary { border-left: 6px solid #2b6cb0; } /* 予定は頼もしいブルー */
+        .history-theme .category-summary { border-left: 6px solid #e53e3e; } /* 思い出は温かいローズレッド */
+
+        .category-content {
+            padding: 20px 15px;
+            background: #f8fafc;
+            animation: fadeIn 0.35s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* 旅行カードのグリッドレイアウト */
         .travel-grid { 
             display: flex; 
@@ -84,20 +138,20 @@
             gap: 20px; 
         }
         
-        /* 旅行カード（旅のアルバムのような上質感） */
+        /* 旅行カード */
         .travel-card {
-            background: rgba(255, 255, 255, 0.96);
+            background: rgba(255, 255, 255, 0.98);
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: var(--card-shadow);
+            border: 1px solid #edf2f7;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
             transition: all var(--transition-speed) ease;
             display: flex;
             flex-direction: column;
         }
         .travel-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--premium-shadow);
+            transform: translateY(-3px);
+            box-shadow: var(--card-shadow);
             border-color: #cbd5e0;
         }
         
@@ -106,7 +160,7 @@
             position: relative;
             width: 100%;
             height: 0;
-            padding-bottom: 56.25%; /* 16:9 のアスペクト比を維持 */
+            padding-bottom: 56.25%; /* 16:9 の比率 */
             overflow: hidden;
             background: #e2e8f0;
         }
@@ -120,7 +174,7 @@
             transition: transform var(--transition-speed) ease;
         }
         .travel-card:hover .card-img {
-            transform: scale(1.03); /* ホバー時にうっすらズームする極上の演出 */
+            transform: scale(1.03); /* ホバーズーム */
         }
         
         /* 日付バッジ */
@@ -147,7 +201,7 @@
             flex-grow: 1;
         }
         .card-title {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: #1a202c;
             margin-bottom: 6px;
             font-weight: 700;
@@ -191,17 +245,29 @@
             font-size: 0.85rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             transition: all var(--transition-speed) ease;
-            margin-top: auto; /* ボタンを常にカードの最下部に揃える */
+            margin-top: auto;
         }
         .card-btn:hover {
-            box-shadow: 0 6px 15px rgba(221, 107, 32, 0.2);
+            box-shadow: 0 6px 15px rgba(43, 108, 176, 0.2);
             opacity: 0.95;
         }
         .card-btn .arrow {
             transition: transform 0.2s ease;
         }
         .card-btn:hover .arrow {
-            transform: translateX(4px); /* 矢印が右にスッとスライドする心地よいUX */
+            transform: translateX(4px);
+        }
+
+        /* 空状態のプレースホルダー */
+        .empty-state {
+            text-align: center;
+            padding: 35px 20px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            background: white;
+            border-radius: 14px;
+            border: 2.5px dashed #e2e8f0;
+            line-height: 1.6;
         }
 
         /* バリアフリー対応文字サイズコントローラー */
@@ -254,6 +320,7 @@
         body.large-text header h1 { font-size: 1.9rem; }
         body.large-text header p { font-size: 1.05rem; }
         body.large-text .portal-intro { font-size: 1.0rem; }
+        body.large-text .category-summary { font-size: 1.25rem; }
         body.large-text .card-title { font-size: 1.4rem; }
         body.large-text .card-desc { font-size: 0.95rem; }
         body.large-text .tag { font-size: 0.8rem; padding: 4px 10px; }
@@ -272,74 +339,91 @@
     <div class="container">
         <div class="portal-intro">
             👨‍👩‍👧‍👦 家族みんなで行く思い出の旅行プラン集です。<br>
-            見たい旅行のカードをタップして、しおりを開いてみましょう！
+            見たい旅行のトグルを開いて、しおりを選択してみましょう！
         </div>
 
-        <div class="travel-grid">
-            <!-- 鹿児島ファミリープラン -->
-            <div class="travel-card">
-                <div class="card-img-container">
-                    <img src="./images/kagoshima_thumb.png" alt="鹿児島" class="card-img">
-                    <div class="card-date-badge">📅 2026.09.20 - 09.21</div>
-                </div>
-                <div class="card-content">
-                    <h2 class="card-title">🌋 鹿児島 1泊2日</h2>
-                    <p class="card-desc">思い出の再現写真 ＆ みんなで快適に楽しむのんびりファミリープラン</p>
-                    <div class="card-tags">
-                        <span class="tag">🦁 平川動物公園</span>
-                        <span class="tag">🚢 桜島フェリー</span>
-                        <span class="tag">🌋 湯之平展望所</span>
-                        <span class="tag">🎨 霧島アートの森</span>
+        <!-- 🚀 カテゴリトグル1：これからの旅行予定 (初期状態で開) -->
+        <details class="category-section upcoming-theme" open>
+            <summary class="category-summary">🚀 これからの旅行予定（しおり）</summary>
+            <div class="category-content">
+                <div class="travel-grid">
+                    <!-- 【予定1】別府お祝いプラン (5月30日〜) -->
+                    <div class="travel-card">
+                        <div class="card-img-container">
+                            <img src="./images/beppu_thumb.png" alt="別府" class="card-img">
+                            <div class="card-date-badge">📅 2026.05.30 - 05.31</div>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="card-title">♨️ 別府 1泊2日</h2>
+                            <p class="card-desc">城島高原パーク満喫・動物とのふれあい・お誕生日お祝いプリンプラン</p>
+                            <div class="card-tags">
+                                <span class="tag">🎡 城島高原パーク</span>
+                                <span class="tag">👹 かまど地獄</span>
+                                <span class="tag">🍮 地獄蒸しプリン</span>
+                                <span class="tag">🐒 高崎山</span>
+                            </div>
+                            <a href="./Beppu_0530-31/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
+                        </div>
                     </div>
-                    <a href="./Kagoshima_060920-21/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
+
+                    <!-- 【予定2】鹿児島ファミリープラン (9月20日〜) -->
+                    <div class="travel-card">
+                        <div class="card-img-container">
+                            <img src="./images/kagoshima_thumb.png" alt="鹿児島" class="card-img">
+                            <div class="card-date-badge">📅 2026.09.20 - 09.21</div>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="card-title">🌋 鹿児島 1泊2日</h2>
+                            <p class="card-desc">思い出の再現写真 ＆ みんなで快適に楽しむのんびりファミリープラン</p>
+                            <div class="card-tags">
+                                <span class="tag">🦁 平川動物公園</span>
+                                <span class="tag">🚢 桜島フェリー</span>
+                                <span class="tag">🌋 湯之平展望所</span>
+                                <span class="tag">🎨 霧島アートの森</span>
+                            </div>
+                            <a href="./Kagoshima_060920-21/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </details>
 
-            <!-- 別府お祝いプラン -->
-            <div class="travel-card">
-                <div class="card-img-container">
-                    <img src="./images/beppu_thumb.png" alt="別府" class="card-img">
-                    <div class="card-date-badge">📅 2026.05.30 - 05.31</div>
-                </div>
-                <div class="card-content">
-                    <h2 class="card-title">♨️ 別府 1泊2日</h2>
-                    <p class="card-desc">城島高原パーク満喫・動物とのふれあい・お誕生日お祝いプリンプラン</p>
-                    <div class="card-tags">
-                        <span class="tag">🎡 城島高原パーク</span>
-                        <span class="tag">👹 かまど地獄</span>
-                        <span class="tag">🍮 地獄蒸しプリン</span>
-                        <span class="tag">🐒 高崎山</span>
-                    </div>
-                    <a href="./Beppu_0530-31/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
+        <!-- 📸 カテゴリトグル2：これまでの旅の思い出 (初期状態で閉) -->
+        <details class="category-section history-theme">
+            <summary class="category-summary">📸 これまでの思い出アルバム</summary>
+            <div class="category-content">
+                <div class="empty-state">
+                    旅が終わったら、しおりはこちらへ思い出として大切に保存されます。次の旅行もとっても楽しみですね！✨
                 </div>
             </div>
+        </details>
 
-            <!-- 
-            ========================================================================
-            💡 今後新しい旅行しおりを追加する際のテンプレートコード 💡
-            ========================================================================
-            新しいプランを追加する場合は、以下のブロックのコメントアウトを外し、
-            HTML内の適正な位置に挿入・テキストを書き換えてください。
+        <!-- 
+        ========================================================================
+        💡 今後新しい旅行しおりを追加する際のテンプレートコード 💡
+        ========================================================================
+        新しい予定を追加する場合は、このブロックのコメントアウトを外し、
+        「🚀 これからの旅行予定」内の <div class="travel-grid"> の中に日付順で挿入してください。
+        （旅行が終わったら「📸 これまでの思い出アルバム」の travel-grid に移動します。）
 
-            <div class="travel-card">
-                <div class="card-img-container">
-                    <img src="./images/旅行名_thumb.png" alt="旅行名" class="card-img">
-                    <div class="card-date-badge">📅 202X.XX.XX - XX.XX</div>
-                </div>
-                <div class="card-content">
-                    <h2 class="card-title">📍 旅行のタイトル 1泊2日</h2>
-                    <p class="card-desc">旅行のテーマやキャッチコピーをここに記述します。</p>
-                    <div class="card-tags">
-                        <span class="tag">📍 主要スポットA</span>
-                        <span class="tag">📍 主要スポットB</span>
-                        <span class="tag">📍 主要スポットC</span>
-                    </div>
-                    <a href="./しおりのフォルダ名/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
-                </div>
+        <div class="travel-card">
+            <div class="card-img-container">
+                <img src="./images/旅行名_thumb.png" alt="旅行名" class="card-img">
+                <div class="card-date-badge">📅 202X.XX.XX - XX.XX</div>
             </div>
-            ========================================================================
-            -->
+            <div class="card-content">
+                <h2 class="card-title">📍 旅行のタイトル 1泊2日</h2>
+                <p class="card-desc">旅行のテーマやキャッチコピーをここに記述します。</p>
+                <div class="card-tags">
+                    <span class="tag">📍 主要スポットA</span>
+                    <span class="tag">📍 主要スポットB</span>
+                    <span class="tag">📍 主要スポットC</span>
+                </div>
+                <a href="./しおりのフォルダ名/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
+            </div>
         </div>
+        ========================================================================
+        -->
     </div>
 
     <!-- バリアフリー対応文字サイズコントローラーのUI -->
