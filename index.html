@@ -225,19 +225,24 @@
             border-image: linear-gradient(135deg, #ecc94b, #d53f8c) 1 !important;
             box-shadow: 0 10px 20px rgba(213, 63, 140, 0.06), 0 4px 6px rgba(0, 0, 0, 0.02) !important;
             position: relative;
+            padding-top: 36px !important; /* バッジが上に来るため、上部余白を大幅に確保 */
         }
         .highlight-spot-card::after {
-            content: '✨ 大切な思い出再現スポット ✨';
+            content: '✨ 思い出再現 ✨';
             position: absolute;
             top: 0;
             right: 0;
             background: linear-gradient(135deg, #ecc94b, #d53f8c);
             color: white;
-            font-size: 0.65rem;
+            font-size: 0.68rem;
             font-weight: 700;
-            padding: 3px 10px;
-            border-bottom-left-radius: 10px;
+            padding: 4px 12px;
+            border-bottom-left-radius: 12px;
             box-shadow: -2px 2px 4px rgba(0,0,0,0.05);
+        }
+        /* スポット名とバッジが絶対に干渉しないよう、十分な右側マージンを設けて改行を促す */
+        .highlight-spot-card .spot-name {
+            padding-right: 110px; 
         }
 
         /* リンクグループ */
@@ -345,6 +350,18 @@
         body.large-text .transit-mode { font-size: 0.95rem; padding: 4px 10px; }
         body.large-text .controller-label { font-size: 0.85rem; }
         body.large-text .fs-btn { font-size: 0.9rem; padding: 8px 16px; }
+
+        /* 文字サイズ大の時にも思い出バッジがタイトルと絶対に被らないための余白拡張 */
+        body.large-text .highlight-spot-card {
+            padding-top: 42px !important;
+        }
+        body.large-text .highlight-spot-card::after {
+            font-size: 0.75rem;
+            padding: 6px 14px;
+        }
+        body.large-text .highlight-spot-card .spot-name {
+            padding-right: 130px;
+        }
     </style>
 </head>
 <body>
@@ -392,7 +409,7 @@
                             <div class="spot-desc">コアラやホワイトタイガーが大人気！園内には足湯やミニ遊園地もあり、小さなお子様から大人まで快適に過ごせます。お昼は園内のレストランやフードコートで、みんなで楽しく自由ランチにしましょう。</div>
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (入園16:30まで)</span>
-                                <span class="badge badge-memo">💡 滞在時間を4.5時間に超延長！適度にベンチで休憩を挟みながら、大人も子どもものんびり快適にコアラを満喫できます。</span>
+                                <span class="badge badge-memo">💡 適度にベンチで休憩を挟みながら、大人も子どもも自分のペースでコアラたちをのんびり快適に満喫できます。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://hirakawazoo.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -414,7 +431,7 @@
                             <div class="spot-desc">源泉掛け流しの天然温泉ホテル！チェックイン後、まずは掛け流しの本物の温泉に浸かって、動物公園でたくさん歩いたみんなの足腰をじんわりほぐしましょう。</div>
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 チェックイン: 15:00～ / アウト: ～10:00</span>
-                                <span class="badge badge-memo">💡 鹿児島市街地の真ん中で、和室でゆったりとくつろげる歴史ある名宿です。</span>
+                                <span class="badge badge-memo">💡 鹿児島市街地の真ん中で、和室でゆったりとくつろげる歴史ある名宿です。源泉かけ流しの温泉をお楽しみください。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://nakahara-bessou.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -436,7 +453,7 @@
                             <div class="spot-desc">名物「しろくまかき氷」！夕食前のおやつタイムとして、ふわふわで可愛いかき氷をみんなでスプーンをつつきながらシェアして食べましょう！</div>
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 営業時間: 11:00～19:00 (L.O. 18:30)</span>
-                                <span class="badge badge-memo">⚠️ 11:00開店のため、1日目のチェックイン後の絶妙なフリー時間へ組み込みました！</span>
+                                <span class="badge badge-memo">💡 チェックイン後の夕方のひとときに、ふわふわで可愛い名物のしろくまをみんなでシェアしましょう！</span>
                             </div>
                             <div class="links-group">
                                 <a href="http://www.mujyaki.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -458,7 +475,7 @@
                             <div class="spot-desc">極上の黒豚しゃぶしゃぶ！お湯に通した美味しい黒豚を、こだわりのそばつゆと山盛りのネギで味わいます。お肉がとっても柔らかいので、大人から小さなお子様までみんな大満足間違いなし！</div>
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 営業時間: 11:00～21:30 (L.O. 21:00)</span>
-                                <span class="badge badge-memo">💡 予約状況を確認するか、開店少し前に入店できるように向かうとスムーズです。</span>
+                                <span class="badge badge-memo">💡 鹿児島を代表する美味しい黒豚しゃぶしゃぶを、こだわりのそばつゆで心ゆくまで堪能しましょう。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://ichiniisan.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -510,7 +527,7 @@
                             <div class="spot-desc">目の前に広がる大迫力の桜島と鹿児島市街地！朝の澄んだ日差しの中で見る景色は神々しく、最初の最高の家族写真を撮るのに最もおすすめの時間帯です。</div>
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 営業時間: 24時間開放 (見学自由)</span>
-                                <span class="badge badge-memo">💡 駐車場から展望台までは平坦な遊歩道になっており、ベビーカーや足元が心配な方も安心してのんびり歩けます。</span>
+                                <span class="badge badge-memo">💡 駐車場から展望台までは平坦な遊歩道になっており、小さな子どもから足元が心配な方まで、みんなで安心してのんびり歩けます。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.kagoshima-yokanavi.jp/spot/10002" target="_blank" class="spot-link">🌐 観光情報</a>
@@ -532,7 +549,7 @@
                             <div class="spot-desc">桜島フェリーに乗船！15分間のプチクルージング。海風を浴びながら近づく桜島の姿に子どもたちも大喜び！</div>
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 運航頻度: 15〜20分間隔で24時間運航</span>
-                                <span class="badge badge-memo">💡 船内名物「やぶ金」のかけうどん（軽食）を海を眺めながら食べるのが大人気！</span>
+                                <span class="badge badge-memo">💡 船内名物「やぶ金」のかけうどんを海を眺めながら楽しむのが人気です。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.city.kagoshima.lg.jp/sakurajima-ferry/" target="_blank" class="spot-link">🌐 フェリー情報</a>
@@ -555,7 +572,7 @@
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (展望施設)</span>
                                 <span class="badge badge-memo">💡 展望台の石垣に埋め込まれた7つのハートの石を探して家族みんなで楽しめます。</span>
-                                <span class="badge badge-replica">📸 思い出の再現写真スポット！アルバムと同じ壮大な桜島を背景にみんなで記念撮影！</span>
+                                <span class="badge badge-replica">📸 思い出の再現写真スポット！アルバムと同じ壮大な桜島を背景に、みんなで再現写真を撮りましょう！</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.sakurajima.gr.jp/" target="_blank" class="spot-link">🌐 観光情報</a>
@@ -577,7 +594,7 @@
                             <div class="spot-desc">霧島が誇る純粋黒豚を使った名店！サクサクで肉汁たっぷりの極上とんかつは、お肉の甘みが違います。</div>
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 営業時間: 11:00～15:00 (L.O. 14:30), 17:00～20:00 (木曜定休)</span>
-                                <span class="badge badge-memo">💡 13:15到着は、お昼の混雑ピークを避けたベストタイミングです！</span>
+                                <span class="badge badge-memo">💡 霧島が誇るこだわりの純粋黒豚。旨味たっぷりの極上とんかつをお楽しみください。</span>
                             </div>
                             <div class="links-group">
                                 <a href="http://www.krp1.com/restaurant.html" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -599,12 +616,12 @@
                             <div class="spot-desc">広大な森の中に野外彫刻が並ぶ芸術の森！草間彌生氏の巨大な花の彫刻など、触ったり一緒に入り込めるアートがたくさんあります。歩行スペースも美しく整備されています。</div>
                             <div class="meta-info">
                                 <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (入園16:30まで / 月曜休)</span>
-                                <span class="badge badge-memo">💡 9/21は月曜祝日のため特別開館（翌日振替休）。安心して訪れていただけます！</span>
-                                <span class="badge badge-replica">📸 思い出の再現写真スポット！ユニークなアートと同じポーズで面白い再現写真をパシャリ！</span>
+                                <span class="badge badge-memo">💡 広大な自然の中でアートと触れ合える野外美術館。五感を使ってユニークな作品を楽しめます。</span>
+                                <span class="badge badge-replica">📸 思い出の再現写真スポット！ユニークなアートと同じポーズで、みんなで再現写真を撮りましょう！</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://open-air-museum.org/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=鹿児島県立霧島アート of 森" target="_blank" class="spot-link">📍 Google MAP</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=鹿児島県立霧島アートの森" target="_blank" class="spot-link">📍 Google MAP</a>
                             </div>
                         </div>
                     </div>
@@ -638,9 +655,9 @@
                             <div class="spot-desc">ホテル中原別荘のすぐ目の前（徒歩3分）！島津斉彬公を祀る、鹿児島で最も格式高い神社。白い巨大な鳥居と、美しい鶴の形をした庭木が特徴。平坦で歩きやすいです。</div>
                             <div class="meta-info">
                                 <span class="badge badge-adult">👴 大人ものんびり・平坦</span>
-                                <span class="badge badge-kids">👶 ベビーカーOK・徒歩3分</span>
+                                <span class="badge badge-kids">👶 ２歳の子もトコトコ歩ける・徒歩3分</span>
                                 <span class="badge badge-time">🕒 24時間参拝可能</span>
-                                <span class="badge badge-memo">🗺️ おすすめのタイミング: 1日目のチェックイン後すぐ、または2日目の朝出発前の散歩に最適！</span>
+                                <span class="badge badge-memo">💡 1日目のチェックイン後すぐ、または2日目の朝出発前のお散歩に最適な、心安らぐ神社です。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.terukunijinja.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -658,7 +675,7 @@
                                 <span class="badge badge-adult">👴 大人ものんびり・順路あり</span>
                                 <span class="badge badge-kids">🍵 おやつ休憩（両棒餅）</span>
                                 <span class="badge badge-time">🕒 営業時間: 09:00～17:00</span>
-                                <span class="badge badge-memo">🗺️ おすすめのタイミング: 1日目に動物園を少し早めに切り上げる場合、14:30頃に寄り道できます。</span>
+                                <span class="badge badge-memo">💡 島津家ゆかりの歴史ある大名庭園。美しく壮大な桜島の眺めと美味しい両棒餅（ぢゃんぼもち）を楽しめます。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.senganen.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -676,7 +693,7 @@
                                 <span class="badge badge-adult">👴 大人ものんびり天然温泉</span>
                                 <span class="badge badge-kids">👶 子どもも大喜びの広々足湯</span>
                                 <span class="badge badge-time">🕒 営業時間: 9:00～日没まで［無料］</span>
-                                <span class="badge badge-memo">🗺️ おすすめのタイミング: 2日目、フェリーを降りて桜島港から湯之平展望所へ向かう途中に最適！タオルを持参してください。</span>
+                                <span class="badge badge-memo">💡 フェリーを降りて湯之平展望所へ向かう途中に立ち寄りやすい、穏やかな錦江湾を望む絶景の無料足湯です。※タオルを持参してください。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.sakurajima.gr.jp/spot/000137.html" target="_blank" class="spot-link">🌐 観光情報</a>
@@ -694,7 +711,7 @@
                                 <span class="badge badge-adult">👴 大人ものんびり・平坦</span>
                                 <span class="badge badge-kids">🍦 桜島小みかんソフト</span>
                                 <span class="badge badge-time">🕒 営業時間: 09:00～17:00</span>
-                                <span class="badge badge-memo">🗺️ おすすめのタイミング: 2日目、なぎさ公園足湯と合わせてサクッと寄り道しやすいです！</span>
+                                <span class="badge badge-memo">💡 地元の新鮮なお土産やご当地の「桜島小みかん」ソフトなどをみんなで選べる楽しいお買い物スポットです。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.megumikan.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -712,7 +729,7 @@
                                 <span class="badge badge-adult">👴 ロードトレインで楽々移動</span>
                                 <span class="badge badge-kids">🐎 動物ふれあい・ポニー広場</span>
                                 <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (遊覧トレイン運行)</span>
-                                <span class="badge badge-memo">🗺️ おすすめのタイミング: 2日目のランチ（黒豚の館）から霧島アートの森へ移動する途中に完璧に組み込めます！</span>
+                                <span class="badge badge-memo">💡 汽車型のロードトレインに乗って頂上の素晴らしい絶景を見に行ける、大人も子どもも大満足のスポットです。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.shinwanosato.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
@@ -729,7 +746,7 @@
                             <div class="meta-info">
                                 <span class="badge badge-adult">👴 スロープ参道あり</span>
                                 <span class="badge badge-time">🕒 24時間参拝可能</span>
-                                <span class="badge badge-memo">🗺️ おすすめのタイミング: 2日目の道の駅霧島（神話の里公園）と合わせての寄り道に最適です！</span>
+                                <span class="badge badge-memo">💡 神秘的な木漏れ日が差し込む美しい社殿で、旅の安全と家族みんなの健康をお祈りしましょう。</span>
                             </div>
                             <div class="links-group">
                                 <a href="https://www.kirishimajingu.or.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
