@@ -17,7 +17,8 @@
             --optional-accent: #276749; /* 新緑の霧島グリーン */
             --text-color: #2d3748;
             --text-muted: #718096;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --card-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.05), 0 8px 12px -6px rgba(0, 0, 0, 0.03);
+            --premium-shadow: 0 20px 40px -15px rgba(184, 50, 128, 0.12), 0 10px 15px -10px rgba(221, 107, 32, 0.08);
             --font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
             --transition-speed: 0.25s;
         }
@@ -34,43 +35,94 @@
             font-size: 0.95rem; 
             transition: font-size var(--transition-speed) ease;
         } 
+        
+        /* プレミアム・ヘッダーデザイン */
         header { 
-            background: linear-gradient(135deg, var(--day1-accent), var(--day2-accent)); 
+            /* 桜島の全景が美しく見えるように配置比率を調整し、高さを少し広げて高級感を出しました */
+            background: linear-gradient(135deg, rgba(184, 50, 128, 0.55), rgba(221, 107, 32, 0.55)), url('./kagoshima_banner.png');
+            background-size: cover;
+            background-position: center 30%; /* 桜島のメイン部分と山頂が綺麗に収まる絶妙な位置に固定 */
             color: white; 
             text-align: center; 
-            padding: 45px 20px; 
-            box-shadow: var(--card-shadow); 
+            padding: 50px 20px; 
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08); 
             position: relative; 
-            border-bottom-left-radius: 24px;
-            border-bottom-right-radius: 24px;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            overflow: hidden;
         } 
-        header h1 { font-size: 1.8rem; margin-bottom: 8px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.12); }
-        header p { font-size: 0.95rem; opacity: 0.95; letter-spacing: 0.05em; }
+        
+        /* すりガラス風のグラスモルフィズム・タイトルカード */
+        .header-glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 22px;
+            padding: 20px 25px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            animation: cardSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes cardSlideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header h1 { 
+            font-size: 1.65rem; 
+            margin-bottom: 6px; 
+            font-weight: 700; 
+            text-shadow: 0 2px 8px rgba(0,0,0,0.18); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        header p { 
+            font-size: 0.88rem; 
+            opacity: 0.95; 
+            letter-spacing: 0.05em; 
+            text-shadow: 0 1px 4px rgba(0,0,0,0.15); 
+        }
         
         .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
         
-        /* ダッシュボードカード */
+        /* ダッシュボードカード（よりリッチで美しい影とグラデーション） */
         .dashboard-card { 
-            background: rgba(255, 255, 255, 0.95); 
+            background: rgba(255, 255, 255, 0.96); 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border-radius: 18px; 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            box-shadow: var(--card-shadow); 
+            border-radius: 22px; 
+            padding: 22px; 
+            margin-top: -15px; /* ヘッダーに少し重ねる立体レイアウト */
+            margin-bottom: 22px; 
+            box-shadow: var(--premium-shadow); 
             text-align: center; 
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 10;
         }
+        
+        /* カウントダウン（リッチな微細グラデーション背景） */
         .countdown { 
             font-size: 1.15rem; 
             font-weight: 700; 
             color: #e53e3e; 
-            margin-bottom: 15px; 
-            padding: 8px 16px; 
-            background: #fff5f5; 
-            border-radius: 10px; 
-            display: inline-block; 
-            border: 1px dashed #feb2b2;
+            margin-bottom: 18px; 
+            padding: 10px 20px; 
+            background: linear-gradient(135deg, #fff5f5, #fff0f6); 
+            border-radius: 12px; 
+            display: inline-flex; 
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #fed7e2;
+            box-shadow: 0 4px 10px rgba(229, 62, 62, 0.05);
         }
         
         .quick-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
@@ -83,7 +135,7 @@
             background: white; 
             color: var(--text-color); 
             text-decoration: none; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             font-weight: 700; 
             font-size: 0.9rem; 
             transition: all var(--transition-speed) ease; 
@@ -92,7 +144,7 @@
         }
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
             border-color: #cbd5e0;
         }
         .btn-disabled { 
@@ -109,21 +161,22 @@
 
         /* アコーディオン・Details */
         details { 
-            background: rgba(255, 255, 255, 0.85); 
+            background: rgba(255, 255, 255, 0.88); 
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            border-radius: 18px; 
-            margin-bottom: 15px; 
+            border-radius: 20px; 
+            margin-bottom: 18px; 
             box-shadow: var(--card-shadow); 
             overflow: hidden; 
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            transition: transform var(--transition-speed);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
         } 
         details:hover {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.06);
         }
         summary { 
-            padding: 18px; 
+            padding: 20px; 
             font-weight: 700; 
             cursor: pointer; 
             outline: none; 
@@ -144,9 +197,9 @@
         details[open] summary { border-bottom: 1px solid #edf2f7; } 
         
         .details-content { 
-            padding: 18px; 
+            padding: 20px; 
             background: white; 
-            animation: fadeIn 0.3s ease-out;
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         } 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-8px); }
@@ -157,42 +210,44 @@
         .day2-theme summary { background-color: var(--day2-bg); border-left: 6px solid var(--day2-accent); color: var(--day2-accent); }
         .optional-theme summary { background-color: var(--optional-bg); border-left: 6px solid var(--optional-accent); color: var(--optional-accent); }
         
-        /* タイムライン */
-        .timeline { position: relative; padding-left: 18px; border-left: 2.5px dotted #cbd5e0; margin-left: 12px; }
-        .timeline-item { position: relative; margin-bottom: 20px; }
+        /* タイムライン（ドットから洗練されたソリッドラインへ） */
+        .timeline { position: relative; padding-left: 18px; border-left: 2px solid #e2e8f0; margin-left: 12px; }
+        .timeline-item { position: relative; margin-bottom: 24px; }
         .timeline-item::before { 
             content: ''; 
             position: absolute; 
-            left: -25.5px; 
+            left: -25px; 
             top: 6px; 
-            width: 11px; 
-            height: 11px; 
+            width: 10px; 
+            height: 10px; 
             border-radius: 50%; 
             background: white; 
-            border: 3px solid #a0aec0; 
+            border: 3px solid #cbd5e0; 
             box-shadow: 0 0 0 3px white;
             z-index: 2;
+            transition: all 0.2s ease;
         }
         .day1-theme .timeline-item::before { border-color: var(--day1-accent); }
         .day2-theme .timeline-item::before { border-color: var(--day2-accent); }
         
-        .time { font-weight: 700; font-size: 0.95rem; color: #4a5568; display: block; margin-bottom: 4px; }
+        .time { font-weight: 700; font-size: 0.95rem; color: #4a5568; display: block; margin-bottom: 6px; }
         
-        /* スポットカード */
+        /* スポットカード（立体的なフローティングシャドウ） */
         .spot-card { 
-            background: #f7fafc; 
-            border-radius: 12px; 
-            padding: 14px 16px; 
+            background: #f8fafc; 
+            border-radius: 14px; 
+            padding: 16px 18px; 
             margin-top: 4px; 
             border: 1px solid #edf2f7;
-            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            transition: all var(--transition-speed) ease;
         }
         .spot-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            border-color: #e2e8f0;
         }
-        .spot-name { font-weight: 700; font-size: 1.1rem; color: #1a202c; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-        .spot-desc { font-size: 0.88rem; color: #4a5568; margin-bottom: 8px; line-height: 1.5; }
+        .spot-name { font-weight: 700; font-size: 1.1rem; color: #1a202c; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .spot-desc { font-size: 0.88rem; color: #4a5568; margin-bottom: 10px; line-height: 1.6; }
         
         /* バッジ ＆ メタ情報 */
         .meta-info {
@@ -203,14 +258,15 @@
         }
         .badge {
             font-size: 0.72rem;
-            padding: 3px 8px;
+            padding: 3px 10px;
             border-radius: 6px;
             font-weight: 700;
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .badge-time { background: #edf2f7; color: #4a5568; }
+        .badge-time { background: #edf2f7; color: #4a5568; border: 1px solid #e2e8f0; }
         .badge-memo { background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; }
         .badge-replica { background: #fff0f6; color: #d53f8c; border: 1px solid #fbb6ce; } /* 思い出の再現写真バッジ */
         .day1-theme .badge-memo { background: #fffaf0; color: #dd6b20; border-color: #feebc8; }
@@ -223,7 +279,7 @@
             background: linear-gradient(to bottom right, #fffdfa, #fff5f8) !important;
             border: 2px solid transparent !important;
             border-image: linear-gradient(135deg, #ecc94b, #d53f8c) 1 !important;
-            box-shadow: 0 10px 20px rgba(213, 63, 140, 0.06), 0 4px 6px rgba(0, 0, 0, 0.02) !important;
+            box-shadow: 0 12px 24px rgba(213, 63, 140, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02) !important;
             position: relative;
             padding-top: 36px !important; /* バッジが上に来るため、上部余白を大幅に確保 */
         }
@@ -246,7 +302,7 @@
         }
 
         /* リンクグループ */
-        .links-group { display: flex; gap: 12px; margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 8px; }
+        .links-group { display: flex; gap: 12px; margin-top: 12px; border-top: 1px dashed #e2e8f0; padding-top: 10px; }
         .spot-link { 
             font-size: 0.82rem; 
             color: #3182ce; 
@@ -258,10 +314,10 @@
         }
         .spot-link:hover { color: #2b6cb0; text-decoration: underline; }
         
-        /* 移動手段表示 */
+        /* 移動手段表示（よりリッチで美しいラインと立体感） */
         .transit-info {
             position: relative;
-            margin: 12px 0 12px -18px;
+            margin: 14px 0 14px -18px;
             padding-left: 36px;
             font-size: 0.8rem;
             font-weight: 700;
@@ -280,12 +336,13 @@
         }
         .transit-mode {
             background: #edf2f7;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 20px;
             border: 1px solid #e2e8f0;
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         .day1-transit .transit-mode { color: var(--day1-accent); background: #fff5f7; border-color: #fed7e2; }
         .day2-transit .transit-mode { color: var(--day2-accent); background: #fffaf0; border-color: #feebc8; }
@@ -337,11 +394,11 @@
         body.large-text {
             font-size: 1.12rem;
         }
-        body.large-text header h1 { font-size: 2.1rem; }
-        body.large-text header p { font-size: 1.1rem; }
+        body.large-text header h1 { font-size: 2.0rem; }
+        body.large-text header p { font-size: 1.05rem; }
         body.large-text .countdown { font-size: 1.3rem; }
         body.large-text .btn { font-size: 1.05rem; padding: 14px; }
-        body.large-text summary { font-size: 1.3rem; padding: 22px 18px; }
+        body.large-text summary { font-size: 1.3rem; padding: 24px 20px; }
         body.large-text .time { font-size: 1.15rem; }
         body.large-text .spot-name { font-size: 1.28rem; }
         body.large-text .spot-desc { font-size: 1.02rem; }
@@ -367,8 +424,11 @@
 <body>
 
     <header>
-        <h1>🧭 鹿児島 1泊2日 旅のしおり</h1>
-        <p>家族みんなで行く！思い出の再現＆のんびり旅行プラン</p>
+        <!-- 美しいすりガラス風タイトルカードによって、画像の見切れをカバーしつつ圧倒的高級感を演出 -->
+        <div class="header-glass-card">
+            <h1>🧭 鹿児島 1泊2日 旅のしおり</h1>
+            <p>家族みんなで行く！思い出の再現＆のんびり旅行プラン</p>
+        </div>
     </header>
 
     <div class="container">
@@ -652,10 +712,10 @@
                     <div class="timeline-item">
                         <div class="spot-card">
                             <div class="spot-name">⛩️ 照国神社 (鹿児島市街)</div>
-                            <div class="spot-desc">ホテル中原別荘のすぐ目の前（徒歩3分）！島津斉彬公を祀る、鹿児島で最も格式高い神社。白い巨大な鳥居と、美しい鶴の形をした庭木が特徴。平坦で歩きやすいです。</div>
+                            <div class="spot-desc">ホテル中原別荘 of すぐ目の前（徒歩3分）！島津斉彬公を祀る、鹿児島で最も格式高い神社。白い巨大な鳥居と、美しい鶴の形をした庭木が特徴。平坦で歩きやすいです。</div>
                             <div class="meta-info">
                                 <span class="badge badge-adult">👴 大人ものんびり・平坦</span>
-                                <span class="badge badge-kids">👶 ２歳の子もトコトコ歩ける・徒歩3分</span>
+                                <span class="badge badge-kids">👶 ちいさな子もトコトコ歩ける・徒歩3分</span>
                                 <span class="badge badge-time">🕒 24時間参拝可能</span>
                                 <span class="badge badge-memo">💡 1日目のチェックイン後すぐ、または2日目の朝出発前のお散歩に最適な、心安らぐ神社です。</span>
                             </div>
