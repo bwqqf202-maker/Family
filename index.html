@@ -121,8 +121,15 @@
             background: #e2e8f0;
         }
 
-        .btn-album { background: #feebc8; color: #c05621; }
-        .btn-bgm { background: #e2fcef; color: #22543d; }
+        /* 準備中ボタンのスタイル（グレーアウト） */
+        .btn-disabled { 
+            background: #e2e8f0; 
+            color: #a0aec0; 
+            cursor: not-allowed;
+        }
+        .btn-disabled:hover {
+            background: #e2e8f0; /* ホバーしても色を変えない */
+        }
 
         /* セクション共通をdetails用に調整 */ 
         .day-section-details { 
@@ -324,7 +331,8 @@
 
     <header>
         <h1>🧭 【たたき台】鹿児島１泊二日旅行！</h1>
-        <p>9月20日〜21日 ファミリー＆メンバー 旅のしおり</p>
+        <!-- 変更点：ファミリー旅行のしおり表示に修正 -->
+        <p>9月20日〜21日 ファミリー旅行のしおり</p>
     </header>
 
     <div class="container">
@@ -335,8 +343,8 @@
             <div class="quick-links">
                 <a href="https://www.google.com/maps/dir/Kumamoto+Interchange/Kirishima+Open+Air+Museum,+6340-220+%E6%9C%A8%E5%A0%B4,+%E6%B9%A7%E6%B0%B4%E7%94%BA+%E9%B9%BF%E5%85%90%E5%B3%B6%E7%9C%8C,+Japan/Sakurajima/%E6%97%A5%E6%9C%AC,+%E9%B9%BF%E5%85%90%E5%B3%B6%E7%9C%8C%E9%B9%BF%E5%85%90%E5%B3%B6%E5%B8%82%E6%9D%B1%E5%8D%83%E7%9F%B3%E7%94%BA%EF%BC%91%EF%BC%94%E2%88%92%EF%BC%91%EF%BC%94,+%E5%A4%A9%E6%96%87%E9%A4%A8/data=!4m26!4m25!1m5!1m1!19sChIJY0vI9DbwQDUR-nO5Jxvlr_M!2m2!1d130.7794245!2d32.8346215!1m5!1m1!19sChIJyZjHrT8FPzUROQEBy2VttB8!2m2!1d130.778698!2d31.939709999999998!1m5!1m1!19sChIJl-1qAHL1PjURlI5hzxStZZc!2m2!1d130.65!2d31.583333!1m5!1m1!19sChIJEWw31QFePjURtDBN5xelBp0!2m2!1d130.555042!2d31.5908891!3e0" target="_blank" class="btn">🗺️ 1日目ルートMAP</a>
                 <a href="https://www.google.com/maps/dir/%E6%97%A5%E6%9C%AC,+%E9%B9%BF%E5%85%90%E5%B3%B6%E7%9C%8C%E9%B9%BF%E5%85%90%E5%B3%B6%E5%B8%82%E6%9D%B1%E5%8D%83%E7%9F%B3%E7%94%BA%EF%BC%91%EF%BC%94%E2%88%92%EF%BC%91%EF%BC%94,+%E5%A4%A9%E6%96%87%E9%A4%A8/Shiroyama+Park+Observation+Deck,+%EF%BC%92%EF%BC%92-13+%E5%9F%8E%E5%B1%B1%E7%94%BA,+%E9%B9%BF%E5%85%90%E5%B3%B6%E5%B8%82+%E9%B9%BF%E5%85%90%E5%B3%B6%E7%9C%8C,+Japan/Hirakawa+Zoo,+5669-1+%E5%B9%B3%E5%B7%9D%E7%94%BA,+%E9%B9%BF%E5%85%90%E5%B3%B6%E5%B8%82+%E9%B9%BF%E5%85%90%E5%B3%B6%E7%9C%8C,+Japan/%E6%97%A5%E6%9C%AC,+%E9%B9%BF%E5%85%90%E5%B3%B6%E7%9C%8C%E9%B9%BF%E5%85%90%E5%B3%B6%E5%B8%82%E6%9D%B1%E5%8D%83%E7%9F%B3%E7%94%BA%EF%BC%91%EF%BC%94%E2%88%92%EF%BC%91%EF%BC%94,+%E5%A4%A9%E6%96%87%E9%A4%A8/Kumamoto+Interchange/data=!4m32!4m31!1m5!1m1!19sChIJEWw31QFePjURtDBN5xelBp0!2m2!1d130.555042!2d31.5908891!1m5!1m1!19sChIJQ6cuZ-RdPjURn0RJrwC_iIw!2m2!1d130.5500463!2d31.5962422!1m5!1m1!19sChIJw3RXBTJlPjURe2QEOcyFeiI!2m2!1d130.5017959!2d31.4631175!1m5!1m1!19sChIJEWw31QFePjURtDBN5xelBp0!2m2!1d130.555042!2d31.5908891!1m5!1m1!19sChIJY0vI9DbwQDUR-nO5Jxvlr_M!2m2!1d130.7794245!2d32.8346215!3e0" target="_blank" class="btn">🗺️ 2日目ルートMAP</a>
-                <a href="#" class="btn btn-album">📸 写真共有アルバム</a>
-                <a href="#" class="btn btn-bgm">🎵 ドライブBGM</a>
+                <!-- 変更点：写真共有アルバムを準備中に変更し、リンクを無効化。ドライブBGMは削除 -->
+                <a href="javascript:void(0)" class="btn btn-disabled" onclick="alert('旅行当日までに準備します！お楽しみに！')">🔒 写真共有アルバム (準備中)</a>
             </div>
         </div>
 
@@ -527,11 +535,7 @@
                 </div>
                 <div class="checklist-item" style="align-items: center;">
                     <input type="checkbox" id="task3">
-                    <label for="task3">車内用の音楽プレイリスト（Spotify/Apple Musicなど）の作成と共有</label>
-                </div>
-                <div class="checklist-item">
-                    <input type="checkbox" id="task4">
-                    <label for="task4">ETCカード・運転免許証（交代要員含む全員分）の持参アナウンス</label>
+                    <label for="task3">ETCカード・運転免許証（交代要員含む全員分）の持参アナウンス</label>
                 </div>
             </div>
         </details>
