@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅の思い出ポータル - 家族のしおり集</title>
+    <!-- プレミアムなタイポグラフィのためのGoogle Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2d3748;
+            --accent-gradient: linear-gradient(135deg, #b83280, #dd6b20, #2b6cb0); /* 鹿児島〜別府を繋ぐグラデーション */
+            --bg-gradient: radial-gradient(circle at 50% 120%, #fed7e2 0%, #ebf8ff 45%, #f7fafc 80%);
+            --text-color: #2d3748;
+            --text-muted: #718096;
+            --card-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.05), 0 8px 12px -6px rgba(0, 0, 0, 0.02);
+            --premium-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1), 0 10px 15px -10px rgba(0, 0, 0, 0.05);
+            --font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
+            --transition-speed: 0.25s;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: var(--font-family); 
+            background-color: #f7fafc; 
+            color: var(--text-color); 
+            line-height: 1.6; 
+            padding-bottom: 90px; /* 文字サイズコントローラー用の下部マージン */
+            background-image: var(--bg-gradient); 
+            background-attachment: fixed; 
+            font-size: 0.95rem; 
+            transition: font-size var(--transition-speed) ease;
+        } 
+        
+        /* コンパクトで美しいグラデーションヘッダー */
+        header { 
+            background: var(--accent-gradient); 
+            color: white; 
+            text-align: center; 
+            padding: 40px 15px; 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); 
+            position: relative; 
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+        } 
+        header h1 { 
+            font-size: 1.6rem; 
+            margin-bottom: 6px; 
+            font-weight: 700; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        header p { 
+            font-size: 0.9rem; 
+            opacity: 0.95; 
+            letter-spacing: 0.05em; 
+            text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+        
+        .container { max-width: 600px; margin: 25px auto; padding: 0 15px; }
+        
+        /* ポータルの説明文 */
+        .portal-intro {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 18px;
+            padding: 16px 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        /* 旅行カードのグリッドレイアウト */
+        .travel-grid { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
+        
+        /* 旅行カード（旅のアルバムのような上質感） */
+        .travel-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .travel-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--premium-shadow);
+            border-color: #cbd5e0;
+        }
+        
+        /* カード画像エリア */
+        .card-img-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 のアスペクト比を維持 */
+            overflow: hidden;
+            background: #e2e8f0;
+        }
+        .card-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-speed) ease;
+        }
+        .travel-card:hover .card-img {
+            transform: scale(1.03); /* ホバー時にうっすらズームする極上の演出 */
+        }
+        
+        /* 日付バッジ */
+        .card-date-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* カード本文 */
+        .card-content {
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            color: #1a202c;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        /* タグエリア */
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .tag {
+            font-size: 0.7rem;
+            background: #edf2f7;
+            color: #4a5568;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            border: 1px solid #e2e8f0;
+        }
+        
+        /* ボタン */
+        .card-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: var(--accent-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all var(--transition-speed) ease;
+            margin-top: auto; /* ボタンを常にカードの最下部に揃える */
+        }
+        .card-btn:hover {
+            box-shadow: 0 6px 15px rgba(221, 107, 32, 0.2);
+            opacity: 0.95;
+        }
+        .card-btn .arrow {
+            transition: transform 0.2s ease;
+        }
+        .card-btn:hover .arrow {
+            transform: translateX(4px); /* 矢印が右にスッとスライドする心地よいUX */
+        }
+
+        /* バリアフリー対応文字サイズコントローラー */
+        .font-size-controller {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 30px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            transition: all var(--transition-speed) ease;
+        }
+        .font-size-controller:hover {
+            transform: scale(1.03);
+        }
+        .controller-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-right: 2px;
+        }
+        .fs-btn {
+            border: none;
+            background: #edf2f7;
+            color: var(--text-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .fs-btn.active {
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        /* ユニバーサル大きめ文字スタイルの定義 */
+        body.large-text {
+            font-size: 1.12rem;
+        }
+        body.large-text header h1 { font-size: 1.9rem; }
+        body.large-text header p { font-size: 1.05rem; }
+        body.large-text .portal-intro { font-size: 1.0rem; }
+        body.large-text .card-title { font-size: 1.4rem; }
+        body.large-text .card-desc { font-size: 0.95rem; }
+        body.large-text .tag { font-size: 0.8rem; padding: 4px 10px; }
+        body.large-text .card-btn { font-size: 0.95rem; padding: 12px 20px; }
+        body.large-text .controller-label { font-size: 0.85rem; }
+        body.large-text .fs-btn { font-size: 0.9rem; padding: 8px 16px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🎒 家族の旅アルバム</h1>
+        <p>これまでの旅と、これからの楽しいしおり集</p>
+    </header>
+
+    <div class="container">
+        <div class="portal-intro">
+            👨‍👩‍👧‍👦 家族みんなで行く思い出の旅行プラン集です。<br>
+            見たい旅行のカードをタップして、しおりを開いてみましょう！
+        </div>
+
+        <div class="travel-grid">
+            <!-- 鹿児島ファミリープラン -->
+            <div class="travel-card">
+                <div class="card-img-container">
+                    <img src="./images/kagoshima_thumb.png" alt="鹿児島" class="card-img">
+                    <div class="card-date-badge">📅 2026.09.20 - 09.21</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">🌋 鹿児島 1泊2日</h2>
+                    <p class="card-desc">思い出の再現写真 ＆ みんなで快適に楽しむのんびりファミリープラン</p>
+                    <div class="card-tags">
+                        <span class="tag">🦁 平川動物公園</span>
+                        <span class="tag">🚢 桜島フェリー</span>
+                        <span class="tag">🌋 湯之平展望所</span>
+                        <span class="tag">🎨 霧島アートの森</span>
+                    </div>
+                    <a href="./Kagoshima_060920-21/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
+                </div>
+            </div>
+
+            <!-- 別府お祝いプラン -->
+            <div class="travel-card">
+                <div class="card-img-container">
+                    <img src="./images/beppu_thumb.png" alt="別府" class="card-img">
+                    <div class="card-date-badge">📅 2026.05.30 - 05.31</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">♨️ 別府 1泊2日</h2>
+                    <p class="card-desc">城島高原パーク満喫・動物とのふれあい・お誕生日お祝いプリンプラン</p>
+                    <div class="card-tags">
+                        <span class="tag">🎡 城島高原パーク</span>
+                        <span class="tag">👹 かまど地獄</span>
+                        <span class="tag">🍮 地獄蒸しプリン</span>
+                        <span class="tag">🐒 高崎山</span>
+                    </div>
+                    <a href="./Beppu_0530-31/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
+                </div>
+            </div>
+
+            <!-- 
+            ========================================================================
+            💡 今後新しい旅行しおりを追加する際のテンプレートコード 💡
+            ========================================================================
+            新しいプランを追加する場合は、以下のブロックのコメントアウトを外し、
+            HTML内の適正な位置に挿入・テキストを書き換えてください。
+
+            <div class="travel-card">
+                <div class="card-img-container">
+                    <img src="./images/旅行名_thumb.png" alt="旅行名" class="card-img">
+                    <div class="card-date-badge">📅 202X.XX.XX - XX.XX</div>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">📍 旅行のタイトル 1泊2日</h2>
+                    <p class="card-desc">旅行のテーマやキャッチコピーをここに記述します。</p>
+                    <div class="card-tags">
+                        <span class="tag">📍 主要スポットA</span>
+                        <span class="tag">📍 主要スポットB</span>
+                        <span class="tag">📍 主要スポットC</span>
+                    </div>
+                    <a href="./しおりのフォルダ名/index.html" class="card-btn">しおりを見る <span class="arrow">➔</span></a>
+                </div>
+            </div>
+            ========================================================================
+            -->
+        </div>
+    </div>
+
+    <!-- バリアフリー対応文字サイズコントローラーのUI -->
+    <div class="font-size-controller">
+        <span class="controller-label">文字サイズ:</span>
+        <button onclick="toggleFontSize('normal')" id="btn-fs-normal" class="fs-btn active">標準</button>
+        <button onclick="toggleFontSize('large')" id="btn-fs-large" class="fs-btn">大きめ</button>
+    </div>
+
+    <script>
+        // 文字サイズ切り替え処理 (ローカルストレージに状態保存)
+        function toggleFontSize(size) {
+            const body = document.body;
+            const btnNormal = document.getElementById('btn-fs-normal');
+            const btnLarge = document.getElementById('btn-fs-large');
+            
+            if (size === 'large') {
+                body.classList.add('large-text');
+                btnLarge.classList.add('active');
+                btnNormal.classList.remove('active');
+                localStorage.setItem('shiori-fontsize', 'large');
+            } else {
+                body.classList.remove('large-text');
+                btnNormal.classList.add('active');
+                btnLarge.classList.remove('active');
+                localStorage.removeItem('shiori-fontsize');
+            }
+        }
+
+        // 初期読み込み時の設定復元
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSize = localStorage.getItem('shiori-fontsize');
+            if (savedSize === 'large') {
+                toggleFontSize('large');
+            }
+        });
+    </script>
+</body>
+</html>
