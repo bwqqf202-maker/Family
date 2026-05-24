@@ -4,116 +4,516 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>鹿児島 1泊2日 旅のしおり</title>
+    <!-- Google Fonts for premium typography -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4a5568;
-            --day1-bg: #fffaf0;
-            --day1-accent: #dd6b20;
-            --day2-bg: #f7fafc;
-            --day2-accent: #3182ce;
+            --primary-color: #2d3748;
+            --day1-bg: #fff5f7;
+            --day1-accent: #b83280; /* サツマイモ色 / 芋パープル */
+            --day2-bg: #fffaf0;
+            --day2-accent: #dd6b20; /* 桜島オレンジ */
             --text-color: #2d3748;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --text-muted: #718096;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f7fafc; color: var(--text-color); line-height: 1.6; padding-bottom: 60px; background-image: radial-gradient(circle at 50% 120%, #e2e8f0 0%, #f7fafc 60%); background-attachment: fixed; } 
-        header { background: linear-gradient(135deg, #ed8936, #4299e1); color: white; text-align: center; padding: 40px 20px; box-shadow: var(--card-shadow); position: relative; overflow: hidden; } 
-        header h1 { font-size: 1.8rem; margin-bottom: 10px; position: relative; z-index: 1; }
-        header p { font-size: 1rem; opacity: 0.9; }
+        body { 
+            font-family: var(--font-family); 
+            background-color: #f7fafc; 
+            color: var(--text-color); 
+            line-height: 1.6; 
+            padding-bottom: 60px; 
+            background-image: radial-gradient(circle at 50% 120%, #fed7e2 0%, #fffaf0 45%, #f7fafc 80%); 
+            background-attachment: fixed; 
+        } 
+        header { 
+            background: linear-gradient(135deg, var(--day1-accent), var(--day2-accent)); 
+            color: white; 
+            text-align: center; 
+            padding: 45px 20px; 
+            box-shadow: var(--card-shadow); 
+            position: relative; 
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+        } 
+        header h1 { font-size: 1.8rem; margin-bottom: 8px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.12); }
+        header p { font-size: 0.95rem; opacity: 0.95; letter-spacing: 0.05em; }
+        
         .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
-        .dashboard-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: var(--card-shadow); text-align: center; }
-        .countdown { font-size: 1.2rem; font-weight: bold; color: #e53e3e; margin-bottom: 15px; padding: 8px; background: #fff5f5; border-radius: 8px; display: inline-block; }
+        
+        /* Dashboard Card */
+        .dashboard-card { 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 18px; 
+            padding: 20px; 
+            margin-bottom: 25px; 
+            box-shadow: var(--card-shadow); 
+            text-align: center; 
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .countdown { 
+            font-size: 1.15rem; 
+            font-weight: 700; 
+            color: #e53e3e; 
+            margin-bottom: 15px; 
+            padding: 8px 16px; 
+            background: #fff5f5; 
+            border-radius: 10px; 
+            display: inline-block; 
+            border: 1px dashed #feb2b2;
+        }
+        
         .quick-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
-        .btn { display: block; padding: 12px; background: #edf2f7; color: var(--text-color); text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; }
-        .btn-disabled { background: #e2e8f0; color: #a0aec0; cursor: not-allowed; }
-        details { background: white; border-radius: 12px; margin-bottom: 15px; box-shadow: var(--card-shadow); overflow: hidden; transition: all 0.3s ease; } 
-        summary { padding: 15px; font-weight: bold; cursor: pointer; outline: none; user-select: none; background: #edf2f7; display: flex; align-items: center; justify-content: space-between; } 
+        .btn { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 6px; 
+            padding: 12px; 
+            background: white; 
+            color: var(--text-color); 
+            text-decoration: none; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            transition: all 0.2s ease; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+            border-color: #cbd5e0;
+        }
+        .btn-disabled { 
+            background: #edf2f7; 
+            color: #cbd5e0; 
+            cursor: not-allowed; 
+            box-shadow: none;
+            border-color: transparent;
+        }
+        .btn-disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Accordion Details */
+        details { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 18px; 
+            margin-bottom: 15px; 
+            box-shadow: var(--card-shadow); 
+            overflow: hidden; 
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: transform 0.2s;
+        } 
+        details:hover {
+            transform: translateY(-1px);
+        }
+        summary { 
+            padding: 18px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            outline: none; 
+            user-select: none; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            font-size: 1.15rem;
+        } 
         summary::-webkit-details-marker { display: none; } 
-        summary::after { content: '▼'; font-size: 0.8rem; color: #a0aec0; transition: transform 0.3s; } 
+        summary::after { 
+            content: '▼'; 
+            font-size: 0.8rem; 
+            color: #a0aec0; 
+            transition: transform 0.3s; 
+        } 
         details[open] summary::after { transform: rotate(180deg); } 
-        details[open] summary { border-bottom: 1px solid #e2e8f0; } 
-        .details-content { padding: 15px; background: white; animation: fadeIn 0.4s ease-out; } 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .day-section-details summary { font-size: 1.2rem; padding: 18px; border-radius: 12px; box-shadow: var(--card-shadow); margin-bottom: 10px; } 
+        details[open] summary { border-bottom: 1px solid #edf2f7; } 
+        
+        .details-content { padding: 18px; background: white; } 
+        
         .day1-theme summary { background-color: var(--day1-bg); border-left: 6px solid var(--day1-accent); color: var(--day1-accent); } 
         .day2-theme summary { background-color: var(--day2-bg); border-left: 6px solid var(--day2-accent); color: var(--day2-accent); }
-        .timeline { position: relative; padding-left: 20px; border-left: 2px dashed #cbd5e0; margin-left: 10px; }
-        .timeline-item { position: relative; margin-bottom: 25px; }
-        .timeline-item::before { content: ''; position: absolute; left: -26px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: white; border: 3px solid #a0aec0; }
+        
+        /* Timeline */
+        .timeline { position: relative; padding-left: 18px; border-left: 2.5px dotted #cbd5e0; margin-left: 12px; }
+        .timeline-item { position: relative; margin-bottom: 20px; }
+        .timeline-item::before { 
+            content: ''; 
+            position: absolute; 
+            left: -25.5px; 
+            top: 6px; 
+            width: 11px; 
+            height: 11px; 
+            border-radius: 50%; 
+            background: white; 
+            border: 3px solid #a0aec0; 
+            box-shadow: 0 0 0 3px white;
+            z-index: 2;
+        }
         .day1-theme .timeline-item::before { border-color: var(--day1-accent); }
         .day2-theme .timeline-item::before { border-color: var(--day2-accent); }
-        .time { font-weight: bold; font-size: 0.9rem; color: #718096; display: block; }
-        .spot-card { background: white; border-radius: 8px; padding: 12px 15px; margin-top: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .spot-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; }
-        .spot-desc { font-size: 0.9rem; color: #4a5568; margin-bottom: 8px; }
-        .links-group { display: flex; gap: 10px; margin-top: 10px; }
-        .spot-link { font-size: 0.85rem; color: #3182ce; text-decoration: none; display: inline-flex; align-items: center; gap: 3px; }
-        .notice-box { background: #fffaf0; border: 1px solid #feebc8; padding: 10px; border-radius: 6px; font-size: 0.85rem; color: #c05621; margin-top: 8px; }
-        .day2-theme .notice-box { background: #ebf8ff; border-color: #bee3f8; color: #2b6cb0; }
+        
+        .time { font-weight: 700; font-size: 0.95rem; color: #4a5568; display: block; margin-bottom: 4px; }
+        
+        /* Spot Card */
+        .spot-card { 
+            background: #f7fafc; 
+            border-radius: 12px; 
+            padding: 14px 16px; 
+            margin-top: 4px; 
+            border: 1px solid #edf2f7;
+        }
+        .spot-name { font-weight: 700; font-size: 1.1rem; color: #1a202c; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .spot-desc { font-size: 0.88rem; color: #4a5568; margin-bottom: 8px; line-height: 1.5; }
+        
+        /* Badges & Meta Info */
+        .meta-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .badge {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .badge-time { background: #edf2f7; color: #4a5568; }
+        .badge-memo { background: #fffaf0; color: #dd6b20; border: 1px solid #feebc8; }
+        .day2-theme .badge-memo { background: #ebf8ff; color: #2b6cb0; border-color: #bee3f8; }
+
+        /* Links Group */
+        .links-group { display: flex; gap: 12px; margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 8px; }
+        .spot-link { 
+            font-size: 0.82rem; 
+            color: #3182ce; 
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 4px; 
+            font-weight: 700;
+        }
+        .spot-link:hover { color: #2b6cb0; text-decoration: underline; }
+        
+        /* Transit Indicator */
+        .transit-info {
+            position: relative;
+            margin: 12px 0 12px -18px;
+            padding-left: 36px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .transit-info::before {
+            content: '↓';
+            position: absolute;
+            left: 12px;
+            color: #cbd5e0;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .transit-mode {
+            background: #edf2f7;
+            padding: 3px 8px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .day1-transit .transit-mode { color: var(--day1-accent); background: #fff5f7; border-color: #fed7e2; }
+        .day2-transit .transit-mode { color: var(--day2-accent); background: #fffaf0; border-color: #feebc8; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>🧭 【たたき台】鹿児島１泊二日旅行！</h1>
-        <p>9月20日〜21日 ファミリー旅行のしおり</p>
+        <h1>🧭 鹿児島 1泊2日 旅のしおり</h1>
+        <p>ファミリーで行く思い出探訪旅行プラン</p>
     </header>
 
     <div class="container">
+        <!-- Dashboard & Maps -->
         <div class="dashboard-card">
             <div class="countdown" id="countdown">旅の始まりまであと少し！</div>
             <div class="quick-links">
-                <a href="https://www.google.com/maps/dir/Kumamoto+Interchange/Hirakawa+Zoo/Shiroyama+Park+Observation+Deck/Nakahara+Bessou" target="_blank" class="btn">🗺️ 1日目MAP</a>
-                <a href="https://www.google.com/maps/dir/Nakahara+Bessou/Tenmonkan+Mujyaki/Sakurajima+Ferry+Terminal/Yunohira+Observatory/Kurobuta+no+Yakata/Kirishima+Open+Air+Museum/Kumamoto+Interchange" target="_blank" class="btn">🗺️ 2日目MAP</a>
+                <a href="https://www.google.com/maps/dir/熊本IC/鹿児島市平川動物公園/城山展望台/温泉ホテル中原別荘/天文館むじゃき+本店/遊食豚彩いちにいさん+天文館店" target="_blank" class="btn">🗺️ 1日目 全体MAP</a>
+                <a href="https://www.google.com/maps/dir/温泉ホテル中原別荘/鹿児島港桜島フェリーターミナル/桜島+湯之平展望所/黒豚の館/鹿児島県立霧島アートの森/熊本IC" target="_blank" class="btn">🗺️ 2日目 全体MAP</a>
                 <a href="javascript:void(0)" class="btn btn-disabled" onclick="alert('旅行当日までに準備します！お楽しみに！')">🔒 写真共有 (準備中)</a>
             </div>
         </div>
 
-        <details class="day-section-details day1-theme">
-            <summary>🚀 1日目：新しい発見と感動の旅</summary>
+        <!-- Day 1 Details -->
+        <details class="day-section-details day1-theme" open>
+            <summary>🚀 1日目：感動と美味の旅（9/20 日）</summary>
             <div class="details-content">
                 <div class="timeline">
-                    <div class="timeline-item"><span class="time">08:00</span><div class="spot-card"><div class="spot-name">熊本IC 出発 🚐</div></div></div>
-                    <div class="timeline-item"><span class="time">10:30</span><div class="spot-card"><div class="spot-name">平川動物公園 🦁</div>
-                        <div class="spot-desc">ホワイトタイガーやコアラが人気！昔懐かしい場所で思い出の再現写真を撮ろう。</div>
-                        <div class="links-group"><a href="https://hirakawazoo.jp/" target="_blank" class="spot-link">🌐 公式サイト</a><a href="https://maps.app.goo.gl/uJj3sX5GqH7TzDqA7" target="_blank" class="spot-link">📍 MAP</a></div>
-                    </div></div>
-                    <div class="timeline-item"><span class="time">14:15</span><div class="spot-card"><div class="spot-name">城山展望台 ⛰️</div>
-                        <div class="spot-desc">桜島と鹿児島市街を一望する最高のビュースポット。</div>
-                        <div class="links-group"><a href="https://www.kagoshima-yokanavi.jp/spot/10002" target="_blank" class="spot-link">🌐 観光情報</a><a href="https://maps.app.goo.gl/k9ZkM4mR5E3x1G9M6" target="_blank" class="spot-link">📍 MAP</a></div>
-                    </div></div>
-                    <div class="timeline-item"><span class="time">15:40</span><div class="spot-card"><div class="spot-name">中原別荘 チェックイン 🏨</div>
-                        <div class="spot-desc">源泉掛け流しの温泉で移動の疲れを癒やそう。</div>
-                        <div class="links-group"><a href="https://nakahara-bessou.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a><a href="https://maps.app.goo.gl/BfR8a9WjGz8H7G6W6" target="_blank" class="spot-link">📍 MAP</a></div>
-                    </div></div>
-                    <div class="timeline-item"><span class="time">18:30</span><div class="spot-card"><div class="spot-name">いちにいさん 夕食 🍲</div>
-                        <div class="spot-desc">絶品黒豚しゃぶしゃぶ！そばつゆで食べるスタイルは格別。</div>
-                        <div class="links-group"><a href="https://ichiniisan.jp/" target="_blank" class="spot-link">🌐 公式サイト</a><a href="https://maps.app.goo.gl/o1kZ4xT6yH5M9A1Q9" target="_blank" class="spot-link">📍 MAP</a></div>
-                    </div></div>
+                    <!-- Spot 1 -->
+                    <div class="timeline-item">
+                        <span class="time">08:00</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🚐 熊本IC 出発</div>
+                            <div class="spot-desc">ここから鹿児島へ出発！安全運転で行きましょう。</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Transit -->
+                    <div class="transit-info day1-transit">
+                        <span class="transit-mode">🚗 車で約2時間15分 (約160km)</span>
+                    </div>
+
+                    <!-- Spot 2 -->
+                    <div class="timeline-item">
+                        <span class="time">10:30</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🦁 平川動物公園</div>
+                            <div class="spot-desc">ホワイトタイガーやコアラが人気！昔懐かしい場所で思い出の再現写真を撮ろう。（お昼は園内で自由ランチ）</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (入園16:30まで)</span>
+                                <span class="badge badge-memo">💡 園内は意外と広いので歩きやすい靴がおすすめ！</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="https://hirakawazoo.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=鹿児島市平川動物公園" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day1-transit">
+                        <span class="transit-mode">🚗 指宿スカイライン経由: 車で約35分 (約18km)</span>
+                    </div>
+
+                    <!-- Spot 3 -->
+                    <div class="timeline-item">
+                        <span class="time">14:15</span>
+                        <div class="spot-card">
+                            <div class="spot-name">⛰️ 城山展望台</div>
+                            <div class="spot-desc">桜島と鹿児島市街を一望する最高のビュースポット！家族みんなで記念撮影。</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 営業時間: 24時間開放 (見学自由)</span>
+                                <span class="badge badge-memo">💡 売店のさつまいもソフトクリームが美味しい！</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="https://www.kagoshima-yokanavi.jp/spot/10002" target="_blank" class="spot-link">🌐 観光情報</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=城山展望台+鹿児島" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day1-transit">
+                        <span class="transit-mode">🚗 市街地へ下る: 車で約10分 (約2.5km)</span>
+                    </div>
+
+                    <!-- Spot 4 -->
+                    <div class="timeline-item">
+                        <span class="time">15:10</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🏨 温泉ホテル中原別荘 チェックイン</div>
+                            <div class="spot-desc">源泉掛け流しの天然温泉！まずはチェックインしてお部屋でゆっくり長旅の疲れを癒やしましょう。</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 チェックイン: 15:00～ / アウト: ～10:00</span>
+                                <span class="badge badge-memo">💡 鹿児島市街地の中心で掛け流し温泉がある貴重なお宿です。</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="https://nakahara-bessou.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=温泉ホテル中原別荘" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day1-transit">
+                        <span class="transit-mode">🚶 照国神社横を通りアーケードへ: 徒歩約6分 (約450m)</span>
+                    </div>
+
+                    <!-- Spot 5 -->
+                    <div class="timeline-item">
+                        <span class="time">16:20</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🍧 天文館むじゃき 本店</div>
+                            <div class="spot-desc">名物「しろくまかき氷」！夕食前のおやつタイムにみんなでシェアして食べよう。</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 営業時間: 11:00～19:00 (L.O. 18:30)</span>
+                                <span class="badge badge-memo">⚠️ むじゃきは11:00開店のため、当初の2日目朝から1日目夕方に予定を変更しました！</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="http://www.mujyaki.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=天文館むじゃき+本店" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day1-transit">
+                        <span class="transit-mode">🚶 天文館アーケード内を散策: 徒歩約5分 (約350m)</span>
+                    </div>
+
+                    <!-- Spot 6 -->
+                    <div class="timeline-item">
+                        <span class="time">18:30</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🍲 遊食豚彩いちにいさん 天文館店 (夕食)</div>
+                            <div class="spot-desc">絶品黒豚しゃぶしゃぶ！そばつゆと薬味のネギで食べるスタイルは格別の美味しさです。</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 営業時間: 11:00～21:30 (L.O. 21:00)</span>
+                                <span class="badge badge-memo">💡 大人気店なので、少し前に行くか予約状況を確認しておくと安心です。</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="https://ichiniisan.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=遊食豚彩いちにいさん+天文館店" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day1-transit">
+                        <span class="transit-mode">🚶 散歩がてらホテルへ: 徒歩約10分 (約650m)</span>
+                    </div>
+                    
+                    <!-- Day 1 End -->
+                    <div class="timeline-item">
+                        <span class="time">20:30</span>
+                        <div class="spot-card">
+                            <div class="spot-name">♨️ ホテル帰還・ゆっくり入浴・就寝</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </details>
 
-        <details class="day-section-details day2-theme">
-            <summary>🕰️ 2日目：思い出探訪（アートと桜島）</summary>
+        <!-- Day 2 Details -->
+        <details class="day-section-details day2-theme" open>
+            <summary>🌋 2日目：思い出探訪（アートと桜島）（9/21 月・祝）</summary>
             <div class="details-content">
                 <div class="timeline">
-                    <div class="timeline-item"><span class="time">09:45</span><div class="spot-card"><div class="spot-name">天文館むじゃき 🍧</div>
-                        <div class="spot-desc">名物「しろくまかき氷」！朝の空いている時間にみんなでシェア。</div>
-                        <div class="links-group"><a href="http://www.mujyaki.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a><a href="https://maps.app.goo.gl/gQ9nJzZ1D3hK5P9L8" target="_blank" class="spot-link">📍 MAP</a></div>
-                    </div></div>
-                    <div class="timeline-item"><span class="time">11:15</span><div class="spot-card"><div class="spot-name">湯之平展望所 🌋</div>
-                        <div class="spot-desc">桜島を一番間近で感じられる場所。火口の迫力と噴煙は必見！</div>
-                        <div class="links-group"><a href="https://www.sakurajima.gr.jp/" target="_blank" class="spot-link">🌐 観光情報</a><a href="https://maps.app.goo.gl/mX8W5vD6aJ2jR9xZ9" target="_blank" class="spot-link">📍 MAP</a></div>
-                    </div></div>
-                    <div class="timeline-item"><span class="time">14:00</span><div class="spot-card"><div class="spot-name">霧島『黒豚の館』 🐷</div>
-                        <div class="spot-desc">地元霧島で味わう究極のとんかつ。サクサクの食感がたまらない！</div>
-                        <div class="links-group"><a href="http://www.krp1.com/restaurant.html" target="_blank" class="spot-link">🌐 公式サイト</a><a href="https://maps.app.goo.gl/jN4Z9qS2L6wP7cR8" target="_blank" class="spot-link">📍 MAP</a></div>
-                    </div></div>
-                    <div class="timeline-item"><span class="time">15:15</span><div class="spot-card"><div class="spot-name">霧島アートの森 🎨</div>
-                        <div class="spot-desc">自然の中に溶け込むアート作品と一緒に、面白いポーズで写真を撮ろう！</div>
-                        <div class="links-group"><a href="https://open-air-museum.org/" target="_blank" class="spot-link">🌐 公式サイト</a><a href="https://maps.app.goo.gl/zD7W9xK4vH3fM5L8" target="_blank" class="spot-link">📍 MAP</a></div>
-                    </div></div>
+                    <!-- Spot 1 -->
+                    <div class="timeline-item">
+                        <span class="time">09:30</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🏨 中原別荘 チェックアウト・出発</div>
+                            <div class="spot-desc">朝食を済ませて出発！荷物を車に積んで、まずはフェリー乗り場へ。</div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day2-transit">
+                        <span class="transit-mode">🚗 鹿児島港へ移動: 車で約10分 (約2.5km)</span>
+                    </div>
+
+                    <!-- Spot 2 -->
+                    <div class="timeline-item">
+                        <span class="time">09:45</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🚢 鹿児島港桜島フェリーターミナル</div>
+                            <div class="spot-desc">桜島フェリーに乗船！乗船時間はたったの15分。プチクルージングを楽しみましょう。</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 運航頻度: 15分〜20分間隔で24時間運航</span>
+                                <span class="badge badge-memo">💡 フェリー名物「やぶ金」のかけうどん（軽食）を海風に吹かれながら食べるのが大定番！</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="https://www.city.kagoshima.lg.jp/sakurajima-ferry/" target="_blank" class="spot-link">🌐 フェリー情報</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=鹿児島港桜島フェリーターミナル" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day2-transit">
+                        <span class="transit-mode">🚢 フェリー乗船15分 ➔ 桜島港から展望台へ車で15分 (約7km)</span>
+                    </div>
+
+                    <!-- Spot 3 -->
+                    <div class="timeline-item">
+                        <span class="time">10:30</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🌋 桜島 湯之平展望所</div>
+                            <div class="spot-desc">標高373m、一般の人が入れる火口に最も近い展望台！荒々しい山肌の迫力と噴煙はまさに圧巻です。</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (展望所売店や展示)</span>
+                                <span class="badge badge-memo">💡 展望台の敷地内に隠された「ハートの石」が7つあります。みんなで探してみよう！</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="https://www.sakurajima.gr.jp/" target="_blank" class="spot-link">🌐 観光情報</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=桜島+湯之平展望所" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day2-transit">
+                        <span class="transit-mode">🚗 桜島から霧島へ北上 (陸路): 車で約1時間15分 (約60km)</span>
+                    </div>
+
+                    <!-- Spot 4 -->
+                    <div class="timeline-item">
+                        <span class="time">12:30</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🐷 霧島『黒豚の館』 (昼食)</div>
+                            <div class="spot-desc">地元霧島が誇る産地直売の究極の黒豚レストラン！サクサクでジューシーな黒豚とんかつを堪能。</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 営業時間: 11:00～15:00 (L.O. 14:30), 17:00～20:00 (水曜定休)</span>
+                                <span class="badge badge-memo">💡 12:30到着は混雑ピークを絶妙に避け、ゆっくり注文できるベストなタイミングです！</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="http://www.krp1.com/restaurant.html" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=黒豚の館+霧島" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day2-transit">
+                        <span class="transit-mode">🚗 霧島山麓を快適ドライブ: 車で約30分 (約20km)</span>
+                    </div>
+
+                    <!-- Spot 5 -->
+                    <div class="timeline-item">
+                        <span class="time">14:00</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🎨 霧島アートの森</div>
+                            <div class="spot-desc">広大な森の中に現代アート作品が点在する野外美術館。草間彌生氏の巨大な花の作品など、面白いアートと一緒にポーズを取って写真をパシャリ！</div>
+                            <div class="meta-info">
+                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (入園16:30まで / 月曜休館)</span>
+                                <span class="badge badge-memo">💡 月曜休館ですが、9/21は祝日のため特別開館（翌日振替休）となっておりバッチリ開いています！</span>
+                            </div>
+                            <div class="links-group">
+                                <a href="https://open-air-museum.org/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                <a href="https://www.google.com/maps/search/?api=1&query=鹿児島県立霧島アートの森" target="_blank" class="spot-link">📍 Google MAP</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transit -->
+                    <div class="transit-info day2-transit">
+                        <span class="transit-mode">🚗 横川ICから九州自動車道: 車で約1時間15分 (約90km)</span>
+                    </div>
+
+                    <!-- Spot 6 -->
+                    <div class="timeline-item">
+                        <span class="time">17:00</span>
+                        <div class="spot-card">
+                            <div class="spot-name">🏁 熊本IC 到着・解散</div>
+                            <div class="spot-desc">お疲れ様でした！最高の鹿児島の思い出を胸に、気をつけて帰りましょう。</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </details>
