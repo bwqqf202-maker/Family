@@ -4,23 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>鹿児島 1泊2日 旅のしおり</title>
-    <!-- プレミアムなタイポグラフィのためのGoogle Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #2d3748;
+            --eve-bg: #fff5eb;
+            --eve-accent: #c53030;
             --day1-bg: #fff5f7;
-            --day1-accent: #b83280; /* サツマイモ色 / 芋パープル */
+            --day1-accent: #b83280;
             --day2-bg: #fffaf0;
-            --day2-accent: #dd6b20; /* 桜島オレンジ */
-            --optional-bg: #f0fff4;
-            --optional-accent: #276749; /* 新緑の霧島グリーン */
+            --day2-accent: #dd6b20;
+            --quest-bg: #f0fff4;
+            --quest-accent: #276749;
             --text-color: #2d3748;
             --text-muted: #718096;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-            --premium-shadow: 0 15px 30px -10px rgba(184, 50, 128, 0.08), 0 8px 12px -6px rgba(221, 107, 32, 0.05);
+            --card-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --premium-shadow: 0 15px 30px -10px rgba(43, 108, 176, 0.1), 0 8px 12px -6px rgba(184, 50, 128, 0.06);
             --font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
-            --transition-speed: 0.25s;
+            --transition-speed: 0.3s;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,67 +30,113 @@
             background-color: #f7fafc; 
             color: var(--text-color); 
             line-height: 1.6; 
-            padding-bottom: 90px; /* 文字サイズコントローラー用の下部マージン */
+            padding-bottom: 95px;
             background-image: radial-gradient(circle at 50% 120%, #fed7e2 0%, #fffaf0 45%, #f7fafc 80%); 
             background-attachment: fixed; 
             font-size: 0.95rem; 
-            transition: font-size var(--transition-speed) ease;
+            transition: background 0.6s ease, font-size var(--transition-speed) ease;
         } 
+
+        /* スポット連動ダイナミック背景テーマ */
+        body.theme-zoo { background: radial-gradient(circle at 50% 120%, #feebc8 0%, #f0fff4 50%, #f7fafc 80%); }
+        body.theme-rocket { background: radial-gradient(circle at 50% 120%, #bee3f8 0%, #ebf8ff 50%, #f7fafc 80%); }
+        body.theme-hotel { background: radial-gradient(circle at 50% 120%, #fed7e2 0%, #fff5f7 50%, #f7fafc 80%); }
+        body.theme-view { background: radial-gradient(circle at 50% 120%, #b2f5ea 0%, #ebf8ff 50%, #f7fafc 80%); }
+        body.theme-lunch { background: radial-gradient(circle at 50% 120%, #feebc8 0%, #fffaf0 50%, #f7fafc 80%); }
+        body.theme-art { background: radial-gradient(circle at 50% 120%, #e9d8fd 0%, #fff5f7 50%, #f7fafc 80%); }
         
-        /* スマホに最適化された軽量・コンパクトな極上グラデーションヘッダー */
         header { 
-            background: linear-gradient(135deg, var(--day1-accent), var(--day2-accent)); 
+            background: linear-gradient(135deg, #2b6cb0, #b83280); 
             color: white; 
             text-align: center; 
-            padding: 30px 15px; /* スマホ画面を圧迫しないスッキリとした縦幅 */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); 
+            padding: 34px 16px; 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); 
             position: relative; 
-            border-bottom-left-radius: 24px;
-            border-bottom-right-radius: 24px;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
             z-index: 1;
         } 
         header h1 { 
-            font-size: 1.5rem; /* スマホで1行で綺麗に収まりやすいフォントサイズ */
+            font-size: 1.55rem; 
             margin-bottom: 4px; 
-            font-weight: 700; 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            font-weight: 800; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.12); 
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
         }
         header p { 
-            font-size: 0.85rem; 
+            font-size: 0.88rem; 
             opacity: 0.95; 
             letter-spacing: 0.05em; 
             text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+            font-weight: 500;
         }
         
-        .container { max-width: 600px; margin: 0 auto; padding: 0 15px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 0 16px; }
+
+        /* リアルタイムコンシェルジュ */
+        .live-status-card {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(43, 108, 176, 0.2);
+            border-radius: 20px;
+            padding: 16px;
+            margin-top: 14px;
+            margin-bottom: 16px;
+            box-shadow: var(--premium-shadow);
+            text-align: left;
+        }
+        .live-tag {
+            font-size: 0.72rem;
+            font-weight: 800;
+            background: #2b6cb0;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .live-current {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .live-next {
+            font-size: 0.86rem;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .live-next strong { color: #b83280; }
         
-        /* ダッシュボードカード（スマホ画面で押し下げない絶妙な配置） */
         .dashboard-card { 
             background: rgba(255, 255, 255, 0.96); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px; 
+            backdrop-filter: blur(12px);
+            border-radius: 22px; 
             padding: 18px; 
-            margin-top: 15px; /* ヘッダーから自然につながるマージン */
             margin-bottom: 20px; 
             box-shadow: var(--premium-shadow); 
             text-align: center; 
             border: 1px solid rgba(255, 255, 255, 0.8);
         }
         
-        /* カウントダウン（リッチでスッキリとした背景） */
         .countdown { 
             font-size: 1.05rem; 
-            font-weight: 700; 
+            font-weight: 800; 
             color: #e53e3e; 
             margin-bottom: 14px; 
-            padding: 8px 16px; 
+            padding: 8px 18px; 
             background: linear-gradient(135deg, #fff5f5, #fff0f6); 
-            border-radius: 10px; 
+            border-radius: 12px; 
             display: inline-flex; 
             align-items: center;
             gap: 6px;
@@ -102,128 +149,135 @@
             align-items: center; 
             justify-content: center; 
             gap: 6px; 
-            padding: 11px; 
+            padding: 12px; 
             background: white; 
             color: var(--text-color); 
             text-decoration: none; 
-            border-radius: 12px; 
+            border-radius: 14px; 
             font-weight: 700; 
             font-size: 0.85rem; 
             transition: all var(--transition-speed) ease; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.03);
             border: 1px solid #edf2f7;
         }
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
-            border-color: #cbd5e0;
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.06); border-color: #cbd5e0; }
+
+        /* スポットインライン・クイズアコーディオン */
+        .spot-quiz {
+            background: #edf2f7;
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
         }
-        .btn-disabled { 
-            background: #edf2f7; 
-            color: #cbd5e0; 
-            cursor: not-allowed; 
-            box-shadow: none;
-            border-color: transparent;
+        .spot-quiz summary {
+            padding: 6px 12px !important;
+            font-size: 0.78rem !important;
+            font-weight: 700 !important;
+            color: #4a5568 !important;
+            background: #f7fafc !important;
+            cursor: pointer;
+        }
+        .spot-quiz-content {
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            color: #2d3748;
+            background: white;
+            border-top: 1px solid #edf2f7;
+        }
+        .spot-quiz-ans {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px dashed #cbd5e0;
+            color: #2b6cb0;
+            font-weight: 700;
         }
 
-        /* アコーディオン・Details */
+        /* セクションラッパー */
+        #schedule-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
         details { 
-            background: rgba(255, 255, 255, 0.88); 
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border-radius: 18px; 
-            margin-bottom: 15px; 
+            background: rgba(255, 255, 255, 0.92); 
+            backdrop-filter: blur(8px);
+            border-radius: 20px; 
             box-shadow: var(--card-shadow); 
             overflow: hidden; 
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: transform var(--transition-speed);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            transition: all var(--transition-speed);
         } 
-        details:hover {
-            transform: translateY(-1px);
-        }
+        details:hover { transform: translateY(-1px); }
         summary { 
-            padding: 16px 18px; 
-            font-weight: 700; 
+            padding: 18px 20px; 
+            font-weight: 800; 
             cursor: pointer; 
             outline: none; 
             user-select: none; 
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
-            font-size: 1.1rem;
+            font-size: 1.12rem;
         } 
         summary::-webkit-details-marker { display: none; } 
         summary::after { 
             content: '▼'; 
-            font-size: 0.75rem; 
+            font-size: 0.8rem; 
             color: #a0aec0; 
             transition: transform var(--transition-speed); 
         } 
         details[open] summary::after { transform: rotate(180deg); } 
         details[open] summary { border-bottom: 1px solid #edf2f7; } 
         
-        .details-content { 
-            padding: 16px; 
-            background: white; 
-            animation: fadeIn 0.3s ease-out;
-        } 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .details-content { padding: 18px; background: white; animation: fadeIn 0.3s ease-out; } 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
         
-        .day1-theme summary { background-color: var(--day1-bg); border-left: 6px solid var(--day1-accent); color: var(--day1-accent); } 
-        .day2-theme summary { background-color: var(--day2-bg); border-left: 6px solid var(--day2-accent); color: var(--day2-accent); }
-        .optional-theme summary { background-color: var(--optional-bg); border-left: 6px solid var(--optional-accent); color: var(--optional-accent); }
+        .eve-theme summary { background-color: var(--eve-bg); border-left: 8px solid var(--eve-accent); color: var(--eve-accent); }
+        .day1-theme summary { background-color: var(--day1-bg); border-left: 8px solid var(--day1-accent); color: var(--day1-accent); } 
+        .day2-theme summary { background-color: var(--day2-bg); border-left: 8px solid var(--day2-accent); color: var(--day2-accent); }
         
-        /* タイムライン */
-        .timeline { position: relative; padding-left: 18px; border-left: 2px solid #e2e8f0; margin-left: 12px; }
-        .timeline-item { position: relative; margin-bottom: 20px; }
+        .timeline { position: relative; padding-left: 20px; border-left: 2px solid #e2e8f0; margin-left: 12px; }
+        .timeline-item { position: relative; margin-bottom: 22px; }
         .timeline-item::before { 
             content: ''; 
             position: absolute; 
-            left: -25px; 
+            left: -27px; 
             top: 6px; 
-            width: 10px; 
-            height: 10px; 
+            width: 12px; 
+            height: 12px; 
             border-radius: 50%; 
             background: white; 
-            border: 3px solid #cbd5e0; 
+            border: 3.5px solid #cbd5e0; 
             box-shadow: 0 0 0 3px white;
             z-index: 2;
         }
+        .eve-theme .timeline-item::before { border-color: var(--eve-accent); }
         .day1-theme .timeline-item::before { border-color: var(--day1-accent); }
         .day2-theme .timeline-item::before { border-color: var(--day2-accent); }
         
-        .time { font-weight: 700; font-size: 0.95rem; color: #4a5568; display: block; margin-bottom: 4px; }
+        .time { font-weight: 800; font-size: 0.98rem; color: #4a5568; display: block; margin-bottom: 6px; }
         
-        /* スポットカード */
         .spot-card { 
             background: #f8fafc; 
-            border-radius: 12px; 
-            padding: 14px 16px; 
+            border-radius: 14px; 
+            padding: 16px 18px; 
             margin-top: 4px; 
             border: 1px solid #edf2f7;
             transition: all var(--transition-speed) ease;
+            cursor: pointer;
         }
-        .spot-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.02);
-        }
-        .spot-name { font-weight: 700; font-size: 1.05rem; color: #1a202c; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-        .spot-desc { font-size: 0.88rem; color: #4a5568; margin-bottom: 8px; line-height: 1.55; }
+        .spot-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,0.04); border-color: #cbd5e0; }
+        .spot-name { font-weight: 800; font-size: 1.1rem; color: #1a202c; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .spot-desc { font-size: 0.9rem; color: #4a5568; margin-bottom: 10px; line-height: 1.6; }
         
-        /* バッジ ＆ メタ情報 */
-        .meta-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
+        .meta-info { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
         .badge {
-            font-size: 0.72rem;
-            padding: 3px 8px;
-            border-radius: 6px;
+            font-size: 0.74rem;
+            padding: 4px 9px;
+            border-radius: 8px;
             font-weight: 700;
             display: inline-flex;
             align-items: center;
@@ -231,20 +285,16 @@
         }
         .badge-time { background: #edf2f7; color: #4a5568; border: 1px solid #e2e8f0; }
         .badge-memo { background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; }
-        .badge-replica { background: #fff0f6; color: #d53f8c; border: 1px solid #fbb6ce; } /* 思い出の再現写真バッジ */
-        .day1-theme .badge-memo { background: #fffaf0; color: #dd6b20; border-color: #feebc8; }
-        .optional-theme .badge-memo { background: #e6fffa; color: #234e52; border-color: #b2f5ea; }
-        .badge-kids { background: #f0fff4; color: #38a169; border: 1px solid #c6f6d5; } /* 子どもおすすめ */
-        .badge-adult { background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; } /* 大人ものんびりおすすめ */
+        .badge-replica { background: #fff0f6; color: #d53f8c; border: 1px solid #fbb6ce; }
+        .badge-parking { background: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; font-weight: 800; }
 
-        /* 思い出再現スポット特別プレミアムデザイン */
         .highlight-spot-card {
             background: linear-gradient(to bottom right, #fffdfa, #fff5f8) !important;
             border: 2px solid transparent !important;
             border-image: linear-gradient(135deg, #ecc94b, #d53f8c) 1 !important;
-            box-shadow: 0 10px 20px rgba(213, 63, 140, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02) !important;
+            box-shadow: 0 10px 20px rgba(213, 63, 140, 0.06), 0 4px 6px rgba(0, 0, 0, 0.02) !important;
             position: relative;
-            padding-top: 36px !important; /* バッジが上に来るため、上部余白を大幅に確保 */
+            padding-top: 38px !important;
         }
         .highlight-spot-card::after {
             content: '✨ 思い出再現 ✨';
@@ -253,21 +303,90 @@
             right: 0;
             background: linear-gradient(135deg, #ecc94b, #d53f8c);
             color: white;
-            font-size: 0.68rem;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-bottom-left-radius: 12px;
-            box-shadow: -2px 2px 4px rgba(0,0,0,0.05);
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-bottom-left-radius: 14px;
+            box-shadow: -2px 2px 4px rgba(0,0,0,0.06);
         }
-        /* スポット名とバッジが絶対に干渉しないよう、十分な右側マージンを設けて改行を促す */
-        .highlight-spot-card .spot-name {
-            padding-right: 110px; 
-        }
+        .highlight-spot-card .spot-name { padding-right: 110px; }
 
-        /* リンクグループ */
-        .links-group { display: flex; gap: 12px; margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 8px; }
+        .transit-block {
+            margin: 16px 0 16px -20px;
+            padding-left: 30px;
+            position: relative;
+        }
+        .transit-block::before {
+            content: '↓';
+            position: absolute;
+            left: 10px;
+            top: 4px;
+            color: #cbd5e0;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .transit-badge {
+            background: #edf2f7;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #718096;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid #e2e8f0;
+        }
+        .day1-transit .transit-badge { color: var(--day1-accent); background: #fff5f7; border-color: #fed7e2; }
+        .day2-transit .transit-badge { color: var(--day2-accent); background: #fffaf0; border-color: #feebc8; }
+
+        .quest-details {
+            background: #f0fff4 !important;
+            border: 1.5px dashed #38a169 !important;
+            border-radius: 14px !important;
+            margin-top: 10px !important;
+            margin-bottom: 6px !important;
+            box-shadow: none !important;
+        }
+        .quest-details summary {
+            padding: 10px 14px !important;
+            font-size: 0.86rem !important;
+            color: #276749 !important;
+            background: transparent !important;
+        }
+        .quest-content {
+            padding: 12px 14px 14px !important;
+            background: white !important;
+            border-top: 1px dashed #c6f6d5;
+        }
+        .quest-title {
+            font-size: 0.98rem;
+            font-weight: 800;
+            color: #22543d;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .quest-checkbox {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: #2f855a;
+            cursor: pointer;
+            background: #e6fffa;
+            padding: 4px 10px;
+            border-radius: 10px;
+            user-select: none;
+            border: 1px solid #b2f5ea;
+            font-weight: 700;
+        }
+        .quest-checkbox input { cursor: pointer; }
+
+        .links-group { display: flex; gap: 12px; margin-top: 10px; border-top: 1px dashed #e2e8f0; padding-top: 8px; flex-wrap: wrap; }
         .spot-link { 
-            font-size: 0.82rem; 
+            font-size: 0.84rem; 
             color: #3182ce; 
             text-decoration: none; 
             display: inline-flex; 
@@ -276,528 +395,568 @@
             font-weight: 700;
         }
         .spot-link:hover { color: #2b6cb0; text-decoration: underline; }
-        
-        /* 移動手段表示 */
-        .transit-info {
-            position: relative;
-            margin: 12px 0 12px -18px;
-            padding-left: 36px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #718096;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .transit-info::before {
-            content: '↓';
-            position: absolute;
-            left: 12px;
-            color: #cbd5e0;
-            font-weight: bold;
-            font-size: 1rem;
-        }
-        .transit-mode {
-            background: #edf2f7;
-            padding: 4px 10px;
-            border-radius: 20px;
-            border: 1px solid #e2e8f0;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .day1-transit .transit-mode { color: var(--day1-accent); background: #fff5f7; border-color: #fed7e2; }
-        .day2-transit .transit-mode { color: var(--day2-accent); background: #fffaf0; border-color: #feebc8; }
 
-        /* バリアフリー対応文字サイズコントローラー */
         .font-size-controller {
             position: fixed;
             bottom: 20px;
             right: 20px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(226, 232, 240, 0.8);
             border-radius: 30px;
-            padding: 6px 12px;
+            padding: 6px 14px;
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.18), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
             z-index: 9999;
             transition: all var(--transition-speed) ease;
         }
-        .font-size-controller:hover {
-            transform: scale(1.03);
-        }
-        .controller-label {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--text-color);
-            margin-right: 2px;
-        }
+        .controller-label { font-size: 0.75rem; font-weight: 800; color: var(--text-color); margin-right: 2px; }
         .fs-btn {
             border: none;
             background: #edf2f7;
             color: var(--text-color);
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
+            font-size: 0.82rem;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        .fs-btn.active {
-            background: linear-gradient(135deg, var(--day1-accent), var(--day2-accent));
-            color: white;
-        }
+        .fs-btn.active { background: linear-gradient(135deg, #2b6cb0, #b83280); color: white; }
 
-        /* ユニバーサル大きめ文字スタイルの定義 */
-        body.large-text {
-            font-size: 1.12rem;
-        }
-        body.large-text header h1 { font-size: 1.8rem; }
-        body.large-text header p { font-size: 1.0rem; }
-        body.large-text .countdown { font-size: 1.2rem; }
-        body.large-text .btn { font-size: 1.0rem; padding: 12px; }
-        body.large-text summary { font-size: 1.25rem; padding: 20px 18px; }
-        body.large-text .time { font-size: 1.1rem; }
-        body.large-text .spot-name { font-size: 1.2rem; }
-        body.large-text .spot-desc { font-size: 1.0rem; }
-        body.large-text .badge { font-size: 0.82rem; padding: 4px 10px; }
-        body.large-text .spot-link { font-size: 0.9rem; }
-        body.large-text .transit-mode { font-size: 0.9rem; padding: 4px 10px; }
-        body.large-text .controller-label { font-size: 0.85rem; }
-        body.large-text .fs-btn { font-size: 0.9rem; padding: 8px 16px; }
-
-        /* 文字サイズ大の時にも思い出バッジがタイトルと絶対に被らないための余白拡張 */
-        body.large-text .highlight-spot-card {
-            padding-top: 42px !important;
-        }
-        body.large-text .highlight-spot-card::after {
-            font-size: 0.75rem;
-            padding: 6px 14px;
-        }
-        body.large-text .highlight-spot-card .spot-name {
-            padding-right: 130px;
-        }
+        body.large-text { font-size: 1.15rem; }
+        body.large-text header h1 { font-size: 1.85rem; }
+        body.large-text header p { font-size: 1.05rem; }
+        body.large-text .countdown { font-size: 1.25rem; }
+        body.large-text .btn { font-size: 1.05rem; padding: 14px; }
+        body.large-text summary { font-size: 1.3rem; }
+        body.large-text .time { font-size: 1.15rem; }
+        body.large-text .spot-name { font-size: 1.25rem; }
+        body.large-text .spot-desc { font-size: 1.05rem; }
+        body.large-text .badge { font-size: 0.86rem; padding: 5px 12px; }
+        body.large-text .spot-link { font-size: 0.95rem; }
+        body.large-text .transit-badge { font-size: 0.92rem; }
     </style>
 </head>
 <body>
-
     <header>
         <h1>🧭 鹿児島 1泊2日 旅のしおり</h1>
-        <p>家族みんなで行く！思い出の再現＆のんびり旅行プラン</p>
+        <p>家族で行く！快適ドライブ＆思い出再現の旅</p>
     </header>
 
     <div class="container">
-        <!-- ダッシュボード ＆ 全体ルートMAP -->
+        <!-- リアルタイムコンシェルジュ -->
+        <div class="live-status-card">
+            <span class="live-tag">📍 旅のコンシェルジュ（現在地連動）</span>
+            <div class="live-current" id="live-current-status">⏳ 旅の準備中：出発を待っています</div>
+            <div class="live-next" id="live-next-status">次の予定：<strong>9/19(土) 18:00 味の大津屋</strong></div>
+        </div>
+
+        <!-- ダッシュボードカード -->
         <div class="dashboard-card">
             <div class="countdown" id="countdown">旅の始まりまであと少し！</div>
             <div class="quick-links">
-                <a href="https://www.google.com/maps/dir/熊本IC/鹿児島市平川動物公園/温泉ホテル中原別荘/天文館むじゃき+本店/遊食豚彩いちにいさん+天文館店" target="_blank" class="btn">🗺️ 1日目 全体MAP</a>
-                <a href="https://www.google.com/maps/dir/温泉ホテル中原別荘/城山展望台/鹿児島港桜島フェリーターミナル/桜島+湯之平展望所/黒豚の館/鹿児島県立霧島アートの森/熊本IC" target="_blank" class="btn">🗺️ 2日目 全体MAP</a>
-                <a href="javascript:void(0)" class="btn btn-disabled" onclick="alert('旅行当日までに準備します！お楽しみに！')">🔒 写真共有 (準備中)</a>
+                <a href="https://www.google.com/maps/dir/熊本IC/平川動物公園/錦江湾公園/温泉ホテル中原別荘/天文館むじゃき+本店" target="_blank" class="btn">🗺️ 1日目 全体MAP</a>
+                <a href="https://www.google.com/maps/dir/温泉ホテル中原別荘/城山展望台/遊食豚彩いちにいさん+国分店/鹿児島県立霧島アートの森/丸池湧水/熊本IC" target="_blank" class="btn">🗺️ 2日目 全体MAP</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=味の大津屋+大津町" target="_blank" class="btn">🥩 前夜祭 味の大津屋</a>
+                <a href="tel:0992252800" class="btn">📞 宿直通（中原別荘）</a>
             </div>
         </div>
 
-        <!-- 1日目タイムライン (初期状態は閉) -->
-        <details class="day-section-details day1-theme">
-            <summary>🚀 1日目：感動と美味の旅（9/20 日）</summary>
-            <div class="details-content">
-                <div class="timeline">
-                    <!-- Spot 1 -->
-                    <div class="timeline-item">
-                        <span class="time">08:00</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🚐 熊本IC 出発</div>
-                            <div class="spot-desc">鹿児島へ向けて出発！車内もにぎやかに、適度に休憩を挟みつつ向かいましょう。</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Transit -->
-                    <div class="transit-info day1-transit">
-                        <span class="transit-mode">🚗 車で約2時間15分 (約160km)</span>
-                    </div>
-
-                    <!-- Spot 2 -->
-                    <div class="timeline-item">
-                        <span class="time">10:30</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🦁 平川動物公園</div>
-                            <div class="spot-desc">コアラやホワイトタイガーが大人気！園内には足湯やミニ遊園地もあり、小さなお子様から大人まで快適に過ごせます。お昼は園内のレストランやフードコートで、みんなで楽しく自由ランチにしましょう。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (入園16:30まで)</span>
-                                <span class="badge badge-memo">💡 適度にベンチで休憩を挟みながら、大人も子どもも自分のペースでコアラたちをのんびり快適に満喫できます。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://hirakawazoo.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=鹿児島市平川動物公園" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day1-transit">
-                        <span class="transit-mode">🚗 指宿スカイライン経由: 車で約35分 (約18km)</span>
-                    </div>
-
-                    <!-- Spot 3 -->
-                    <div class="timeline-item">
-                        <span class="time">15:35</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🏨 温泉ホテル中原別荘 チェックイン</div>
-                            <div class="spot-desc">源泉掛け流しの天然温泉ホテル！チェックイン後、まずは掛け流しの本物の温泉に浸かって、動物公園でたくさん歩いたみんなの足腰をじんわりほぐしましょう。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 チェックイン: 15:00～ / アウト: ～10:00</span>
-                                <span class="badge badge-memo">💡 鹿児島市街地の真ん中で、和室でゆったりとくつろげる歴史ある名宿です。源泉かけ流しの温泉をお楽しみください。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://nakahara-bessou.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=温泉ホテル中原別荘" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day1-transit">
-                        <span class="transit-mode">🚶 照国神社横を通り平坦な道を徒歩約6分 (約450m)</span>
-                    </div>
-
-                    <!-- Spot 4 -->
-                    <div class="timeline-item">
-                        <span class="time">16:20</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🍧 天文館むじゃき 本店</div>
-                            <div class="spot-desc">名物「しろくまかき氷」！夕食前のおやつタイムとして、ふわふわで可愛いかき氷をみんなでスプーンをつつきながらシェアして食べましょう！</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 営業時間: 11:00～19:00 (L.O. 18:30)</span>
-                                <span class="badge badge-memo">💡 チェックイン後の夕方のひとときに、ふわふわで可愛い名物のしろくまをみんなでシェアしましょう！</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="http://www.mujyaki.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=天文館むじゃき+本店" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day1-transit">
-                        <span class="transit-mode">🚶 アーケード内をのんびり散策: 徒歩約5分 (約350m)</span>
-                    </div>
-
-                    <!-- Spot 5 -->
-                    <div class="timeline-item">
-                        <span class="time">18:30</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🍲 遊食豚彩いちにいさん 天文館店 (夕食)</div>
-                            <div class="spot-desc">極上の黒豚しゃぶしゃぶ！お湯に通した美味しい黒豚を、こだわりのそばつゆと山盛りのネギで味わいます。お肉がとっても柔らかいので、大人から小さなお子様までみんな大満足間違いなし！</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 営業時間: 11:00～21:30 (L.O. 21:00)</span>
-                                <span class="badge badge-memo">💡 鹿児島を代表する美味しい黒豚しゃぶしゃぶを、こだわりのそばつゆで心ゆくまで堪能しましょう。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://ichiniisan.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=遊食豚彩いちにいさん+天文館店" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day1-transit">
-                        <span class="transit-mode">🚶 夜風にあたりながら宿へ: 徒歩約10分 (約650m)</span>
-                    </div>
-                    
-                    <!-- Day 1 End -->
-                    <div class="timeline-item">
-                        <span class="time">20:30</span>
-                        <div class="spot-card">
-                            <div class="spot-name">♨️ ホテル帰還・ゆっくり温泉入浴・就寝</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </details>
-
-        <!-- 2日目タイムライン (初期状態は閉) -->
-        <details class="day-section-details day2-theme">
-            <summary>🌋 2日目：絶景と霧島アートの旅（9/21 月・祝）</summary>
-            <div class="details-content">
-                <div class="timeline">
-                    <!-- Spot 1 -->
-                    <div class="timeline-item">
-                        <span class="time">09:30</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🏨 中原別荘 チェックアウト・出発</div>
-                            <div class="spot-desc">朝食をしっかり食べてチェックアウト。2日目ものんびり楽しみましょう！</div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day2-transit">
-                        <span class="transit-mode">🚗 城山を優しく登る: 車で約10分 (約2.5km)</span>
-                    </div>
-
-                    <!-- Spot 2 -->
-                    <div class="timeline-item">
-                        <span class="time">09:40</span>
-                        <div class="spot-card">
-                            <div class="spot-name">⛰️ 城山展望台</div>
-                            <div class="spot-desc">目の前に広がる大迫力の桜島と鹿児島市街地！朝の澄んだ日差しの中で見る景色は神々しく、最初の最高の家族写真を撮るのに最もおすすめの時間帯です。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 営業時間: 24時間開放 (見学自由)</span>
-                                <span class="badge badge-memo">💡 駐車場から展望台までは平坦な遊歩道になっており、小さな子どもから足元が心配な方まで、みんなで安心してのんびり歩けます。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.kagoshima-yokanavi.jp/spot/10002" target="_blank" class="spot-link">🌐 観光情報</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=城山展望台+鹿児島" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day2-transit">
-                        <span class="transit-mode">🚗 港へ緩やかに下る: 車で約15分 (約4.5km)</span>
-                    </div>
-
-                    <!-- Spot 3 -->
-                    <div class="timeline-item">
-                        <span class="time">10:35</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🚢 鹿児島港桜島フェリーターミナル</div>
-                            <div class="spot-desc">桜島フェリーに乗船！15分間のプチクルージング。海風を浴びながら近づく桜島の姿に子どもたちも大喜び！</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 運航頻度: 15〜20分間隔で24時間運航</span>
-                                <span class="badge badge-memo">💡 船内名物「やぶ金」のかけうどんを海を眺めながら楽しむのが人気です。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.city.kagoshima.lg.jp/sakurajima-ferry/" target="_blank" class="spot-link">🌐 フェリー情報</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=鹿児島港桜島フェリーターミナル" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day2-transit">
-                        <span class="transit-mode">🚢 乗船15分 ➔ 桜島港から山道を登る: 車で15分 (約7km)</span>
-                    </div>
-
-                    <!-- Spot 4 (思い出の場所・特別装飾) -->
-                    <div class="timeline-item">
-                        <span class="time">11:20</span>
-                        <div class="spot-card highlight-spot-card">
-                            <div class="spot-name">🌋 桜島 湯之平展望所</div>
-                            <div class="spot-desc">立ち入れる火口に最も近い、標高373mの展望台！荒々しい山肌の迫力は圧巻です。360度見渡す限りの絶景が広がります。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (展望施設)</span>
-                                <span class="badge badge-memo">💡 展望台の石垣に埋め込まれた7つのハートの石を探して家族みんなで楽しめます。</span>
-                                <span class="badge badge-replica">📸 思い出の再現写真スポット！アルバムと同じ壮大な桜島を背景に、みんなで再現写真を撮りましょう！</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.sakurajima.gr.jp/" target="_blank" class="spot-link">🌐 観光情報</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=桜島+湯之平展望所" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day2-transit">
-                        <span class="transit-mode">🚗 桜島を陸路で抜け霧島へ北上: 車で約1時間15分 (約60km)</span>
-                    </div>
-
-                    <!-- Spot 5 -->
-                    <div class="timeline-item">
-                        <span class="time">13:15</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🐷 霧島『黒豚の館』 (昼食)</div>
-                            <div class="spot-desc">霧島が誇る純粋黒豚を使った名店！サクサクで肉汁たっぷりの極上とんかつは、お肉の甘みが違います。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 営業時間: 11:00～15:00 (L.O. 14:30), 17:00～20:00 (木曜定休)</span>
-                                <span class="badge badge-memo">💡 霧島が誇るこだわりの純粋黒豚。旨味たっぷりの極上とんかつをお楽しみください。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="http://www.krp1.com/restaurant.html" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=黒豚の館+霧島" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day2-transit">
-                        <span class="transit-mode">🚗 霧島山麓をドライブ: 車で約30分 (約20km)</span>
-                    </div>
-
-                    <!-- Spot 6 (思い出の場所・特別装飾) -->
-                    <div class="timeline-item">
-                        <span class="time">14:45</span>
-                        <div class="spot-card highlight-spot-card">
-                            <div class="spot-name">🎨 霧島アートの森</div>
-                            <div class="spot-desc">広大な森の中に野外彫刻が並ぶ芸術の森！草間彌生氏の巨大な花の彫刻など、触ったり一緒に入り込めるアートがたくさんあります。歩行スペースも美しく整備されています。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (入園16:30まで / 月曜休)</span>
-                                <span class="badge badge-memo">💡 広大な自然の中でアートと触れ合える野外美術館。五感を使ってユニークな作品を楽しめます。</span>
-                                <span class="badge badge-replica">📸 思い出の再現写真スポット！ユニークなアートと同じポーズで、みんなで再現写真を撮りましょう！</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://open-air-museum.org/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=鹿児島県立霧島アートの森" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transit -->
-                    <div class="transit-info day2-transit">
-                        <span class="transit-mode">🚗 横川ICから九州自動車道へ: 車で約1時間15分 (約90km)</span>
-                    </div>
-
-                    <!-- Spot 7 -->
-                    <div class="timeline-item">
-                        <span class="time">17:15</span>
-                        <div class="spot-card">
-                            <div class="spot-name">🏁 熊本IC 到着・解散</div>
-                            <div class="spot-desc">お疲れ様でした！たくさんの素晴らしい思い出写真を胸に、気をつけて帰りましょう🚐</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </details>
-
-        <!-- 寄り道ガイド (初期状態は閉) -->
-        <details class="day-section-details optional-theme">
-            <summary>🧭 時間があれば寄りたい！みんなで楽しめるおすすめ寄り道ガイド</summary>
-            <div class="details-content">
-                <div class="timeline">
-                    <!-- Spot A -->
-                    <div class="timeline-item">
-                        <div class="spot-card">
-                            <div class="spot-name">⛩️ 照国神社 (鹿児島市街)</div>
-                            <div class="spot-desc">ホテル中原別荘のすぐ目の前（徒歩3分）！島津斉彬公を祀る、鹿児島で最も格式高い神社。白い巨大な鳥居と、美しい鶴の形をした庭木が特徴。平坦で歩きやすいです。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-adult">👴 大人ものんびり・平坦</span>
-                                <span class="badge badge-kids">👶 ちいさな子もトコトコ歩ける・徒歩3分</span>
-                                <span class="badge badge-time">🕒 24時間参拝可能</span>
-                                <span class="badge badge-memo">💡 1日目のチェックイン後すぐ、または2日目の朝出発前のお散歩に最適な、心安らぐ神社です。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.terukunijinja.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=照国神社" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spot B -->
-                    <div class="timeline-item">
-                        <div class="spot-card">
-                            <div class="spot-name">🌿 名勝 仙巌園 (せんがんえん)</div>
-                            <div class="spot-desc">島津家の別邸で、桜島と錦江湾を庭園の借景に取り入れた雄大な大名庭園！見応えのある歴史展示や美しい薩摩切子工場見学、お子様も大はしゃぎの広大なお庭があり、名物「両棒餅（ぢゃんぼもち）」のおやつタイムに最適です。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-adult">👴 大人ものんびり・順路あり</span>
-                                <span class="badge badge-kids">🍵 おやつ休憩（両棒餅）</span>
-                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00</span>
-                                <span class="badge badge-memo">💡 島津家ゆかりの歴史ある大名庭園。美しく壮大な桜島の眺めと美味しい両棒餅（ぢゃんぼもち）を楽しめます。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.senganen.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=名勝+仙巌園" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spot C -->
-                    <div class="timeline-item">
-                        <div class="spot-card">
-                            <div class="spot-name">👣♨️ 桜島溶岩なぎさ公園「足湯」</div>
-                            <div class="spot-desc">桜島港から車で3分！全長100mの日本最大級の屋外掛け流し足湯です。目の前に広がる穏やかな錦江湾と桜島を座ってのんびり眺めながら、みんなで一緒に足を浸せます。歩く距離も少なく、みんながリラックスできる最高の癒やしスポットです。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-adult">👴 大人ものんびり天然温泉</span>
-                                <span class="badge badge-kids">👶 子どもも大喜びの広々足湯</span>
-                                <span class="badge badge-time">🕒 営業時間: 9:00～日没まで［無料］</span>
-                                <span class="badge badge-memo">💡 フェリーを降りて湯之平展望所へ向かう途中に立ち寄りやすい、穏やかな錦江湾を望む絶景の無料足湯です。※タオルを持参してください。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.sakurajima.gr.jp/spot/000137.html" target="_blank" class="spot-link">🌐 観光情報</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=桜島溶岩なぎさ公園+足湯" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spot D -->
-                    <div class="timeline-item">
-                        <div class="spot-card">
-                            <div class="spot-name">🍊 道の駅 桜島「火の島めぐみ館」</div>
-                            <div class="spot-desc">桜島フェリーが発着する桜島港のすぐ近く！車を降りてすぐ平坦な店内に入れるため、みんなに優しいお買い物処です。世界一小さい「桜島小みかん」ソフトはお子様に大人気。大人は特大の桜島大根など鹿児島ならではのお土産を楽しめます。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-adult">👴 大人ものんびり・平坦</span>
-                                <span class="badge badge-kids">🍦 桜島小みかんソフト</span>
-                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00</span>
-                                <span class="badge badge-memo">💡 地元の新鮮なお土産やご当地の「桜島小みかん」ソフトなどをみんなで選べる楽しいお買い物スポットです。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.megumikan.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=道の駅+桜島+火の島めぐみ館" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spot E -->
-                    <div class="timeline-item">
-                        <div class="spot-card">
-                            <div class="spot-name">🚂 道の駅 霧島（神話の里公園）</div>
-                            <div class="spot-desc">錦江湾や桜島を見渡せる絶景スポット。傾斜のきつい坂道も、可愛い汽車型の「ロードトレイン」に乗って頂上の絶景展望エリアまで座ったまま楽々登ることができます！ポニー広場や展望レストランがあり、みんなが快適に遊べます。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-adult">👴 ロードトレインで楽々移動</span>
-                                <span class="badge badge-kids">🐎 動物ふれあい・ポニー広場</span>
-                                <span class="badge badge-time">🕒 営業時間: 09:00～17:00 (遊覧トレイン運行)</span>
-                                <span class="badge badge-memo">💡 汽車型のロードトレインに乗って頂上の素晴らしい絶景を見に行ける、大人も子どもも大満足のスポットです。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.shinwanosato.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=道の駅+霧島+神話の里公園" target="_blank" class="spot-link">📍 Google MAP</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spot F -->
-                    <div class="timeline-item">
-                        <div class="spot-card">
-                            <div class="spot-name">⛩️ 霧島神宮</div>
-                            <div class="spot-desc">天孫降臨神話の主神を祀る、南九州最大の朱塗りの神秘的な社殿。深い森の木漏れ日の中、なだらかな美しいスロープ参道が整備されており、みんなで無理のない厳かなお参りが可能です。</div>
-                            <div class="meta-info">
-                                <span class="badge badge-adult">👴 スロープ参道あり</span>
-                                <span class="badge badge-time">🕒 24時間参拝可能</span>
-                                <span class="badge badge-memo">💡 神秘的な木漏れ日が差し込む美しい社殿で、旅の安全と家族みんなの健康をお祈りしましょう。</span>
-                            </div>
-                            <div class="links-group">
-                                <a href="https://www.kirishimajingu.or.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
-                                <a href="https://www.google.com/maps/search/?api=1&query=霧島神宮" target="_blank" class="spot-link">📍 Google MAP</a>
+        <!-- スケジュールコンテナ（当日が自動で一番上にスライド） -->
+        <div id="schedule-container">
+            <!-- 前夜祭 -->
+            <details class="day-section-details eve-theme" id="sec-eve">
+                <summary>🥩 前夜祭：家族みんなでスタミナ焼肉！（9/19 土）</summary>
+                <div class="details-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <span class="time">18:00</span>
+                            <div class="spot-card" onmouseenter="changeTheme('lunch')" onclick="changeTheme('lunch')">
+                                <div class="spot-name">🥩 味の大津屋（大津町）</div>
+                                <div class="spot-desc">翌朝の鹿児島出発に向けてスタミナ満点ディナー！美味しいお肉をたっぷり食べて元気にスタート！</div>
+                                <div class="meta-info">
+                                    <span class="badge badge-parking">🚐 平面駐車場50台（大型ワンボックス駐車容易）</span>
+                                    <span class="badge badge-time">🕒 11:00～22:00 (L.O. 21:30)</span>
+                                </div>
+                                <div class="links-group">
+                                    <a href="https://aji-ooduya.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=味の大津屋+大津町" target="_blank" class="spot-link">📍 Google MAP</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </details>
+            </details>
+
+            <!-- 1日目 -->
+            <details class="day-section-details day1-theme" id="sec-day1">
+                <summary>🚀 1日目：動物園・ロケット・天文館散策（9/20 日）</summary>
+                <div class="details-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <span class="time">06:30</span>
+                            <div class="spot-card">
+                                <div class="spot-name">🚐 熊本IC 出発</div>
+                                <div class="spot-desc">平川動物公園の9:00開園に合わせて出発！SAで適度に休憩を挟みつつ向かいましょう。</div>
+                            </div>
+                        </div>
+                        
+                        <div class="transit-block day1-transit">
+                            <span class="transit-badge">🚗 九州道経由: 約2時間15分 (約165km)</span>
+                        </div>
+
+                        <!-- 動物園 -->
+                        <div class="timeline-item">
+                            <span class="time">09:00</span>
+                            <div class="spot-card" onmouseenter="changeTheme('zoo')" onclick="changeTheme('zoo')">
+                                <div class="spot-name">🦁 平川動物公園</div>
+                                <div class="spot-desc">9:00オープンと同時に入園！活発なコアラやホワイトタイガーを観賞。園内は坂道があるため、入口で無料電動カートや車椅子を確保するのがおすすめ。お昼はレストラン等で自由ランチ！</div>
+                                <div class="meta-info">
+                                    <span class="badge badge-parking">🚐 大型平面駐車場630台完備（進入路も広幅）</span>
+                                    <span class="badge badge-memo">♿ 電動カート・車椅子無料貸出あり</span>
+                                    <span class="badge badge-memo">🚌 園内周遊バスあり</span>
+                                </div>
+                                
+                                <!-- クイズ：平川動物公園 -->
+                                <details class="spot-quiz">
+                                    <summary>💡 スポットクイズ：コアラの睡眠時間は？</summary>
+                                    <div class="spot-quiz-content">
+                                        Q. 国内最多頭数（約19頭）を誇る平川動物公園のコアラ。1日に何時間寝ている？
+                                        <div class="spot-quiz-ans">正解：約18〜20時間！ ユーカリの消化に体力を使うためほぼ寝ています。朝一番の時間は動いている姿が見られる大チャンス！</div>
+                                    </div>
+                                </details>
+
+                                <div class="links-group">
+                                    <a href="https://hirakawazoo.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                    <a href="https://hirakawazoo.jp/guide/barrierfree" target="_blank" class="spot-link">♿ バリアフリー・設備案内</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=鹿児島市平川動物公園" target="_blank" class="spot-link">📍 Google MAP</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transit-block day1-transit">
+                            <span class="transit-badge">🚗 車で第2駐車場へ直行: 約3分 (約1.5km)</span>
+                        </div>
+
+                        <!-- ロケット -->
+                        <div class="timeline-item">
+                            <span class="time">13:10</span>
+                            <div class="spot-card" onmouseenter="changeTheme('rocket')" onclick="changeTheme('rocket')">
+                                <div class="spot-name">🚀 錦江湾公園（ロケット広場）</div>
+                                <div class="spot-desc">高さ49mの実物大H-IIロケット模型！【攻略】北側の「第2駐車場」へ駐めると平坦な道で徒歩1〜2分でロケット足元に到着可能。階段や急坂を完全に回避できます。</div>
+                                <div class="meta-info">
+                                    <span class="badge badge-parking">🚐 第2駐車場（平坦・ロケットまで徒歩1分）</span>
+                                </div>
+
+                                <!-- クイズ：錦江湾公園 -->
+                                <details class="spot-quiz">
+                                    <summary>💡 スポットクイズ：ロケットの高さはビル何階分？</summary>
+                                    <div class="spot-quiz-content">
+                                        Q. 種子島から打ち上げられたH-IIロケットの実物大模型。高さ49mはビル何階分？
+                                        <div class="spot-quiz-ans">正解：およそビル15〜16階相当！ 真下から見上げると画面に収まらないほどの超ド迫力です。</div>
+                                    </div>
+                                </details>
+
+                                <div class="links-group">
+                                    <a href="https://www.kagoshima-yokanavi.jp/spot/10008" target="_blank" class="spot-link">🌐 観光情報</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=錦江湾公園+第2駐車場" target="_blank" class="spot-link">📍 Google MAP（第2駐車場）</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transit-block day1-transit">
+                            <span class="transit-badge">🚗 産業道路経由: 車で約45分 (約18km)</span>
+                            
+                            <details class="quest-details">
+                                <summary>💡【寄り道候補】時間にゆとりがあれば：名勝 仙巌園</summary>
+                                <div class="quest-content">
+                                    <div class="quest-title">
+                                        <span>🌿 名勝 仙巌園（両棒餅休憩）</span>
+                                        <label class="quest-checkbox"><input type="checkbox" onchange="triggerQuest(this, '仙巌園')"> クリア！</label>
+                                    </div>
+                                    <p class="spot-desc">桜島と錦江湾を望む大名庭園。名物「両棒餅」のおやつ休憩に最適！大型平面駐車場あり。</p>
+                                    <div class="meta-info">
+                                        <span class="badge badge-parking">🚐 大型対応平面駐車場あり</span>
+                                    </div>
+                                    <div class="links-group">
+                                        <a href="https://www.senganen.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                        <a href="https://www.google.com/maps/search/?api=1&query=名勝+仙巌園" target="_blank" class="spot-link">📍 MAP</a>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <!-- ホテル（16:00着） -->
+                        <div class="timeline-item">
+                            <span class="time">16:00</span>
+                            <div class="spot-card" onmouseenter="changeTheme('hotel')" onclick="changeTheme('hotel')">
+                                <div class="spot-name">🏨 温泉ホテル中原別荘 チェックイン</div>
+                                <div class="spot-desc">天然温泉宿にチェックイン！荷物を置き、まずは源泉掛け流しの温泉で足腰をじんわりほぐしましょう。敷地内平面駐車場を確保済み。</div>
+                                <div class="meta-info">
+                                    <span class="badge badge-parking">🚐 敷地内平面駐車場完備（ハイルーフ入庫可）</span>
+                                    <span class="badge badge-time">🕒 チェックイン: 16:00</span>
+                                </div>
+                                <div class="links-group">
+                                    <a href="https://nakahara-bessou.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=温泉ホテル中原別荘" target="_blank" class="spot-link">📍 Google MAP</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transit-block day1-transit">
+                            <span class="transit-badge">🚶 平坦な舗装路を徒歩約6分 (約450m)</span>
+                            
+                            <details class="quest-details">
+                                <summary>💡【寄り道候補】宿の目の前（徒歩3分）：照国神社</summary>
+                                <div class="quest-content">
+                                    <div class="quest-title">
+                                        <span>⛩️ 照国神社（散歩に最適）</span>
+                                        <label class="quest-checkbox"><input type="checkbox" onchange="triggerQuest(this, '照国神社')"> クリア！</label>
+                                    </div>
+                                    <p class="spot-desc">宿から天文館へ向かう途中に立ち寄れる神社。境内は完全に平坦で歩きやすく、白い大鳥居と美しい庭木が見事。</p>
+                                    <div class="links-group">
+                                        <a href="https://www.terukunijinja.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                        <a href="https://www.google.com/maps/search/?api=1&query=照国神社" target="_blank" class="spot-link">📍 MAP</a>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <!-- むじゃき -->
+                        <div class="timeline-item">
+                            <span class="time">16:45</span>
+                            <div class="spot-card">
+                                <div class="spot-name">🍧 天文館 散策（むじゃき本店 白熊など）</div>
+                                <div class="spot-desc">名物しろくまかき氷をみんなでシェア！アーケード内は屋根付き・完全フラットな舗装路なので安心して散策できます。車は宿に置いたまま徒歩で向かいます。</div>
+                                <div class="meta-info">
+                                    <span class="badge badge-time">🕒 むじゃき 11:00～19:00</span>
+                                </div>
+
+                                <!-- クイズ：むじゃき -->
+                                <details class="spot-quiz">
+                                    <summary>💡 スポットクイズ：「白熊」の名前の由来は？</summary>
+                                    <div class="spot-quiz-content">
+                                        Q. かき氷なのになぜ「白熊（しろくま）」と呼ばれるようになった？
+                                        <div class="spot-quiz-ans">正解：トッピングを上から見ると白熊の顔に見えたから！ 練乳の上にレーズンやチェリーを目・鼻・口のように配置したのが始まりです。</div>
+                                    </div>
+                                </details>
+
+                                <div class="links-group">
+                                    <a href="http://www.mujyaki.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=天文館むじゃき+本店" target="_blank" class="spot-link">📍 Google MAP</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transit-block day1-transit">
+                            <span class="transit-badge">🚶 のんびり宿へ戻る: 徒歩約6分</span>
+                        </div>
+
+                        <div class="timeline-item">
+                            <span class="time">18:30</span>
+                            <div class="spot-card">
+                                <div class="spot-name">🍱 温泉ホテル中原別荘にて夕食</div>
+                                <div class="spot-desc">夜は外出不要！宿の落ち着いたお席で鹿児島の郷土料理を満喫。気兼ねなくリラックスして過ごせます。</div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <span class="time">20:30</span>
+                            <div class="spot-card">
+                                <div class="spot-name">♨️ 天然温泉入浴・就寝</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- 2日目 -->
+            <details class="day-section-details day2-theme" id="sec-day2">
+                <summary>🎨 2日目：城山絶景・黒豚ランチ・霧島アートの旅（9/21 月・祝）</summary>
+                <div class="details-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <span class="time">09:30</span>
+                            <div class="spot-card">
+                                <div class="spot-name">🏨 中原別荘 チェックアウト・出発</div>
+                                <div class="spot-desc">朝食を食べて出発。城山観光道路（2車線快走路）を通って城山展望台へ！</div>
+                            </div>
+                        </div>
+
+                        <div class="transit-block day2-transit">
+                            <span class="transit-badge">🚗 車で約10〜15分 (約2.5km)</span>
+                        </div>
+
+                        <!-- 城山展望台 -->
+                        <div class="timeline-item">
+                            <span class="time">09:45</span>
+                            <div class="spot-card" onmouseenter="changeTheme('view')" onclick="changeTheme('view')">
+                                <div class="spot-name">⛰️ 城山展望台（滞在目安: 〜10:35）</div>
+                                <div class="spot-desc">大迫力の桜島と鹿児島市街地を一望！大型観光バスも駐車できる平面駐車場完備。駐車場から展望台までは平坦な遊歩道です。10:35に出発すれば11:30には国分店へ余裕で到着します！</div>
+                                <div class="meta-info">
+                                    <span class="badge badge-parking">🚐 無料平面駐車場40台（大型枠あり）</span>
+                                    <span class="badge badge-time">🕒 見学自由（約50分滞在）</span>
+                                </div>
+
+                                <!-- クイズ：城山展望台 -->
+                                <details class="spot-quiz">
+                                    <summary>💡 スポットクイズ：桜島で光る珍しい現象とは？</summary>
+                                    <div class="spot-quiz-content">
+                                        Q. 桜島が噴火した際、噴煙の中で稲妻が光る世界的に珍しい現象の名前は？
+                                        <div class="spot-quiz-ans">正解：火山雷（かざんらい）！ 火山灰や岩石の粒が激しくこすれ合って静電気が起き、雷が発生します。</div>
+                                    </div>
+                                </details>
+
+                                <div class="links-group">
+                                    <a href="https://www.kagoshima-yokanavi.jp/spot/10002" target="_blank" class="spot-link">🌐 観光情報</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=城山展望台+鹿児島" target="_blank" class="spot-link">📍 Google MAP</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transit-block day2-transit">
+                            <span class="transit-badge">🚗 鹿児島北IC➔隼人東ICまたは国分IC（高速）: 車で約50分 (約45km)</span>
+                        </div>
+
+                        <!-- 昼食：11:30着目標・11:45予約 -->
+                        <div class="timeline-item">
+                            <span class="time">11:30</span>
+                            <div class="spot-card" onmouseenter="changeTheme('lunch')" onclick="changeTheme('lunch')">
+                                <div class="spot-name">🍲 遊食豚彩いちにいさん 国分店 (昼食)</div>
+                                <div class="spot-desc">【11:45〜席予約済み】11:30到着でゆったり駐車。名物の極上黒豚しゃぶしゃぶ＆黒豚とんかつ！広い平面駐車場でハイエースも楽々入庫できます。</div>
+                                <div class="meta-info">
+                                    <span class="badge badge-parking">🚐 店舗前平面駐車場35台（高さ制限なし）</span>
+                                    <span class="badge badge-time">🕒 11:45 予約済み（11:30着）</span>
+                                </div>
+
+                                <!-- クイズ：いちにいさん -->
+                                <details class="spot-quiz">
+                                    <summary>💡 スポットクイズ：なぜ「そばつゆ」で食べる？</summary>
+                                    <div class="spot-quiz-content">
+                                        Q. いちにいさん名物の黒豚しゃぶ。ポン酢ではなく「そばつゆ」で味わう理由は？
+                                        <div class="spot-quiz-ans">正解：創業母体が日本そば屋（そば茶屋吹上庵）だったから！ 上質な鹿児島黒豚の甘みと旨味を一番引き立てる秘伝のつゆです。</div>
+                                    </div>
+                                </details>
+
+                                <div class="links-group">
+                                    <a href="https://ichiniisan.jp/access/kokubu/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=遊食豚彩いちにいさん+国分店" target="_blank" class="spot-link">📍 Google MAP</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transit-block day2-transit">
+                            <span class="transit-badge">🚗 国分から霧島山麓・栗野方面へ（県道快走路）: 車で約45分 (約28km)</span>
+
+                            <details class="quest-details">
+                                <summary>💡【寄り道候補】アートの森の手前：霧島神宮</summary>
+                                <div class="quest-content">
+                                    <div class="quest-title">
+                                        <span>⛩️ 霧島神宮</span>
+                                        <label class="quest-checkbox"><input type="checkbox" onchange="triggerQuest(this, '霧島神宮')"> クリア！</label>
+                                    </div>
+                                    <p class="spot-desc">南九州最大の朱塗りの社殿。大型平面大駐車場（500台）あり。</p>
+                                    <div class="meta-info">
+                                        <span class="badge badge-parking">🚐 大平面駐車場500台</span>
+                                    </div>
+                                    <div class="links-group">
+                                        <a href="https://www.kirishimajingu.or.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                        <a href="https://www.google.com/maps/search/?api=1&query=霧島神宮" target="_blank" class="spot-link">📍 MAP</a>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <!-- 霧島アートの森 -->
+                        <div class="timeline-item">
+                            <span class="time">13:30</span>
+                            <div class="spot-card highlight-spot-card" onmouseenter="changeTheme('art')" onclick="changeTheme('art')">
+                                <div class="spot-name">🎨 霧島アートの森</div>
+                                <div class="spot-desc">広大な森の中に野外彫刻が並ぶ芸術の森！草間彌生氏の巨大彫刻など見どころ多数。大型平面駐車場からエントランスまでフラットにアプローチできます。</div>
+                                <div class="meta-info">
+                                    <span class="badge badge-parking">🚐 無料大平面駐車場200台</span>
+                                    <span class="badge badge-replica">📸 昔の写真と同じポーズで再現撮影！</span>
+                                </div>
+
+                                <!-- クイズ：アートの森 -->
+                                <details class="spot-quiz">
+                                    <summary>💡 スポットクイズ：草間彌生作品「シャングリラ」の意味は？</summary>
+                                    <div class="spot-quiz-content">
+                                        Q. 入口にある草間彌生氏の代表作「シャングリラの華」。“シャングリラ”とはどんな意味？
+                                        <div class="spot-quiz-ans">正解：「不老不死の桃源郷（理想郷）」！ 生命・魂・希望を表した極彩色の花で、同じポーズでの記念撮影がSNSで大人気です。</div>
+                                    </div>
+                                </details>
+
+                                <div class="links-group">
+                                    <a href="https://open-air-museum.org/" target="_blank" class="spot-link">🌐 公式サイト</a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=鹿児島県立霧島アートの森" target="_blank" class="spot-link">📍 Google MAP</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="transit-block day2-transit">
+                            <span class="transit-badge">🚗 栗野ICへ向かう途中 (車で約15分)</span>
+
+                            <details class="quest-details" open>
+                                <summary>💡【アートの森すぐ近くの特選寄り道】名水百選 丸池湧水</summary>
+                                <div class="quest-content">
+                                    <div class="quest-title">
+                                        <span>🌊 名水百選 丸池湧水（まるいけゆうすい）</span>
+                                        <label class="quest-checkbox"><input type="checkbox" onchange="triggerQuest(this, '丸池湧水')"> クリア！</label>
+                                    </div>
+                                    <p class="spot-desc">アートの森から車で約15分。駐車場から池まで段差なしの平坦路。澄み切った水面とベンチで爽やかなひと休み！大型駐車場完備。</p>
+                                    <div class="meta-info">
+                                        <span class="badge badge-parking">🚐 平面駐車場あり（ICすぐ手前）</span>
+                                    </div>
+                                    <div class="links-group">
+                                        <a href="https://www.google.com/maps/search/?api=1&query=丸池湧水+湧水町" target="_blank" class="spot-link">📍 Google MAP</a>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="transit-block day2-transit">
+                            <span class="transit-badge">🚗 栗野ICから九州道で熊本へ: 車で約1時間25分 (約105km)</span>
+                        </div>
+
+                        <div class="timeline-item">
+                            <span class="time">16:45</span>
+                            <div class="spot-card">
+                                <div class="spot-name">🏁 熊本IC 到着・解散</div>
+                                <div class="spot-desc">お疲れ様でした！たくさんの笑顔と思い出写真を胸に、安全運転で帰りましょう🚐</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
     </div>
 
-    <!-- バリアフリー対応文字サイズコントローラーのUI -->
+    <!-- 文字サイズコントローラー -->
     <div class="font-size-controller">
         <span class="controller-label">文字サイズ:</span>
         <button onclick="toggleFontSize('normal')" id="btn-fs-normal" class="fs-btn active">標準</button>
         <button onclick="toggleFontSize('large')" id="btn-fs-large" class="fs-btn">大きめ</button>
     </div>
 
+    <!-- 紙吹雪キャンバス -->
+    <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99999;"></canvas>
+
     <script>
-        // カウントダウン処理
         const targetDate = new Date('2026-09-20T00:00:00');
         const diffDays = Math.ceil((targetDate - new Date()) / (1000 * 60 * 60 * 24));
         document.getElementById('countdown').innerText = diffDays > 0 ? `⏳ 旅の始まりまで あと ${diffDays} 日！` : "🎉 ついに当日！";
 
-        // 文字サイズ切り替え処理 (ローカルストレージに状態保存)
+        // スポット連動ダイナミック背景切り替え
+        function changeTheme(themeName) {
+            document.body.className = document.body.className.replace(/theme-[a-z]+/g, '');
+            if (themeName) {
+                document.body.classList.add('theme-' + themeName);
+            }
+        }
+
+        // 日付連動スマートソート
+        function autoSortAndStatus() {
+            const now = new Date();
+            const month = now.getMonth() + 1;
+            const date = now.getDate();
+            const hour = now.getHours();
+            const min = now.getMinutes();
+            const currentMinutes = hour * 60 + min;
+
+            const container = document.getElementById('schedule-container');
+            const secEve = document.getElementById('sec-eve');
+            const secDay1 = document.getElementById('sec-day1');
+            const secDay2 = document.getElementById('sec-day2');
+
+            const currEl = document.getElementById('live-current-status');
+            const nextEl = document.getElementById('live-next-status');
+
+            if (month === 9 && date === 19) {
+                container.appendChild(secEve);
+                container.appendChild(secDay1);
+                container.appendChild(secDay2);
+                secEve.open = true;
+                secDay1.open = false;
+                secDay2.open = false;
+
+                if (currentMinutes < 18 * 60) {
+                    currEl.innerText = "⏳ 前夜祭の準備中：もうすぐ焼肉です！";
+                    nextEl.innerHTML = "次の予定：<strong>18:00 味の大津屋（焼肉ディナー）</strong>";
+                } else {
+                    currEl.innerText = "🥩 味の大津屋でスタミナ満喫中！";
+                    nextEl.innerHTML = "次の予定：<strong>明朝 06:30 熊本IC出発</strong>";
+                }
+            } 
+            else if (month === 9 && date === 20) {
+                container.appendChild(secDay1);
+                container.appendChild(secDay2);
+                container.appendChild(secEve);
+                secDay1.open = true;
+                secDay2.open = false;
+                secEve.open = false;
+
+                if (currentMinutes < 6 * 60 + 30) {
+                    currEl.innerText = "🌅 おはようございます！もうすぐ出発です";
+                    nextEl.innerHTML = "次の予定：<strong>06:30 熊本IC出発</strong>";
+                } else if (currentMinutes < 9 * 60) {
+                    currEl.innerText = "🚐 鹿児島へ向けて高速ドライブ中！";
+                    nextEl.innerHTML = "次の予定：<strong>09:00 平川動物公園 開園！</strong>";
+                } else if (currentMinutes < 13 * 60 + 10) {
+                    currEl.innerText = "🦁 いまココ：平川動物公園（コアラ・ホワイトタイガー）";
+                    nextEl.innerHTML = "次の予定：<strong>13:10 錦江湾公園（実物大ロケット広場）</strong>";
+                } else if (currentMinutes < 16 * 60) {
+                    currEl.innerText = "🚀 いまココ：錦江湾公園（大迫力ロケット写真撮影！）";
+                    nextEl.innerHTML = "次の予定：<strong>16:00 温泉ホテル中原別荘 チェックイン</strong>";
+                } else if (currentMinutes < 16 * 60 + 45) {
+                    currEl.innerText = "🏨 いまココ：中原別荘チェックイン・温泉でひと息♨️";
+                    nextEl.innerHTML = "次の予定：<strong>16:45 天文館散策（むじゃき白熊）</strong>";
+                } else {
+                    currEl.innerText = "🍧 いまココ：天文館散策 ➔ ホテルで夕食";
+                    nextEl.innerHTML = "次の予定：<strong>18:30 ホテル中原別荘にて夕食</strong>";
+                }
+            }
+            else if (month === 9 && date === 21) {
+                container.appendChild(secDay2);
+                container.appendChild(secDay1);
+                container.appendChild(secEve);
+                secDay2.open = true;
+                secDay1.open = false;
+                secEve.open = false;
+
+                if (currentMinutes < 9 * 60 + 30) {
+                    currEl.innerText = "🍳 2日目の朝！朝食を食べて準備中";
+                    nextEl.innerHTML = "次の予定：<strong>09:30 出発 ➔ 城山展望台へ</strong>";
+                } else if (currentMinutes < 10 * 60 + 35) {
+                    currEl.innerText = "⛰️ いまココ：城山展望台（桜島の大パノラマ！）";
+                    nextEl.innerHTML = "次の予定：<strong>11:30 いちにいさん国分店（11:45予約）</strong>";
+                } else if (currentMinutes < 13 * 60 + 30) {
+                    currEl.innerText = "🍲 いまココ：いちにいさん国分店（黒豚ランチ！）";
+                    nextEl.innerHTML = "次の予定：<strong>13:30 霧島アートの森</strong>";
+                } else {
+                    currEl.innerText = "🎨 いまココ：霧島アートの森 ➔ 丸池湧水へ";
+                    nextEl.innerHTML = "次の予定：<strong>16:45 熊本IC 到着・解散</strong>";
+                }
+            }
+            else {
+                container.appendChild(secEve);
+                container.appendChild(secDay1);
+                container.appendChild(secDay2);
+                secEve.open = false;
+                secDay1.open = false;
+                secDay2.open = false;
+                currEl.innerText = "⏳ 旅のカウントダウン中：準備はバッチリ？";
+                nextEl.innerHTML = "最初の予定：<strong>9/19(土) 18:00 味の大津屋（前夜祭）</strong>";
+            }
+        }
+
         function toggleFontSize(size) {
             const body = document.body;
             const btnNormal = document.getElementById('btn-fs-normal');
             const btnLarge = document.getElementById('btn-fs-large');
-            
             if (size === 'large') {
                 body.classList.add('large-text');
                 btnLarge.classList.add('active');
@@ -811,13 +970,61 @@
             }
         }
 
-        // 初期読み込み時の設定復元
         window.addEventListener('DOMContentLoaded', () => {
-            const savedSize = localStorage.getItem('shiori-fontsize');
-            if (savedSize === 'large') {
-                toggleFontSize('large');
-            }
+            if (localStorage.getItem('shiori-fontsize') === 'large') toggleFontSize('large');
+            autoSortAndStatus();
+            setInterval(autoSortAndStatus, 60000);
         });
+
+        function triggerQuest(checkbox, spotName) {
+            if (checkbox.checked) {
+                launchConfetti();
+                setTimeout(() => alert(`🎉 寄り道クエスト【${spotName}】達成！ナイスチョイス！`), 300);
+            }
+        }
+
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const pieces = [];
+            const colors = ['#2b6cb0', '#b83280', '#dd6b20', '#ecc94b', '#38a169'];
+            for (let i = 0; i < 65; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 8 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    velY: Math.random() * 3.5 + 2.5,
+                    velX: (Math.random() - 0.5) * 2.5,
+                    rot: Math.random() * 360
+                });
+            }
+
+            let frame = 0;
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    p.y += p.velY;
+                    p.x += p.velX;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rot * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                });
+                frame++;
+                if (frame < 125) {
+                    requestAnimationFrame(render);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            render();
+        }
     </script>
 </body>
 </html>
