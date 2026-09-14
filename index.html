@@ -42,36 +42,49 @@
         body.theme-lunch { background: radial-gradient(circle at 50% 100%, #feebc8 0%, #fffaf0 50%, #f7fafc 80%); }
         body.theme-art { background: radial-gradient(circle at 50% 100%, #e9d8fd 0%, #fff5f7 50%, #f7fafc 80%); }
         
-        /* ポップ＆写真が映えるヘッダーデザイン */
+        /* ポップなヘッダー */
         header { 
             position: relative;
             text-align: center; 
-            padding: 16px 16px 24px; 
+            padding: 24px 16px 30px; 
             color: white;
             border-bottom-left-radius: 28px;
             border-bottom-right-radius: 28px;
             overflow: hidden;
             box-shadow: 0 6px 25px rgba(0, 180, 216, 0.25);
+            background: #0077b6; 
         }
+        
         .header-bg-slide {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
             opacity: 0;
             transition: opacity 1.2s ease-in-out;
             z-index: 0;
-            transform: scale(1.04);
+            overflow: hidden;
         }
         .header-bg-slide.active { opacity: 1; }
-        .header-overlay {
+
+        .bg-gradient-1 { background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%); }
+        .bg-gradient-2 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .bg-gradient-3 { background: linear-gradient(135deg, #b83280 0%, #ed64a6 100%); }
+
+        .floating-emoji {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(0, 180, 216, 0.62), rgba(255, 117, 140, 0.68));
-            z-index: 1;
+            opacity: 0.35; 
+            animation: float 8s ease-in-out infinite alternate;
+            user-select: none;
+        }
+        .e1 { top: -5%; left: 5%; font-size: 6rem; animation-delay: 0s; }
+        .e2 { top: 40%; left: 75%; font-size: 5.5rem; animation-delay: -2s; }
+        .e3 { top: 60%; left: -5%; font-size: 7rem; animation-delay: -4s; }
+        .e4 { top: 5%; left: 60%; font-size: 4.5rem; animation-delay: -1s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(-5deg); }
+            100% { transform: translate(15px, 20px) rotate(8deg) scale(1.05); }
         }
 
-        /* ヘッダー最上部の独立コントロールバー（被り防止） */
         .header-top-bar {
             position: relative;
             z-index: 2;
@@ -80,19 +93,21 @@
             margin-bottom: 8px;
         }
         .quiz-launcher-btn {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             border: none;
-            color: #0077b6;
+            color: #d90429;
             font-size: 0.74rem;
             font-weight: 800;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
         }
+        .quiz-launcher-btn:active { transform: scale(0.95); }
 
         .header-content {
             position: relative;
@@ -114,7 +129,7 @@
             opacity: 0.98; 
             font-weight: 700;
             letter-spacing: 0.02em;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
 
         .container { max-width: 520px; margin: 0 auto; padding: 0 14px; }
@@ -122,13 +137,14 @@
         /* 天候 ＆ 時間別雨予報カード */
         .weather-status-card {
             background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(10px);
             border: 1px solid #e2e8f0;
             border-radius: 16px;
             padding: 10px 14px;
-            margin-top: 10px;
+            margin-top: -15px; 
             margin-bottom: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            position: relative;
+            z-index: 3;
         }
         .weather-top-row {
             display: flex;
@@ -164,10 +180,9 @@
         .forecast-time { color: #718096; font-weight: 700; display: block; }
         .forecast-pop { color: #0077b6; font-weight: 800; display: block; margin-top: 1px; }
 
-        /* リアルタイム現在地 ＆ 翌日予告 */
+        /* リアルタイム現在地ガイド ＆ 翌日予告 */
         .live-status-card {
             background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(10px);
             border: 1.5px solid rgba(0, 180, 216, 0.3);
             border-radius: 16px;
             padding: 12px 14px;
@@ -184,9 +199,7 @@
             display: inline-block;
             margin-bottom: 4px;
         }
-        .live-tag.tomorrow-tag {
-            background: #d90429;
-        }
+        .live-tag.tomorrow-tag { background: #d90429; }
         .live-current {
             font-size: 0.96rem;
             font-weight: 800;
@@ -202,7 +215,6 @@
         
         .dashboard-card { 
             background: rgba(255, 255, 255, 0.96); 
-            backdrop-filter: blur(10px);
             border-radius: 18px; 
             padding: 14px; 
             margin-bottom: 14px; 
@@ -238,8 +250,21 @@
             font-size: 0.82rem; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.03);
             border: 1px solid #e2e8f0;
+            cursor: pointer;
         }
         .btn:active { background: #edf2f7; }
+
+        /* 思い出フォトメーカー ハイライトボタン */
+        .btn-photo {
+            background: linear-gradient(135deg, #00b4d8, #ff758c);
+            color: white;
+            border: none;
+            grid-column: span 2;
+            padding: 12px 8px;
+        }
+        .btn-photo:active {
+            background: linear-gradient(135deg, #0096c7, #ff4d6d);
+        }
 
         #schedule-container {
             display: flex;
@@ -390,8 +415,6 @@
         }
         .badge-time { background: #edf2f7; color: #4a5568; }
         .badge-parking { background: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; }
-        .badge-memo { background: #ebf8ff; color: #2b6cb0; }
-        .badge-replica { background: #fff0f6; color: #d53f8c; border: 1px solid #fbb6ce; }
         .badge-sa { background: #fffaf0; color: #dd6b20; border: 1px solid #feebc8; font-weight: 800; }
 
         .links-group {
@@ -427,7 +450,6 @@
             color: #cbd5e0;
         }
 
-        /* 寄り道・SA専用ノード */
         .quest-node {
             background: #f0fff4 !important;
             border: 1px dashed #38a169 !important;
@@ -460,13 +482,14 @@
             align-items: center;
             justify-content: space-between;
         }
-        .sa-content {
+        .sa-content, .quest-content {
             padding: 8px 10px;
             background: white;
             border-top: 1px dashed #feebc8;
             font-size: 0.76rem;
             line-height: 1.5;
         }
+        .quest-content { border-color: #c6f6d5; }
 
         /* クイックメモ帳 */
         .memo-details {
@@ -524,19 +547,19 @@
             100% { transform: translate(var(--dx), var(--dy)) scale(1.3); opacity: 0; }
         }
 
-        /* クイズモーダル */
-        .quiz-modal {
+        /* 共通モーダル設定 */
+        .full-modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(8px);
             z-index: 999999;
             overflow-y: auto;
             padding: 20px 14px 40px;
             animation: fadeIn 0.25s ease-out;
         }
-        .quiz-modal-card {
+        .modal-card {
             max-width: 480px;
             margin: 0 auto;
             background: #ffffff;
@@ -544,7 +567,7 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.25);
             overflow: hidden;
         }
-        .quiz-modal-header {
+        .modal-header {
             background: linear-gradient(135deg, #00b4d8, #ff758c);
             color: white;
             padding: 16px 18px;
@@ -552,8 +575,8 @@
             align-items: center;
             justify-content: space-between;
         }
-        .quiz-modal-header h2 { font-size: 1.05rem; font-weight: 800; }
-        .quiz-close-btn {
+        .modal-header h2 { font-size: 1.05rem; font-weight: 800; }
+        .modal-close-btn {
             background: rgba(255, 255, 255, 0.25);
             border: none;
             color: white;
@@ -565,12 +588,14 @@
             align-items: center;
             justify-content: center;
         }
-        .quiz-modal-body {
+        .modal-body {
             padding: 16px 14px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
+
+        /* クイズモーダル固有 */
         .quiz-item-box {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
@@ -609,18 +634,81 @@
             font-weight: 700;
             line-height: 1.5;
         }
+
+        /* 思い出フォトメーカー固有 */
+        .photo-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #2b6cb0, #b83280);
+            color: white;
+            padding: 14px;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(43,108,176,0.3);
+            margin: 10px 0;
+        }
+        .photo-upload-label input { display: none; }
+        .photo-preview-container {
+            display: none;
+            margin-top: 16px;
+            text-align: center;
+        }
+        .photo-preview-img {
+            max-width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .photo-download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #38a169;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            text-decoration: none;
+            margin-top: 16px;
+            box-shadow: 0 4px 12px rgba(56,161,105,0.3);
+        }
+        .photo-hint {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-top: 10px;
+        }
+        canvas#photo-canvas { display: none; }
+
     </style>
 </head>
 <body>
     <header>
-        <div class="header-bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1578637387939-43c525550085?auto=format&fit=crop&w=800&q=80');"></div>
-        <div class="header-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80');"></div>
-        <div class="header-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1517824806704-9040b037703b?auto=format&fit=crop&w=800&q=80');"></div>
-        <div class="header-overlay"></div>
+        <div class="header-bg-slide active bg-gradient-1">
+            <div class="floating-emoji e1">🌋</div>
+            <div class="floating-emoji e2">🌊</div>
+            <div class="floating-emoji e3">♨️</div>
+            <div class="floating-emoji e4">🍊</div>
+        </div>
+        <div class="header-bg-slide bg-gradient-2">
+            <div class="floating-emoji e1">🐨</div>
+            <div class="floating-emoji e2">🚀</div>
+            <div class="floating-emoji e3">🦁</div>
+            <div class="floating-emoji e4">🐯</div>
+        </div>
+        <div class="header-bg-slide bg-gradient-3">
+            <div class="floating-emoji e1">🍧</div>
+            <div class="floating-emoji e2">🐷</div>
+            <div class="floating-emoji e3">🎨</div>
+            <div class="floating-emoji e4">⛩️</div>
+        </div>
         
-        <!-- 最上部独立バー：文字被り解消 -->
         <div class="header-top-bar">
-            <button class="quiz-launcher-btn" onclick="openQuizModal()">🎮 クイズ (全8問)</button>
+            <button class="quiz-launcher-btn" onclick="openQuizModal()">🎮 クイズ (全14問)</button>
         </div>
 
         <div class="header-content">
@@ -651,12 +739,13 @@
             <div class="live-next" id="live-next-status">次の予定：<strong>9/19(土) 19:00 味の大津屋</strong></div>
         </div>
 
-        <!-- 全体MAP -->
+        <!-- 全体MAP ＆ カメラ機能 -->
         <div class="dashboard-card">
             <div class="countdown" id="countdown">旅行の始まりまであと少し！</div>
             <div class="quick-links">
                 <a href="https://www.google.com/maps/dir/熊本IC/平川動物公園/錦江湾公園/温泉ホテル中原別荘/天文館むじゃき+本店" target="_blank" class="btn">🗺️ 1日目 全体MAP</a>
                 <a href="https://www.google.com/maps/dir/温泉ホテル中原別荘/城山展望台/遊食豚彩いちにいさん+国分店/鹿児島県立霧島アートの森/丸池湧水/熊本IC" target="_blank" class="btn">🗺️ 2日目 全体MAP</a>
+                <button class="btn btn-photo" onclick="openPhotoModal()">📸 思い出フォトフレームをつくる</button>
             </div>
         </div>
 
@@ -708,7 +797,7 @@
                                     <span class="spot-arrow">▼</span>
                                 </summary>
                                 <div class="spot-body">
-                                    <div class="spot-desc">平川動物公園の9:00開園に合わせて出発！九州道を南下し、適度にSAで休憩を挟みつつ向かいます。</div>
+                                    <div class="spot-desc">平川動物公園の9:00開園に合わせて出発！適度にSAで休憩を挟みつつ向かいます。</div>
                                 </div>
                             </details>
                         </div>
@@ -852,7 +941,7 @@
                         <div class="transit-flow">🚶 徒歩約6分</div>
 
                         <div class="flow-item">
-                            <details class="spot-node">
+                            <details class="spot-node" onclick="triggerSpot(this, '🍱', '')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">18:30</span>
@@ -890,7 +979,7 @@
                 <div class="details-content">
                     <div class="flow-timeline">
                         <div class="flow-item">
-                            <details class="spot-node">
+                            <details class="spot-node" onclick="triggerSpot(this, '🏨', '')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">09:30</span>
@@ -1016,7 +1105,7 @@
                         <div class="transit-flow">🚗 栗野ICから九州道で熊本へ: 車で約1時間25分 (約105km)</div>
 
                         <div class="flow-item">
-                            <details class="spot-node">
+                            <details class="spot-node" onclick="triggerSpot(this, '🏁', '')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">16:45</span>
@@ -1047,14 +1136,14 @@
         </div>
     </div>
 
-    <!-- クイズモーダル -->
-    <div class="quiz-modal" id="quizModal">
-        <div class="quiz-modal-card">
-            <div class="quiz-modal-header">
-                <h2>🎮 鹿児島ご当地トリビアクイズ</h2>
-                <button class="quiz-close-btn" onclick="closeQuizModal()">✕</button>
+    <!-- 別UI：全画面クイズモーダル -->
+    <div class="full-modal" id="quizModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>🎮 鹿児島・道中トリビアクイズ (全14問)</h2>
+                <button class="modal-close-btn" onclick="closeQuizModal()">✕</button>
             </div>
-            <div class="quiz-modal-body">
+            <div class="modal-body">
                 <div class="quiz-item-box">
                     <span class="quiz-item-tag">🦁 平川動物公園</span>
                     <div class="quiz-item-q">Q1. 国内最多頭数（約19頭）のコアラ。1日に何時間寝ている？</div>
@@ -1070,49 +1159,119 @@
                 </div>
 
                 <div class="quiz-item-box">
+                    <span class="quiz-item-tag">♨️ 平川動物公園</span>
+                    <div class="quiz-item-q">Q3. 日本の動物園でも珍しい、平川動物公園の中にある「ある施設」とは？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：天然温泉の「足湯」！ 動物たちを見ながら、歩き疲れた足を癒やせます。</div>
+                </div>
+
+                <div class="quiz-item-box">
                     <span class="quiz-item-tag">🚀 錦江湾公園</span>
-                    <div class="quiz-item-q">Q3. 実物大H-IIロケットの高さ49mは、ビルでおよそ何階分？</div>
+                    <div class="quiz-item-q">Q4. 実物大H-IIロケットの高さ49mは、ビルでおよそ何階分？</div>
                     <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
                     <div class="quiz-ans-text">正解：ビル約15〜16階相当！ 種子島宇宙センターから打ち上げられた本物と同スケールの大迫力です。</div>
                 </div>
 
                 <div class="quiz-item-box">
                     <span class="quiz-item-tag">🍧 天文館むじゃき</span>
-                    <div class="quiz-item-q">Q4. かき氷なのに、なぜ「白熊」と呼ばれるようになった？</div>
+                    <div class="quiz-item-q">Q5. かき氷なのに、なぜ「白熊」と呼ばれるようになった？</div>
                     <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
                     <div class="quiz-ans-text">正解：トッピングを上から見ると白熊の顔に見えたから！ 練乳の上にフルーツを目や鼻のように配置したのが始まりです。</div>
                 </div>
 
                 <div class="quiz-item-box">
                     <span class="quiz-item-tag">⛰️ 城山展望台</span>
-                    <div class="quiz-item-q">Q5. 桜島の噴火時、噴煙の中で稲妻が光る世界的に珍しい現象の名前は？</div>
+                    <div class="quiz-item-q">Q6. 桜島の噴火時、噴煙の中で稲妻が光る世界的に珍しい現象の名前は？</div>
                     <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
                     <div class="quiz-ans-text">正解：火山雷（かざんらい）！ 火山灰や岩石の摩擦で静電気が起き、雷が発生する迫力の自然現象です。</div>
                 </div>
 
                 <div class="quiz-item-box">
                     <span class="quiz-item-tag">🍲 遊食豚彩いちにいさん</span>
-                    <div class="quiz-item-q">Q6. 黒豚しゃぶをポン酢ではなく「そばつゆ」で食べる理由は？</div>
+                    <div class="quiz-item-q">Q7. 黒豚しゃぶをポン酢ではなく「そばつゆ」で食べる理由は？</div>
                     <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
                     <div class="quiz-ans-text">正解：創業母体が日本そば屋（吹上庵）だったから！ 上質な鹿児島黒豚の甘みを最も引き立てる秘伝のつゆです。</div>
                 </div>
 
                 <div class="quiz-item-box">
                     <span class="quiz-item-tag">🎨 霧島アートの森</span>
-                    <div class="quiz-item-q">Q7. 入口にある草間彌生氏の作品「シャングリラの華」のシャングリラとは？</div>
+                    <div class="quiz-item-q">Q8. 入口にある草間彌生氏の作品「シャングリラの華」のシャングリラとは？</div>
                     <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
                     <div class="quiz-ans-text">正解：不老不死の桃源郷（理想郷）！ 生命・希望を表した花で、同じポーズでの撮影がSNSで大人気です。</div>
                 </div>
 
                 <div class="quiz-item-box">
                     <span class="quiz-item-tag">🌊 丸池湧水</span>
-                    <div class="quiz-item-q">Q8. 日本名水百選の丸池湧水、1日に湧き出る水の量はどれくらい？</div>
+                    <div class="quiz-item-q">Q9. 日本名水百選の丸池湧水、1日に湧き出る水の量はどれくらい？</div>
                     <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
                     <div class="quiz-ans-text">正解：約6万トン！ 町民の生活水としても使われるほど澄み切っており、底まで透き通って見えます。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🌋 桜島</span>
+                    <div class="quiz-item-q">Q10. 世界一重い大根「桜島大根」。ギネス記録の重さはどれくらい？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：約31.1kg！ 小学生の子供一人分くらいの重さがあります。桜島の火山灰土壌が巨大な大根を育てます。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🍢 鹿児島グルメ</span>
+                    <div class="quiz-item-q">Q11. 鹿児島名物の「さつま揚げ」、地元鹿児島では何と呼ばれている？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：つけあげ！ 琉球（沖縄）から伝わった「チキアギ」という揚げ物がなまって「つけあげ」になったと言われています。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🐷 黒豚</span>
+                    <div class="quiz-item-q">Q12. 鹿児島純粋黒豚は、体にある白い模様の特徴から何と呼ばれている？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：六白（ろっぱく）黒豚！ 鼻先、しっぽの先、4本の足先の計6箇所が白いのが本物の純粋黒豚の証拠です。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🗣️ 鹿児島弁</span>
+                    <div class="quiz-item-q">Q13. 鹿児島弁で「ありがとう」は次のうちどれ？（1.おきに 2.だんだん 3.あいがとさげもす）</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：3. あいがとさげもす！ お店の人に言ってみると喜ばれるかもしれません。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🐕 偉人</span>
+                    <div class="quiz-item-q">Q14. 鹿児島を代表する偉人・西郷隆盛の銅像が連れている愛犬の名前は？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：ツン！ ウサギ狩りが得意な薩摩犬という犬種でした。</div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- 別UI：思い出フォトメーカー -->
+    <div class="full-modal" id="photoModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>📸 思い出フォトフレーム</h2>
+                <button class="modal-close-btn" onclick="closePhotoModal()">✕</button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p style="font-size:0.84rem; color:#4a5568; margin-bottom:12px;">スマホの写真に「鹿児島旅行 2026」のオリジナルフレームとスタンプを合成します！</p>
+                
+                <label class="photo-upload-label">
+                    📸 写真を撮る / 選ぶ
+                    <input type="file" accept="image/*" id="photo-upload-input" onchange="handlePhotoUpload(event)">
+                </label>
+
+                <div class="photo-preview-container" id="photo-preview-container">
+                    <img id="photo-preview-img" class="photo-preview-img" alt="合成プレビュー">
+                    <br>
+                    <a id="photo-download-btn" class="photo-download-btn">⬇️ スマホに保存する</a>
+                    <p class="photo-hint">※保存ボタンが効かない場合は、写真を長押しして「写真に追加（保存）」してください。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 写真合成用隠しキャンバス -->
+    <canvas id="photo-canvas"></canvas>
 
     <script>
         const targetDate = new Date('2026-09-20T00:00:00');
@@ -1228,6 +1387,7 @@
             }
         }
 
+        /* クイズ制御 */
         function openQuizModal() {
             document.getElementById('quizModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
@@ -1249,6 +1409,80 @@
             }
         }
 
+        /* フォトフレーム制御 */
+        function openPhotoModal() {
+            document.getElementById('photoModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+        function closePhotoModal() {
+            document.getElementById('photoModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.getElementById('photo-preview-container').style.display = 'none';
+            document.getElementById('photo-upload-input').value = '';
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.getElementById('photo-canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const targetWidth = 1080;
+                    const scale = targetWidth / img.width;
+                    const targetHeight = img.height * scale;
+                    
+                    canvas.width = targetWidth;
+                    canvas.height = targetHeight;
+                    
+                    // 写真を描画
+                    ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+                    
+                    // 黒グラデーション帯
+                    const grad = ctx.createLinearGradient(0, targetHeight - 160, 0, targetHeight);
+                    grad.addColorStop(0, 'rgba(0,0,0,0)');
+                    grad.addColorStop(1, 'rgba(0,0,0,0.85)');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, targetHeight - 160, targetWidth, 160);
+                    
+                    // テキスト（メインタイトル）
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 46px sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('KAGOSHIMA FAMILY TRIP', 40, targetHeight - 70);
+                    
+                    // サブタイトル（日付）
+                    ctx.font = 'bold 32px sans-serif';
+                    ctx.fillStyle = '#ff758c';
+                    ctx.fillText('2026.09.20 - 09.21', 40, targetHeight - 25);
+                    
+                    // スタンプ（絵文字）
+                    ctx.font = '54px sans-serif';
+                    ctx.textAlign = 'right';
+                    ctx.fillText('🌋 🍧 🚀 🐷', targetWidth - 40, targetHeight - 45);
+
+                    // プレビュー表示
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+                    document.getElementById('photo-preview-img').src = dataUrl;
+                    
+                    const dlBtn = document.getElementById('photo-download-btn');
+                    dlBtn.href = dataUrl;
+                    dlBtn.download = 'kagoshima_trip_2026.jpg';
+                    
+                    document.getElementById('photo-preview-container').style.display = 'block';
+                    if (navigator.vibrate) navigator.vibrate([10, 30, 10]);
+                }
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+
+        // リアルタイム現在地ガイド ＆ 前日夕方以降の翌日ブリーフィング
         function autoSortAndStatus() {
             const now = new Date();
             const month = now.getMonth() + 1;
@@ -1266,6 +1500,7 @@
             const nextEl = document.getElementById('live-next-status');
             const tagBadge = document.getElementById('live-tag-badge');
 
+            // 9/19 前夜祭
             if (month === 9 && date === 19) {
                 container.appendChild(secEve);
                 container.appendChild(secDay1);
@@ -1291,6 +1526,7 @@
                     nextEl.innerHTML = "明日の見通し：<strong>熊本IC(06:30) ➔ 宮原SA ➔ 動物園(09:00開園) ➔ 17:00中原別荘着</strong>";
                 }
             } 
+            // 9/20 1日目
             else if (month === 9 && date === 20) {
                 container.appendChild(secDay1);
                 container.appendChild(secDay2);
@@ -1325,12 +1561,14 @@
                     currEl.innerText = "🍧 いまココ：天文館散策 ➔ ホテルで夕食";
                     nextEl.innerHTML = "次の予定：<strong>18:30 ホテル中原別荘にて夕食</strong>";
                 } else {
+                    // 夜：翌日（2日目）ブリーフィング
                     tagBadge.className = 'live-tag tomorrow-tag';
                     tagBadge.innerText = '🌙 明日（2日目）の見通し・ブリーフィング';
                     currEl.innerText = "明日は09:30出発！城山展望台 ➔ 11:30いちにいさん国分店";
                     nextEl.innerHTML = "明日の見通し：<strong>城山から望む桜島は午前中がベスト！11:45黒豚ランチ予約済み</strong>";
                 }
             }
+            // 9/21 2日目
             else if (month === 9 && date === 21) {
                 container.appendChild(secDay2);
                 container.appendChild(secDay1);
@@ -1356,6 +1594,7 @@
                     nextEl.innerHTML = "次の予定：<strong>16:45 熊本IC 到着・解散</strong>";
                 }
             }
+            // 旅行前
             else {
                 container.appendChild(secEve);
                 container.appendChild(secDay1);
