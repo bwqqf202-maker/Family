@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>鹿児島 1泊2日 旅のしおり</title>
+    <title>鹿児島 1泊2日 旅行のしおり</title>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,6 +18,7 @@
             --text-muted: #718096;
             --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             --font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
+            --transition-speed: 0.25s;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,36 +43,121 @@
         body.theme-art { background: radial-gradient(circle at 50% 100%, #e9d8fd 0%, #fff5f7 50%, #f7fafc 80%); }
         
         header { 
-            background: linear-gradient(135deg, #2b6cb0, #b83280); 
-            color: white; 
+            position: relative;
             text-align: center; 
-            padding: 24px 16px 20px; 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); 
-            border-bottom-left-radius: 24px;
-            border-bottom-right-radius: 24px;
-        } 
+            padding: 30px 16px 26px; 
+            color: white;
+            border-bottom-left-radius: 26px;
+            border-bottom-right-radius: 26px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .header-bg-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 0;
+        }
+        .header-bg-slide.active { opacity: 1; }
+        .header-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(43, 108, 176, 0.78), rgba(184, 50, 128, 0.78));
+            backdrop-filter: blur(1px);
+            z-index: 1;
+        }
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
         header h1 { 
-            font-size: 1.35rem; 
+            font-size: 1.38rem; 
             margin-bottom: 2px; 
             font-weight: 800; 
-            letter-spacing: 0.02em;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.25);
         }
         header p { 
             font-size: 0.8rem; 
             opacity: 0.95; 
             font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
-        
+
+        .quiz-launcher-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            color: white;
+            font-size: 0.74rem;
+            font-weight: 800;
+            padding: 5px 11px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 3;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
         .container { max-width: 520px; margin: 0 auto; padding: 0 14px; }
 
-        /* リアルタイム現在地カード */
+        /* 天候 ＆ 先々の雨予報スマートカード */
+        .weather-status-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 10px 14px;
+            margin-top: 10px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .weather-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.84rem;
+            color: #4a5568;
+            font-weight: 700;
+        }
+        .weather-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: #2b6cb0;
+            font-weight: 800;
+        }
+        /* 時間ごとの雨雲ミニバー */
+        .weather-forecast-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #edf2f7;
+            text-align: center;
+        }
+        .forecast-pill {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 4px 2px;
+            font-size: 0.7rem;
+            border: 1px solid #edf2f7;
+        }
+        .forecast-time { color: #718096; font-weight: 700; display: block; }
+        .forecast-pop { color: #3182ce; font-weight: 800; display: block; margin-top: 1px; }
+
+        /* リアルタイム現在地ガイド ＆ 翌日予告ブリーフィング */
         .live-status-card {
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(43, 108, 176, 0.2);
             border-radius: 16px;
             padding: 12px 14px;
-            margin-top: 12px;
             margin-bottom: 12px;
             box-shadow: var(--card-shadow);
         }
@@ -85,6 +171,9 @@
             display: inline-block;
             margin-bottom: 4px;
         }
+        .live-tag.tomorrow-tag {
+            background: #b83280;
+        }
         .live-current {
             font-size: 0.96rem;
             font-weight: 800;
@@ -94,10 +183,10 @@
         .live-next {
             font-size: 0.8rem;
             color: #718096;
+            line-height: 1.45;
         }
         .live-next strong { color: #b83280; }
         
-        /* ダッシュボードカード */
         .dashboard-card { 
             background: rgba(255, 255, 255, 0.96); 
             backdrop-filter: blur(10px);
@@ -145,7 +234,6 @@
             gap: 12px;
         }
 
-        /* 日別メインセクション */
         .day-section-details { 
             background: rgba(255, 255, 255, 0.96); 
             border-radius: 16px; 
@@ -180,7 +268,6 @@
         .day1-theme > summary { background-color: var(--day1-bg); border-left: 6px solid var(--day1-accent); color: var(--day1-accent); } 
         .day2-theme > summary { background-color: var(--day2-bg); border-left: 6px solid var(--day2-accent); color: var(--day2-accent); }
 
-        /* スッキリしたタイムライン構造 */
         .flow-timeline {
             position: relative;
             padding-left: 18px;
@@ -208,7 +295,6 @@
         .day2-theme .flow-item::before { border-color: var(--day2-accent); }
         .eve-theme .flow-item::before { border-color: var(--eve-accent); }
 
-        /* スポットアコーディオンカード */
         .spot-node {
             border: 1px solid #f1f5f9;
             border-radius: 12px;
@@ -265,7 +351,6 @@
             background: #ffffff;
         }
 
-        /* 展開される中身 */
         .spot-body {
             padding: 12px;
             background: #ffffff;
@@ -294,18 +379,6 @@
         .badge-parking { background: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; }
         .badge-memo { background: #ebf8ff; color: #2b6cb0; }
         .badge-replica { background: #fff0f6; color: #d53f8c; border: 1px solid #fbb6ce; }
-
-        /* スポット内クイズ */
-        .spot-quiz-box {
-            background: #f8fafc;
-            border: 1px dashed #cbd5e0;
-            border-radius: 8px;
-            padding: 8px 10px;
-            margin-top: 8px;
-            font-size: 0.78rem;
-        }
-        .spot-quiz-q { font-weight: 700; color: #2d3748; margin-bottom: 2px; }
-        .spot-quiz-a { color: #2b6cb0; font-weight: 700; margin-top: 4px; border-top: 1px dashed #e2e8f0; padding-top: 4px; }
 
         .links-group {
             display: flex;
@@ -362,32 +435,196 @@
             border-top: 1px dashed #c6f6d5;
             font-size: 0.76rem;
         }
+
+        /* クイックメモ帳 */
+        .memo-details {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            margin-top: 14px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        .memo-details summary {
+            padding: 12px 16px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            color: #4a5568;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .memo-content {
+            padding: 12px 14px;
+            border-top: 1px dashed #e2e8f0;
+            background: #f8fafc;
+        }
+        .memo-textarea {
+            width: 100%;
+            height: 90px;
+            border: 1px solid #cbd5e0;
+            border-radius: 10px;
+            padding: 10px;
+            font-family: var(--font-family);
+            font-size: 0.84rem;
+            color: #2d3748;
+            resize: none;
+            outline: none;
+            background: #ffffff;
+        }
+        .memo-status {
+            font-size: 0.7rem;
+            color: #a0aec0;
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .emoji-burst {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.6rem;
+            z-index: 99999;
+            animation: burst 0.8s ease-out forwards;
+        }
+        @keyframes burst {
+            0% { transform: translate(0, 0) scale(0.6); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(1.3); opacity: 0; }
+        }
+
+        /* クイズモーダル */
+        .quiz-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 999999;
+            overflow-y: auto;
+            padding: 20px 14px 40px;
+            animation: fadeIn 0.25s ease-out;
+        }
+        .quiz-modal-card {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 22px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        .quiz-modal-header {
+            background: linear-gradient(135deg, #2b6cb0, #b83280);
+            color: white;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .quiz-modal-header h2 { font-size: 1.05rem; font-weight: 800; }
+        .quiz-close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quiz-modal-body {
+            padding: 16px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .quiz-item-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px 14px;
+            text-align: left;
+        }
+        .quiz-item-tag {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: #b83280;
+            background: #fff0f6;
+            padding: 2px 7px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .quiz-item-q { font-size: 0.84rem; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
+        .quiz-ans-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e0;
+            color: #3182ce;
+            font-size: 0.74rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .quiz-ans-text {
+            display: none;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #cbd5e0;
+            font-size: 0.8rem;
+            color: #0f766e;
+            font-weight: 700;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>🧭 鹿児島 1泊2日 旅のしおり</h1>
-        <p>家族で行く！快適ドライブ＆思い出再現の旅</p>
+        <div class="header-bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1578637387939-43c525550085?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="header-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="header-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1517824806704-9040b037703b?auto=format&fit=crop&w=800&q=80');"></div>
+        <div class="header-overlay"></div>
+        
+        <button class="quiz-launcher-btn" onclick="openQuizModal()">🎮 クイズ (全8問)</button>
+        <div class="header-content">
+            <h1>🧭 鹿児島 1泊2日 旅行のしおり</h1>
+            <p>家族で行く！快適ドライブ＆思い出再現の旅行</p>
+        </div>
     </header>
 
     <div class="container">
-        <!-- リアルタイム現在地ガイド -->
+        <!-- 現地天気 ＆ 時間別雨雲予報ミニバー -->
+        <div class="weather-status-card">
+            <div class="weather-top-row">
+                <span class="weather-badge">🌤️ 鹿児島市の天候</span>
+                <span id="weather-summary">読み込み中…</span>
+            </div>
+            <div class="weather-forecast-row" id="weather-hourly-bar">
+                <div class="forecast-pill"><span class="forecast-time">現在</span><span class="forecast-pop">-</span></div>
+                <div class="forecast-pill"><span class="forecast-time">+2h</span><span class="forecast-pop">-</span></div>
+                <div class="forecast-pill"><span class="forecast-time">+4h</span><span class="forecast-pop">-</span></div>
+                <div class="forecast-pill"><span class="forecast-time">+6h</span><span class="forecast-pop">-</span></div>
+            </div>
+        </div>
+
+        <!-- リアルタイム現在地ガイド ＆ 夕方以降の翌日ブリーフィング -->
         <div class="live-status-card">
-            <span class="live-tag">📍 旅のコンシェルジュ</span>
+            <span class="live-tag" id="live-tag-badge">📍 旅行コンシェルジュ</span>
             <div class="live-current" id="live-current-status">⏳ 出発を待っています</div>
             <div class="live-next" id="live-next-status">次の予定：<strong>9/19(土) 19:00 味の大津屋</strong></div>
         </div>
 
         <!-- 全体MAP -->
         <div class="dashboard-card">
-            <div class="countdown" id="countdown">旅の始まりまであと少し！</div>
+            <div class="countdown" id="countdown">旅行の始まりまであと少し！</div>
             <div class="quick-links">
                 <a href="https://www.google.com/maps/dir/熊本IC/平川動物公園/錦江湾公園/温泉ホテル中原別荘/天文館むじゃき+本店" target="_blank" class="btn">🗺️ 1日目 全体MAP</a>
                 <a href="https://www.google.com/maps/dir/温泉ホテル中原別荘/城山展望台/遊食豚彩いちにいさん+国分店/鹿児島県立霧島アートの森/丸池湧水/熊本IC" target="_blank" class="btn">🗺️ 2日目 全体MAP</a>
             </div>
         </div>
 
-        <!-- スケジュールコンテナ（当日が自動で一番上にスライド） -->
+        <!-- スケジュールコンテナ -->
         <div id="schedule-container">
             <!-- 前夜祭 -->
             <details class="day-section-details eve-theme" id="sec-eve">
@@ -395,7 +632,7 @@
                 <div class="details-content">
                     <div class="flow-timeline">
                         <div class="flow-item">
-                            <details class="spot-node" onmouseenter="changeTheme('lunch')">
+                            <details class="spot-node" onmouseenter="changeTheme('lunch')" onclick="triggerSpot(this, '🥩', 'lunch')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">19:00</span>
@@ -426,7 +663,7 @@
                 <div class="details-content">
                     <div class="flow-timeline">
                         <div class="flow-item">
-                            <details class="spot-node">
+                            <details class="spot-node" onclick="triggerSpot(this, '🚐', '')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">06:30</span>
@@ -444,7 +681,7 @@
 
                         <!-- 動物園 -->
                         <div class="flow-item">
-                            <details class="spot-node" onmouseenter="changeTheme('zoo')" onclick="changeTheme('zoo')">
+                            <details class="spot-node" onmouseenter="changeTheme('zoo')" onclick="triggerSpot(this, '🦁', 'zoo')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">09:00</span>
@@ -459,12 +696,6 @@
                                         <span class="badge badge-time">🕒 〜14:15まで</span>
                                         <span class="badge badge-memo">♿ カート・車椅子貸出</span>
                                     </div>
-
-                                    <div class="spot-quiz-box">
-                                        <div class="spot-quiz-q">💡 クイズ：コアラの睡眠時間は？</div>
-                                        <div class="spot-quiz-a">正解：約18〜20時間！ ユーカリの消化に力を使うためほとんど寝ています。朝一番は動く姿が見られるチャンス！</div>
-                                    </div>
-
                                     <div class="links-group">
                                         <a href="https://hirakawazoo.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
                                         <a href="https://hirakawazoo.jp/guide/barrierfree" target="_blank" class="spot-link">♿ 設備案内</a>
@@ -478,7 +709,7 @@
 
                         <!-- ロケット -->
                         <div class="flow-item">
-                            <details class="spot-node" onmouseenter="changeTheme('rocket')" onclick="changeTheme('rocket')">
+                            <details class="spot-node" onmouseenter="changeTheme('rocket')" onclick="triggerSpot(this, '🚀', 'rocket')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">14:25</span>
@@ -492,12 +723,6 @@
                                         <span class="badge badge-parking">🚐 第2駐車場（平坦徒歩1分）</span>
                                         <span class="badge badge-time">🕒 〜15:15</span>
                                     </div>
-
-                                    <div class="spot-quiz-box">
-                                        <div class="spot-quiz-q">💡 クイズ：ロケットの高さはビル何階分？</div>
-                                        <div class="spot-quiz-a">正解：ビル約15〜16階相当（49m）！ 真下から見上げると画面に収まらないほどの迫力です。</div>
-                                    </div>
-
                                     <div class="links-group">
                                         <a href="https://www.kagoshima-yokanavi.jp/spot/10008" target="_blank" class="spot-link">🌐 観光情報</a>
                                         <a href="https://www.google.com/maps/search/?api=1&query=錦江湾公園+第2駐車場" target="_blank" class="spot-link">📍 MAP（第2駐車場）</a>
@@ -521,7 +746,7 @@
 
                         <!-- ホテル -->
                         <div class="flow-item">
-                            <details class="spot-node" onmouseenter="changeTheme('hotel')" onclick="changeTheme('hotel')">
+                            <details class="spot-node" onmouseenter="changeTheme('hotel')" onclick="triggerSpot(this, '🏨', 'hotel')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">17:00</span>
@@ -558,7 +783,7 @@
 
                         <!-- 天文館 -->
                         <div class="flow-item">
-                            <details class="spot-node">
+                            <details class="spot-node" onclick="triggerSpot(this, '🍧', '')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">17:15</span>
@@ -571,12 +796,6 @@
                                     <div class="meta-info">
                                         <span class="badge badge-time">🕒 〜18:15まで</span>
                                     </div>
-
-                                    <div class="spot-quiz-box">
-                                        <div class="spot-quiz-q">💡 クイズ：「白熊」の名前の由来は？</div>
-                                        <div class="spot-quiz-a">正解：トッピングを上から見ると白熊の顔に見えたから！ 練乳の上にフルーツや豆を配置したのが始まりです。</div>
-                                    </div>
-
                                     <div class="links-group">
                                         <a href="http://www.mujyaki.co.jp/" target="_blank" class="spot-link">🌐 公式サイト</a>
                                         <a href="https://www.google.com/maps/search/?api=1&query=天文館むじゃき+本店" target="_blank" class="spot-link">📍 Google MAP</a>
@@ -603,7 +822,7 @@
                         </div>
 
                         <div class="flow-item">
-                            <details class="spot-node">
+                            <details class="spot-node" onclick="triggerSpot(this, '♨️', '')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">20:30</span>
@@ -644,7 +863,7 @@
 
                         <!-- 城山展望台 -->
                         <div class="flow-item">
-                            <details class="spot-node" onmouseenter="changeTheme('view')" onclick="changeTheme('view')">
+                            <details class="spot-node" onmouseenter="changeTheme('view')" onclick="triggerSpot(this, '⛰️', 'view')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">09:45</span>
@@ -658,12 +877,6 @@
                                         <span class="badge badge-parking">🚐 無料平面40台</span>
                                         <span class="badge badge-time">🕒 〜10:35（約50分滞在）</span>
                                     </div>
-
-                                    <div class="spot-quiz-box">
-                                        <div class="spot-quiz-q">💡 クイズ：桜島で光る珍しい現象とは？</div>
-                                        <div class="spot-quiz-a">正解：火山雷（かざんらい）！ 火山灰や岩石の摩擦で静電気が起き、噴煙の中で雷が発生します。</div>
-                                    </div>
-
                                     <div class="links-group">
                                         <a href="https://www.kagoshima-yokanavi.jp/spot/10002" target="_blank" class="spot-link">🌐 観光情報</a>
                                         <a href="https://www.google.com/maps/search/?api=1&query=城山展望台+鹿児島" target="_blank" class="spot-link">📍 Google MAP</a>
@@ -676,7 +889,7 @@
 
                         <!-- いちにいさん -->
                         <div class="flow-item">
-                            <details class="spot-node" onmouseenter="changeTheme('lunch')" onclick="changeTheme('lunch')">
+                            <details class="spot-node" onmouseenter="changeTheme('lunch')" onclick="triggerSpot(this, '🍲', 'lunch')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">11:30</span>
@@ -690,12 +903,6 @@
                                         <span class="badge badge-parking">🚐 平面35台（高さ制限なし）</span>
                                         <span class="badge badge-time">🕒 11:45予約（11:30着）</span>
                                     </div>
-
-                                    <div class="spot-quiz-box">
-                                        <div class="spot-quiz-q">💡 クイズ：なぜ「そばつゆ」で食べる？</div>
-                                        <div class="spot-quiz-a">正解：創業母体が日本そば屋だったから！ 上質な鹿児島黒豚の甘みと旨味を一番引き立てる秘伝のつゆです。</div>
-                                    </div>
-
                                     <div class="links-group">
                                         <a href="https://ichiniisan.jp/access/kokubu/" target="_blank" class="spot-link">🌐 公式サイト</a>
                                         <a href="https://www.google.com/maps/search/?api=1&query=遊食豚彩いちにいさん+国分店" target="_blank" class="spot-link">📍 Google MAP</a>
@@ -719,7 +926,7 @@
 
                         <!-- アートの森 -->
                         <div class="flow-item">
-                            <details class="spot-node" onmouseenter="changeTheme('art')" onclick="changeTheme('art')">
+                            <details class="spot-node" onmouseenter="changeTheme('art')" onclick="triggerSpot(this, '🎨', 'art')">
                                 <summary>
                                     <div class="spot-header-left">
                                         <span class="spot-time-pill">13:30</span>
@@ -733,12 +940,6 @@
                                         <span class="badge badge-parking">🚐 無料大平面200台</span>
                                         <span class="badge badge-replica">📸 昔の写真と同じポーズで撮影！</span>
                                     </div>
-
-                                    <div class="spot-quiz-box">
-                                        <div class="spot-quiz-q">💡 クイズ：草間彌生作品「シャングリラ」の意味は？</div>
-                                        <div class="spot-quiz-a">正解：「不老不死の桃源郷」！ 生命と希望を表した極彩色の花で、同じポーズでの記念撮影がSNSで大人気です。</div>
-                                    </div>
-
                                     <div class="links-group">
                                         <a href="https://open-air-museum.org/" target="_blank" class="spot-link">🌐 公式サイト</a>
                                         <a href="https://www.google.com/maps/search/?api=1&query=鹿児島県立霧島アートの森" target="_blank" class="spot-link">📍 Google MAP</a>
@@ -778,13 +979,165 @@
                     </div>
                 </div>
             </details>
+
+            <!-- クイックメモ帳 -->
+            <details class="memo-details">
+                <summary>
+                    <span>📝 旅行クイックメモ（自動保存）</span>
+                    <span style="font-size:0.75rem; color:#a0aec0;">▼</span>
+                </summary>
+                <div class="memo-content">
+                    <textarea class="memo-textarea" id="travelMemo" placeholder="お土産の買い忘れ、立替金のメモなど自由に入力してください（自動保存されます）" oninput="saveMemo()"></textarea>
+                    <div class="memo-status" id="memoStatus">端末に自動保存中</div>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <!-- クイズモーダル -->
+    <div class="quiz-modal" id="quizModal">
+        <div class="quiz-modal-card">
+            <div class="quiz-modal-header">
+                <h2>🎮 鹿児島ご当地トリビアクイズ</h2>
+                <button class="quiz-close-btn" onclick="closeQuizModal()">✕</button>
+            </div>
+            <div class="quiz-modal-body">
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🦁 平川動物公園</span>
+                    <div class="quiz-item-q">Q1. 国内最多頭数（約19頭）のコアラ。1日に何時間寝ている？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：約18〜20時間！ ユーカリの消化に体力を使うためほぼ寝ています。朝9時の開園直後は動く姿が見られる大チャンス！</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🐯 平川動物公園</span>
+                    <div class="quiz-item-q">Q2. ホワイトタイガーの瞳の色は、普通のトラと何が違う？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：青い目（ブルーアイ）！ 白い毛並みに澄んだアイスブルーの瞳がとても神秘的です。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🚀 錦江湾公園</span>
+                    <div class="quiz-item-q">Q3. 実物大H-IIロケットの高さ49mは、ビルでおよそ何階分？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：ビル約15〜16階相当！ 種子島宇宙センターから打ち上げられた本物と同スケールの大迫力です。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🍧 天文館むじゃき</span>
+                    <div class="quiz-item-q">Q4. かき氷なのに、なぜ「白熊」と呼ばれるようになった？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：トッピングを上から見ると白熊の顔に見えたから！ 練乳の上にフルーツを目や鼻のように配置したのが始まりです。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">⛰️ 城山展望台</span>
+                    <div class="quiz-item-q">Q5. 桜島の噴火時、噴煙の中で稲妻が光る世界的に珍しい現象の名前は？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：火山雷（かざんらい）！ 火山灰や岩石の摩擦で静電気が起き、雷が発生する迫力の自然現象です。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🍲 遊食豚彩いちにいさん</span>
+                    <div class="quiz-item-q">Q6. 黒豚しゃぶをポン酢ではなく「そばつゆ」で食べる理由は？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：創業母体が日本そば屋（吹上庵）だったから！ 上質な鹿児島黒豚の甘みを最も引き立てる秘伝のつゆです。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🎨 霧島アートの森</span>
+                    <div class="quiz-item-q">Q7. 入口にある草間彌生氏の作品「シャングリラの華」のシャングリラとは？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：不老不死の桃源郷（理想郷）！ 生命・希望を表した花で、同じポーズでの撮影がSNSで大人気です。</div>
+                </div>
+
+                <div class="quiz-item-box">
+                    <span class="quiz-item-tag">🌊 丸池湧水</span>
+                    <div class="quiz-item-q">Q8. 日本名水百選の丸池湧水、1日に湧き出る水の量はどれくらい？</div>
+                    <button class="quiz-ans-btn" onclick="toggleQuizAns(this)">答えを見る</button>
+                    <div class="quiz-ans-text">正解：約6万トン！ 町民の生活水としても使われるほど澄み切っており、底まで透き通って見えます。</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         const targetDate = new Date('2026-09-20T00:00:00');
         const diffDays = Math.ceil((targetDate - new Date()) / (1000 * 60 * 60 * 24));
-        document.getElementById('countdown').innerText = diffDays > 0 ? `⏳ 旅の始まりまで あと ${diffDays} 日！` : "🎉 ついに当日！";
+        document.getElementById('countdown').innerText = diffDays > 0 ? `⏳ 旅行の始まりまで あと ${diffDays} 日！` : "🎉 ついに当日！";
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.header-bg-slide');
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 5000);
+
+        // Open-Meteo APIによる天気 ＆ 雨雲ミニバー自動取得
+        async function fetchWeather() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=31.5966&longitude=130.5571&current_weather=true&hourly=precipitation_probability,temperature_2m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo');
+                const data = await res.json();
+                const temp = Math.round(data.current_weather.temperature);
+                const code = data.current_weather.weathercode;
+                const max = Math.round(data.daily.temperature_2m_max[0]);
+                const min = Math.round(data.daily.temperature_2m_min[0]);
+
+                let weatherText = "晴れ ☀️";
+                if (code >= 1 && code <= 3) weatherText = "くもり ⛅";
+                else if (code >= 45 && code <= 48) weatherText = "霧 🌫️";
+                else if (code >= 51 && code <= 67) weatherText = "雨 ☔";
+                else if (code >= 80) weatherText = "にわか雨 🌦️";
+
+                document.getElementById('weather-summary').innerText = `${weatherText} ${temp}°C (${max}° / ${min}°)`;
+
+                // 2時間ごとの雨雲ミニバー計算
+                const currentHour = new Date().getHours();
+                const hourlyPops = data.hourly.precipitation_probability;
+                const hourlyBar = document.getElementById('weather-hourly-bar');
+                hourlyBar.innerHTML = '';
+
+                const steps = [
+                    { label: '現在', offset: 0 },
+                    { label: '+2h', offset: 2 },
+                    { label: '+4h', offset: 4 },
+                    { label: '+6h', offset: 6 }
+                ];
+
+                steps.forEach(s => {
+                    const targetH = (currentHour + s.offset) % 24;
+                    const pop = hourlyPops[targetH] !== undefined ? hourlyPops[targetH] : 0;
+                    const icon = pop >= 50 ? '☔' : (pop >= 20 ? '⛅' : '☀️');
+                    const pill = document.createElement('div');
+                    pill.className = 'forecast-pill';
+                    pill.innerHTML = `<span class="forecast-time">${s.label} ${icon}</span><span class="forecast-pop">雨 ${pop}%</span>`;
+                    hourlyBar.appendChild(pill);
+                });
+
+            } catch (e) {
+                document.getElementById('weather-summary').innerText = "26°C 晴れ（秋晴れ予報）";
+                document.getElementById('weather-hourly-bar').innerHTML = `
+                    <div class="forecast-pill"><span class="forecast-time">現在 ☀️</span><span class="forecast-pop">雨 0%</span></div>
+                    <div class="forecast-pill"><span class="forecast-time">+2h ☀️</span><span class="forecast-pop">雨 0%</span></div>
+                    <div class="forecast-pill"><span class="forecast-time">+4h ⛅</span><span class="forecast-pop">雨 10%</span></div>
+                    <div class="forecast-pill"><span class="forecast-time">+6h ⛅</span><span class="forecast-pop">雨 10%</span></div>
+                `;
+            }
+        }
+        fetchWeather();
+
+        function saveMemo() {
+            const val = document.getElementById('travelMemo').value;
+            localStorage.setItem('kagoshima-travel-memo', val);
+            const status = document.getElementById('memoStatus');
+            status.innerText = "保存しました";
+            setTimeout(() => { status.innerText = "端末に自動保存中"; }, 1500);
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('kagoshima-travel-memo');
+            if (saved) document.getElementById('travelMemo').value = saved;
+        });
 
         function changeTheme(themeName) {
             document.body.className = document.body.className.replace(/theme-[a-z]+/g, '');
@@ -793,6 +1146,59 @@
             }
         }
 
+        function triggerSpot(el, emoji, theme) {
+            if (theme) changeTheme(theme);
+            if (navigator.vibrate) navigator.vibrate(12);
+
+            if (!el.open && emoji) {
+                createBurst(emoji);
+            }
+        }
+
+        function createBurst(emoji) {
+            const num = 6;
+            const x = window.innerWidth / 2;
+            const y = window.innerHeight * 0.45;
+
+            for (let i = 0; i < num; i++) {
+                const el = document.createElement('div');
+                el.className = 'emoji-burst';
+                el.innerText = emoji;
+                el.style.left = x + 'px';
+                el.style.top = y + 'px';
+
+                const angle = (i / num) * 2 * Math.PI + (Math.random() - 0.5);
+                const dist = Math.random() * 90 + 50;
+                el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+                el.style.setProperty('--dy', Math.sin(angle) * dist - 30 + 'px');
+
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 800);
+            }
+        }
+
+        function openQuizModal() {
+            document.getElementById('quizModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            if (navigator.vibrate) navigator.vibrate(20);
+        }
+        function closeQuizModal() {
+            document.getElementById('quizModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        function toggleQuizAns(btn) {
+            const ansText = btn.nextElementSibling;
+            if (ansText.style.display === 'block') {
+                ansText.style.display = 'none';
+                btn.innerText = '答えを見る';
+            } else {
+                ansText.style.display = 'block';
+                btn.innerText = '答えを隠す';
+                if (navigator.vibrate) navigator.vibrate(15);
+            }
+        }
+
+        // リアルタイム現在地ガイド ＆ 前日夕方以降の翌日ブリーフィング
         function autoSortAndStatus() {
             const now = new Date();
             const month = now.getMonth() + 1;
@@ -808,7 +1214,9 @@
 
             const currEl = document.getElementById('live-current-status');
             const nextEl = document.getElementById('live-next-status');
+            const tagBadge = document.getElementById('live-tag-badge');
 
+            // 9/19 前夜祭
             if (month === 9 && date === 19) {
                 container.appendChild(secEve);
                 container.appendChild(secDay1);
@@ -817,14 +1225,25 @@
                 secDay1.open = false;
                 secDay2.open = false;
 
-                if (currentMinutes < 19 * 60) {
+                if (currentMinutes < 17 * 60) {
+                    tagBadge.className = 'live-tag';
+                    tagBadge.innerText = '📍 旅行コンシェルジュ';
                     currEl.innerText = "⏳ 前夜祭の準備中：もうすぐ焼肉です！";
                     nextEl.innerHTML = "次の予定：<strong>19:00 味の大津屋（焼肉ディナー）</strong>";
-                } else {
+                } else if (currentMinutes < 21 * 60) {
+                    tagBadge.className = 'live-tag';
+                    tagBadge.innerText = '📍 旅行コンシェルジュ';
                     currEl.innerText = "🥩 味の大津屋でスタミナ満喫中！";
-                    nextEl.innerHTML = "次の予定：<strong>明朝 06:30 熊本IC出発</strong>";
+                    nextEl.innerHTML = "次の予定：<strong>早めに就寝して明朝06:30出発に備えましょう！</strong>";
+                } else {
+                    // 夕方〜夜：翌日（1日目）ブリーフィング
+                    tagBadge.className = 'live-tag tomorrow-tag';
+                    tagBadge.innerText = '🌙 明日（1日目）の見通し・ブリーフィング';
+                    currEl.innerText = "明日は朝06:30出発！平川動物園は秋晴れ予報☀️";
+                    nextEl.innerHTML = "明日の見通し：<strong>熊本IC(06:30) ➔ 動物園(09:00開園) ➔ ロケット ➔ 17:00中原別荘着</strong>";
                 }
             } 
+            // 9/20 1日目
             else if (month === 9 && date === 20) {
                 container.appendChild(secDay1);
                 container.appendChild(secDay2);
@@ -834,25 +1253,39 @@
                 secEve.open = false;
 
                 if (currentMinutes < 6 * 60 + 30) {
+                    tagBadge.className = 'live-tag';
+                    tagBadge.innerText = '📍 旅行コンシェルジュ';
                     currEl.innerText = "🌅 おはようございます！もうすぐ出発です";
                     nextEl.innerHTML = "次の予定：<strong>06:30 熊本IC出発</strong>";
                 } else if (currentMinutes < 9 * 60) {
+                    tagBadge.className = 'live-tag';
+                    tagBadge.innerText = '📍 旅行コンシェルジュ';
                     currEl.innerText = "🚐 鹿児島へ向けて高速ドライブ中！";
                     nextEl.innerHTML = "次の予定：<strong>09:00 平川動物公園 開園！</strong>";
                 } else if (currentMinutes < 14 * 60 + 15) {
+                    tagBadge.className = 'live-tag';
+                    tagBadge.innerText = '📍 旅行コンシェルジュ';
                     currEl.innerText = "🦁 いまココ：平川動物公園（たっぷり滞在中）";
                     nextEl.innerHTML = "次の予定：<strong>14:25 錦江湾公園（ロケット広場）</strong>";
                 } else if (currentMinutes < 17 * 60) {
+                    tagBadge.className = 'live-tag';
+                    tagBadge.innerText = '📍 旅行コンシェルジュ';
                     currEl.innerText = "🚀 いまココ：錦江湾公園 ➔ ホテルへ移動中";
                     nextEl.innerHTML = "次の予定：<strong>17:00 温泉ホテル中原別荘 チェックイン</strong>";
-                } else if (currentMinutes < 18 * 60 + 15) {
-                    currEl.innerText = "🍧 いまココ：天文館散策中（むじゃき白熊かき氷！）";
+                } else if (currentMinutes < 19 * 60) {
+                    tagBadge.className = 'live-tag';
+                    tagBadge.innerText = '📍 旅行コンシェルジュ';
+                    currEl.innerText = "🍧 いまココ：天文館散策 ➔ ホテルで夕食";
                     nextEl.innerHTML = "次の予定：<strong>18:30 ホテル中原別荘にて夕食</strong>";
                 } else {
-                    currEl.innerText = "🍱 いまココ：ホテル中原別荘で夕食・温泉タイム";
-                    nextEl.innerHTML = "次の予定：<strong>明朝 09:30 出発 ➔ 城山展望台</strong>";
+                    // 夜：翌日（2日目）ブリーフィング
+                    tagBadge.className = 'live-tag tomorrow-tag';
+                    tagBadge.innerText = '🌙 明日（2日目）の見通し・ブリーフィング';
+                    currEl.innerText = "明日は09:30出発！城山展望台 ➔ 11:30いちにいさん国分店";
+                    nextEl.innerHTML = "明日の見通し：<strong>城山から望む桜島は午前中がベスト！11:45黒豚ランチ予約済み</strong>";
                 }
             }
+            // 9/21 2日目
             else if (month === 9 && date === 21) {
                 container.appendChild(secDay2);
                 container.appendChild(secDay1);
@@ -860,6 +1293,9 @@
                 secDay2.open = true;
                 secDay1.open = false;
                 secEve.open = false;
+
+                tagBadge.className = 'live-tag';
+                tagBadge.innerText = '📍 旅行コンシェルジュ';
 
                 if (currentMinutes < 9 * 60 + 30) {
                     currEl.innerText = "🍳 2日目の朝！朝食を食べて準備中";
@@ -875,6 +1311,7 @@
                     nextEl.innerHTML = "次の予定：<strong>16:45 熊本IC 到着・解散</strong>";
                 }
             }
+            // 旅行前
             else {
                 container.appendChild(secEve);
                 container.appendChild(secDay1);
@@ -882,6 +1319,8 @@
                 secEve.open = false;
                 secDay1.open = false;
                 secDay2.open = false;
+                tagBadge.className = 'live-tag';
+                tagBadge.innerText = '📍 旅行コンシェルジュ';
                 currEl.innerText = "⏳ 出発を待っています";
                 nextEl.innerHTML = "最初の予定：<strong>9/19(土) 19:00 味の大津屋（前夜祭）</strong>";
             }
