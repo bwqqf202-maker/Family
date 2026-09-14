@@ -9,14 +9,14 @@
         :root {
             --primary-color: #2d3748;
             --eve-bg: #fff5eb;
-            --eve-accent: #c53030;
+            --eve-accent: #e63946;
             --day1-bg: #fff5f7;
-            --day1-accent: #b83280;
+            --day1-accent: #d90429;
             --day2-bg: #fffaf0;
-            --day2-accent: #dd6b20;
+            --day2-accent: #f77f00;
             --text-color: #2d3748;
             --text-muted: #718096;
-            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --card-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
             --font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
             --transition-speed: 0.25s;
         }
@@ -42,15 +42,16 @@
         body.theme-lunch { background: radial-gradient(circle at 50% 100%, #feebc8 0%, #fffaf0 50%, #f7fafc 80%); }
         body.theme-art { background: radial-gradient(circle at 50% 100%, #e9d8fd 0%, #fff5f7 50%, #f7fafc 80%); }
         
+        /* ポップ＆写真が映えるヘッダーデザイン */
         header { 
             position: relative;
             text-align: center; 
-            padding: 30px 16px 26px; 
+            padding: 16px 16px 24px; 
             color: white;
-            border-bottom-left-radius: 26px;
-            border-bottom-right-radius: 26px;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 25px rgba(0, 180, 216, 0.25);
         }
         .header-bg-slide {
             position: absolute;
@@ -58,54 +59,67 @@
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 1.5s ease-in-out;
+            transition: opacity 1.2s ease-in-out;
             z-index: 0;
+            transform: scale(1.04);
         }
         .header-bg-slide.active { opacity: 1; }
         .header-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(43, 108, 176, 0.78), rgba(184, 50, 128, 0.78));
-            backdrop-filter: blur(1px);
+            background: linear-gradient(135deg, rgba(0, 180, 216, 0.62), rgba(255, 117, 140, 0.68));
             z-index: 1;
         }
+
+        /* ヘッダー最上部の独立コントロールバー（被り防止） */
+        .header-top-bar {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 8px;
+        }
+        .quiz-launcher-btn {
+            background: rgba(255, 255, 255, 0.92);
+            border: none;
+            color: #0077b6;
+            font-size: 0.74rem;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
         .header-content {
             position: relative;
             z-index: 2;
         }
         header h1 { 
-            font-size: 1.38rem; 
-            margin-bottom: 2px; 
+            font-size: 1.45rem; 
+            margin-bottom: 3px; 
             font-weight: 800; 
-            text-shadow: 0 2px 5px rgba(0,0,0,0.25);
+            letter-spacing: 0.03em;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
         header p { 
-            font-size: 0.8rem; 
-            opacity: 0.95; 
-            font-weight: 500;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-
-        .quiz-launcher-btn {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            background: rgba(255, 255, 255, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(8px);
-            color: white;
-            font-size: 0.74rem;
-            font-weight: 800;
-            padding: 5px 11px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 3;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            font-size: 0.82rem; 
+            opacity: 0.98; 
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.25);
         }
 
         .container { max-width: 520px; margin: 0 auto; padding: 0 14px; }
 
-        /* 天候 ＆ 先々の雨予報スマートカード */
+        /* 天候 ＆ 時間別雨予報カード */
         .weather-status-card {
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
@@ -128,10 +142,9 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            color: #2b6cb0;
+            color: #0077b6;
             font-weight: 800;
         }
-        /* 時間ごとの雨雲ミニバー */
         .weather-forecast-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -149,13 +162,13 @@
             border: 1px solid #edf2f7;
         }
         .forecast-time { color: #718096; font-weight: 700; display: block; }
-        .forecast-pop { color: #3182ce; font-weight: 800; display: block; margin-top: 1px; }
+        .forecast-pop { color: #0077b6; font-weight: 800; display: block; margin-top: 1px; }
 
-        /* リアルタイム現在地ガイド ＆ 翌日予告ブリーフィング */
+        /* リアルタイム現在地 ＆ 翌日予告 */
         .live-status-card {
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(43, 108, 176, 0.2);
+            border: 1.5px solid rgba(0, 180, 216, 0.3);
             border-radius: 16px;
             padding: 12px 14px;
             margin-bottom: 12px;
@@ -164,7 +177,7 @@
         .live-tag {
             font-size: 0.68rem;
             font-weight: 800;
-            background: #2b6cb0;
+            background: #0077b6;
             color: white;
             padding: 2px 8px;
             border-radius: 20px;
@@ -172,7 +185,7 @@
             margin-bottom: 4px;
         }
         .live-tag.tomorrow-tag {
-            background: #b83280;
+            background: #d90429;
         }
         .live-current {
             font-size: 0.96rem;
@@ -185,7 +198,7 @@
             color: #718096;
             line-height: 1.45;
         }
-        .live-next strong { color: #b83280; }
+        .live-next strong { color: #d90429; }
         
         .dashboard-card { 
             background: rgba(255, 255, 255, 0.96); 
@@ -379,6 +392,7 @@
         .badge-parking { background: #e6fffa; color: #234e52; border: 1px solid #b2f5ea; }
         .badge-memo { background: #ebf8ff; color: #2b6cb0; }
         .badge-replica { background: #fff0f6; color: #d53f8c; border: 1px solid #fbb6ce; }
+        .badge-sa { background: #fffaf0; color: #dd6b20; border: 1px solid #feebc8; font-weight: 800; }
 
         .links-group {
             display: flex;
@@ -390,7 +404,7 @@
         }
         .spot-link {
             font-size: 0.76rem;
-            color: #3182ce;
+            color: #0077b6;
             text-decoration: none;
             font-weight: 700;
             display: inline-flex;
@@ -413,6 +427,7 @@
             color: #cbd5e0;
         }
 
+        /* 寄り道・SA専用ノード */
         .quest-node {
             background: #f0fff4 !important;
             border: 1px dashed #38a169 !important;
@@ -429,11 +444,28 @@
             align-items: center;
             justify-content: space-between;
         }
-        .quest-content {
+        .sa-node {
+            background: #fffaf0 !important;
+            border: 1px dashed #dd6b20 !important;
+            border-radius: 10px;
+            margin: 6px 0;
+        }
+        .sa-node > summary {
+            padding: 8px 10px;
+            font-size: 0.76rem;
+            font-weight: 800;
+            color: #c05621;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .sa-content {
             padding: 8px 10px;
             background: white;
-            border-top: 1px dashed #c6f6d5;
+            border-top: 1px dashed #feebc8;
             font-size: 0.76rem;
+            line-height: 1.5;
         }
 
         /* クイックメモ帳 */
@@ -513,7 +545,7 @@
             overflow: hidden;
         }
         .quiz-modal-header {
-            background: linear-gradient(135deg, #2b6cb0, #b83280);
+            background: linear-gradient(135deg, #00b4d8, #ff758c);
             color: white;
             padding: 16px 18px;
             display: flex;
@@ -522,7 +554,7 @@
         }
         .quiz-modal-header h2 { font-size: 1.05rem; font-weight: 800; }
         .quiz-close-btn {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             border: none;
             color: white;
             width: 30px; height: 30px;
@@ -549,7 +581,7 @@
         .quiz-item-tag {
             font-size: 0.68rem;
             font-weight: 800;
-            color: #b83280;
+            color: #d90429;
             background: #fff0f6;
             padding: 2px 7px;
             border-radius: 6px;
@@ -560,7 +592,7 @@
         .quiz-ans-btn {
             background: #ffffff;
             border: 1px solid #cbd5e0;
-            color: #3182ce;
+            color: #0077b6;
             font-size: 0.74rem;
             font-weight: 800;
             padding: 4px 10px;
@@ -586,7 +618,11 @@
         <div class="header-bg-slide" style="background-image: url('https://images.unsplash.com/photo-1517824806704-9040b037703b?auto=format&fit=crop&w=800&q=80');"></div>
         <div class="header-overlay"></div>
         
-        <button class="quiz-launcher-btn" onclick="openQuizModal()">🎮 クイズ (全8問)</button>
+        <!-- 最上部独立バー：文字被り解消 -->
+        <div class="header-top-bar">
+            <button class="quiz-launcher-btn" onclick="openQuizModal()">🎮 クイズ (全8問)</button>
+        </div>
+
         <div class="header-content">
             <h1>🧭 鹿児島 1泊2日 旅行のしおり</h1>
             <p>家族で行く！快適ドライブ＆思い出再現の旅行</p>
@@ -594,7 +630,7 @@
     </header>
 
     <div class="container">
-        <!-- 現地天気 ＆ 時間別雨雲予報ミニバー -->
+        <!-- 現地天気 ＆ 時間別雨予報 -->
         <div class="weather-status-card">
             <div class="weather-top-row">
                 <span class="weather-badge">🌤️ 鹿児島市の天候</span>
@@ -608,7 +644,7 @@
             </div>
         </div>
 
-        <!-- リアルタイム現在地ガイド ＆ 夕方以降の翌日ブリーフィング -->
+        <!-- リアルタイム現在地ガイド ＆ 翌日予告 -->
         <div class="live-status-card">
             <span class="live-tag" id="live-tag-badge">📍 旅行コンシェルジュ</span>
             <div class="live-current" id="live-current-status">⏳ 出発を待っています</div>
@@ -672,10 +708,19 @@
                                     <span class="spot-arrow">▼</span>
                                 </summary>
                                 <div class="spot-body">
-                                    <div class="spot-desc">平川動物公園の9:00開園に合わせて出発！適度にSAで休憩を挟みつつ向かいます。</div>
+                                    <div class="spot-desc">平川動物公園の9:00開園に合わせて出発！九州道を南下し、適度にSAで休憩を挟みつつ向かいます。</div>
                                 </div>
                             </details>
                         </div>
+
+                        <!-- 行きのオススメSA -->
+                        <details class="sa-node">
+                            <summary>☕【行き・おすすめSA】宮原SA（下り）／桜島SA</summary>
+                            <div class="sa-content">
+                                <strong>① 宮原SA（下り / 熊本ICから約45分）：</strong> 最初のトイレ休憩・運転交代に最適！名物いきなり団子やベーカリーあり。<br>
+                                <strong>② 桜島SA（下り / 鹿児島手前）：</strong> 錦江湾と桜島を望む展望SA。動物園直前の身支度にぴったり。
+                            </div>
+                        </details>
 
                         <div class="transit-flow">🚗 九州道経由: 約2時間15分 (約165km)</div>
 
@@ -960,6 +1005,14 @@
                             </div>
                         </details>
 
+                        <!-- 帰りのオススメSA -->
+                        <details class="sa-node">
+                            <summary>☕【帰り・おすすめSA】宮原SA（上り）で最後のお土産＆休憩</summary>
+                            <div class="sa-content">
+                                栗野ICから約50分。熊本IC到着直前のクールダウン休憩に最適！鹿児島＆熊本の銘菓・お土産が揃っています。
+                            </div>
+                        </details>
+
                         <div class="transit-flow">🚗 栗野ICから九州道で熊本へ: 車で約1時間25分 (約105km)</div>
 
                         <div class="flow-item">
@@ -1074,7 +1127,6 @@
             slides[currentSlide].classList.add('active');
         }, 5000);
 
-        // Open-Meteo APIによる天気 ＆ 雨雲ミニバー自動取得
         async function fetchWeather() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=31.5966&longitude=130.5571&current_weather=true&hourly=precipitation_probability,temperature_2m&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo');
@@ -1092,7 +1144,6 @@
 
                 document.getElementById('weather-summary').innerText = `${weatherText} ${temp}°C (${max}° / ${min}°)`;
 
-                // 2時間ごとの雨雲ミニバー計算
                 const currentHour = new Date().getHours();
                 const hourlyPops = data.hourly.precipitation_probability;
                 const hourlyBar = document.getElementById('weather-hourly-bar');
@@ -1198,7 +1249,6 @@
             }
         }
 
-        // リアルタイム現在地ガイド ＆ 前日夕方以降の翌日ブリーフィング
         function autoSortAndStatus() {
             const now = new Date();
             const month = now.getMonth() + 1;
@@ -1216,7 +1266,6 @@
             const nextEl = document.getElementById('live-next-status');
             const tagBadge = document.getElementById('live-tag-badge');
 
-            // 9/19 前夜祭
             if (month === 9 && date === 19) {
                 container.appendChild(secEve);
                 container.appendChild(secDay1);
@@ -1236,14 +1285,12 @@
                     currEl.innerText = "🥩 味の大津屋でスタミナ満喫中！";
                     nextEl.innerHTML = "次の予定：<strong>早めに就寝して明朝06:30出発に備えましょう！</strong>";
                 } else {
-                    // 夕方〜夜：翌日（1日目）ブリーフィング
                     tagBadge.className = 'live-tag tomorrow-tag';
                     tagBadge.innerText = '🌙 明日（1日目）の見通し・ブリーフィング';
                     currEl.innerText = "明日は朝06:30出発！平川動物園は秋晴れ予報☀️";
-                    nextEl.innerHTML = "明日の見通し：<strong>熊本IC(06:30) ➔ 動物園(09:00開園) ➔ ロケット ➔ 17:00中原別荘着</strong>";
+                    nextEl.innerHTML = "明日の見通し：<strong>熊本IC(06:30) ➔ 宮原SA ➔ 動物園(09:00開園) ➔ 17:00中原別荘着</strong>";
                 }
             } 
-            // 9/20 1日目
             else if (month === 9 && date === 20) {
                 container.appendChild(secDay1);
                 container.appendChild(secDay2);
@@ -1278,14 +1325,12 @@
                     currEl.innerText = "🍧 いまココ：天文館散策 ➔ ホテルで夕食";
                     nextEl.innerHTML = "次の予定：<strong>18:30 ホテル中原別荘にて夕食</strong>";
                 } else {
-                    // 夜：翌日（2日目）ブリーフィング
                     tagBadge.className = 'live-tag tomorrow-tag';
                     tagBadge.innerText = '🌙 明日（2日目）の見通し・ブリーフィング';
                     currEl.innerText = "明日は09:30出発！城山展望台 ➔ 11:30いちにいさん国分店";
                     nextEl.innerHTML = "明日の見通し：<strong>城山から望む桜島は午前中がベスト！11:45黒豚ランチ予約済み</strong>";
                 }
             }
-            // 9/21 2日目
             else if (month === 9 && date === 21) {
                 container.appendChild(secDay2);
                 container.appendChild(secDay1);
@@ -1311,7 +1356,6 @@
                     nextEl.innerHTML = "次の予定：<strong>16:45 熊本IC 到着・解散</strong>";
                 }
             }
-            // 旅行前
             else {
                 container.appendChild(secEve);
                 container.appendChild(secDay1);
